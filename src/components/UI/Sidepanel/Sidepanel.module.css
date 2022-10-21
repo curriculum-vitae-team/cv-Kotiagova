@@ -1,0 +1,12 @@
+.menu{
+    width: 14.444vw;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: white;
+}
+.last{
+    position: relative;
+    top: 66vh;
+}
