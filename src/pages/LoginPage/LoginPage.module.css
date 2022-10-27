@@ -1,0 +1,70 @@
+.wrapper{
+    background: #F0F2F5;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Roboto', sans-serif;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 25vw;
+}
+.string{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 23px;
+}
+.checkbox{
+    height: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+label > input{
+    margin-right: 8px;
+    cursor: pointer;
+}
+h1{
+    font-size: 35px;
+    width: 100%;
+    text-align: center;
+    letter-spacing: 0.2rem;
+}
+.linkbtn{
+    margin-right: -15px;
+}
+.languageBtn{
+    position: fixed;
+    top:19px;
+    right: 23px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+.languageBtn >div>svg{
+    height: 18px;
+    width: 18px;
+}
+.questionBtn{
+    position: fixed;
+    bottom: 42px;
+    right: 77px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    padding-top: 4px;
+    background: #FFFFFF;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+}
+.questionBtn >div>svg{
+    height: 16px;
+    width: 12px;
+}
