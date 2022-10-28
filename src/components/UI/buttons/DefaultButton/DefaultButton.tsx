@@ -1,13 +1,13 @@
 import React, { ReactNode } from 'react'
 import { Button } from 'antd'
 
-type ButtonProps = {
+type BtnProps = {
   text: string
   icon?: ReactNode
   block?: boolean
 }
 
-const DefaultButton: React.FC<ButtonProps> = (props: ButtonProps) => {
+const DefaultButton: React.FC<BtnProps> = (props: BtnProps) => {
   const { text, icon, block } = { ...props }
   if (block) {
     return (
