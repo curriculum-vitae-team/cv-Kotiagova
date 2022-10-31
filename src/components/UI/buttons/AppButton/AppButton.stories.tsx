@@ -2,10 +2,20 @@ import React from 'react'
 import AppButton from './AppButton'
 import 'antd/dist/antd.css'
 
+function example() {
+  console.log('click')
+}
+
 export default {
   title: 'UI/buttons',
   component: AppButton,
   argTypes: {
+    handler: {
+      action: 'handler',
+      type: 'MouseEventHandler',
+      description: 'Обработчик кнопки',
+      defaultValue: example
+    },
     type: {
       type: 'string',
       defaultValue: 'primary',

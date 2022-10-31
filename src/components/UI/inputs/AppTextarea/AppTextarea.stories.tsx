@@ -3,10 +3,20 @@ import 'antd/dist/antd.css'
 import 'src/components/UI/inputs/AppInput/AppInput.module.css'
 import AppTextarea from './AppTextarea'
 
+function example() {
+  console.log('click')
+}
+
 export default {
   title: 'UI/inputs/AppTextarea',
   component: AppTextarea,
   argTypes: {
+    handler: {
+      action: 'handler',
+      type: 'ChangeEventHandler',
+      description: 'Обработчик ввода',
+      defaultValue: example
+    },
     label: {
       type: 'string',
       defaultValue: 'Description'

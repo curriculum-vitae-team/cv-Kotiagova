@@ -3,10 +3,20 @@ import 'antd/dist/antd.css'
 import AppInput from './AppInput'
 import './AppInput.module.css'
 
+function example() {
+  console.log('click')
+}
+
 export default {
   title: 'UI/inputs/AppInput',
   component: AppInput,
   argTypes: {
+    handler: {
+      action: 'handler',
+      type: 'ChangeEventHandler',
+      description: 'Обработчик ввода',
+      defaultValue: example
+    },
     label: {
       type: 'string',
       defaultValue: 'Username'

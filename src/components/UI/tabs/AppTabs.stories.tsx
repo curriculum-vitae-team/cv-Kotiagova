@@ -2,10 +2,20 @@ import React from 'react'
 import 'antd/dist/antd.css'
 import AppTabs from './AppTabs'
 
+function example() {
+  console.log('click')
+}
+
 export default {
   title: 'UI/tabs/AppTabs',
   component: AppTabs,
   argTypes: {
+    handler: {
+      action: 'handler',
+      type: 'any',
+      description: 'Обработчик клика',
+      defaultValue: example
+    },
     titles: {
       type: 'any[]',
       defaultValue: [11, 22, 33]

@@ -1,8 +1,13 @@
 import React from 'react'
 import { DatePicker } from 'antd'
 
-const DateInput: React.FC = () => {
-  return <DatePicker style={{ width: '14.888vw' }} />
+type InputProps = {
+  handler?: any
+}
+
+const DateInput: React.FC<InputProps> = (props: InputProps) => {
+  const { handler } = { ...props }
+  return <DatePicker style={{ width: '14.888vw' }} onChange={handler} />
 }
 
 export default DateInput
