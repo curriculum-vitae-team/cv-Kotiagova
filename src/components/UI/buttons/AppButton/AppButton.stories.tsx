@@ -1,14 +1,23 @@
 import React from 'react'
+import AppButton from './AppButton'
 import 'antd/dist/antd.css'
-import DefaultButton from './DefaultButton'
 
 export default {
-  title: 'UI/buttons/DefaultButton',
-  component: DefaultButton,
+  title: 'UI/buttons',
+  component: AppButton,
   argTypes: {
+    type: {
+      type: 'string',
+      defaultValue: 'primary',
+      description: 'Внешний вид кнопки',
+      options: ['dashed', 'default', 'link', 'primary'],
+      control: {
+        type: 'radio'
+      }
+    },
     text: {
       type: 'string',
-      defaultValue: 'default'
+      defaultValue: 'click me'
     },
     block: {
       type: 'boolean',
@@ -36,7 +45,7 @@ export default {
   }
 }
 
-const Template = (arg) => <DefaultButton {...arg} />
+const Template = (arg) => <AppButton {...arg} />
 
 export const Default = Template.bind({})
 Default.args = {
