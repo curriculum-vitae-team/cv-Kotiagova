@@ -1,6 +1,5 @@
 import React from 'react'
 import 'antd/dist/antd.css'
-import 'src/components/UI/inputs/AppInput/AppInput.module.css'
 import AppTextarea from './AppTextarea'
 
 function example() {

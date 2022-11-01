@@ -1,6 +1,6 @@
-import React, { ChangeEventHandler, MouseEventHandler } from 'react'
+import React, { ChangeEventHandler } from 'react'
 import { Input } from 'antd'
-import css from './AppInput.module.css'
+import { Wrapper } from './AppInput.styles'
 
 type InputProps = {
   label: string
@@ -13,14 +13,14 @@ type InputProps = {
 const AppInput: React.FC<InputProps> = (props: InputProps) => {
   const { label, placeholder, value, status, handler } = { ...props }
   return (
-    <div className={css.container}>
+    <Wrapper>
       <label>
         {label}
-        <span style={{ color: 'red' }}> {status ? '*' : ''}</span>
+        <span> {status ? '*' : ''}</span>
         <Input placeholder={placeholder} value={value} status={status} onChange={handler} />
-        <span style={{ color: 'red' }}> {status ? 'Please, specify the field' : ''}</span>
+        <span> {status ? 'Please, specify the field' : ''}</span>
       </label>
-    </div>
+    </Wrapper>
   )
 }
 

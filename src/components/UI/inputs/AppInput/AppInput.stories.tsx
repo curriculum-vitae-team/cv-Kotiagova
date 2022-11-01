@@ -1,7 +1,6 @@
 import React from 'react'
 import 'antd/dist/antd.css'
 import AppInput from './AppInput'
-import './AppInput.module.css'
 
 function example() {
   console.log('click')

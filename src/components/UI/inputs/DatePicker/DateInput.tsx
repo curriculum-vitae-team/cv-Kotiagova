@@ -1,5 +1,6 @@
 import React from 'react'
 import { DatePicker } from 'antd'
+import { Wrapper } from './DateInput.styles'
 
 type InputProps = {
   handler?: any
@@ -7,7 +8,11 @@ type InputProps = {
 
 const DateInput: React.FC<InputProps> = (props: InputProps) => {
   const { handler } = { ...props }
-  return <DatePicker style={{ width: '14.888vw' }} onChange={handler} />
+  return (
+    <Wrapper>
+      <DatePicker onChange={handler} />
+    </Wrapper>
+  )
 }
 
 export default DateInput

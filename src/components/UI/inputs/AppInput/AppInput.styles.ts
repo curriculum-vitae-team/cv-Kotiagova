@@ -1,10 +1,13 @@
+import styled from 'styled-components'
 
-.container{
-    width: 14.888vw;
-    display: flex;
-    flex-direction: column;
-}
-label{
+export const Wrapper = styled.div`
+  width: 14.888vw;
+  display: flex;
+  flex-direction: column;
+  span {
+    color: red;
+  }
+  label {
     font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
@@ -15,4 +18,5 @@ label{
     flex: none;
     order: 0;
     flex-grow: 0;
-}
+  }
+`
