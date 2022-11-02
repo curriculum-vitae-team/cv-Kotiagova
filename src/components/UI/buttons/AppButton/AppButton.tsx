@@ -11,19 +11,11 @@ type BtnProps = {
 
 const AppButton: React.FC<BtnProps> = (props: BtnProps) => {
   const { type, text, icon, block, handler } = { ...props }
-  if (block) {
-    return (
-      <Button type={type} icon={icon} block onClick={handler}>
-        {text}
-      </Button>
-    )
-  } else {
-    return (
-      <Button type={type} icon={icon} onClick={handler}>
-        {text}
-      </Button>
-    )
-  }
+  return (
+    <Button type={type} icon={icon} block={block} onClick={handler}>
+      {text}
+    </Button>
+  )
 }
 
 export default AppButton
