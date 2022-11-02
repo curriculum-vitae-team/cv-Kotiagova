@@ -10,8 +10,8 @@ export default {
   title: 'UI/tabs/AppTabs',
   component: AppTabs,
   argTypes: {
-    handler: {
-      action: 'handler',
+    onChange: {
+      action: 'onChange',
       type: 'any',
       description: 'Обработчик клика',
       defaultValue: example

@@ -6,13 +6,13 @@ type BtnProps = {
   text: string
   icon?: ReactNode
   block?: boolean
-  handler?: MouseEventHandler
+  onClick?: MouseEventHandler
 }
 
 const AppButton: React.FC<BtnProps> = (props: BtnProps) => {
-  const { type, text, icon, block, handler } = { ...props }
+  const { type, text, icon, block, onClick } = { ...props }
   return (
-    <Button type={type} icon={icon} block={block} onClick={handler}>
+    <Button type={type} icon={icon} block={block} onClick={onClick}>
       {text}
     </Button>
   )

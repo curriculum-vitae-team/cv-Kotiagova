@@ -10,8 +10,8 @@ export default {
   title: 'UI/buttons',
   component: AppButton,
   argTypes: {
-    handler: {
-      action: 'handler',
+    onClick: {
+      action: 'onClick',
       type: 'MouseEventHandler',
       description: 'Обработчик кнопки',
       defaultValue: example

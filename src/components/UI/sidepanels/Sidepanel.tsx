@@ -1,13 +1,17 @@
 import React from 'react'
 import { Menu } from 'antd'
 
+type Item = {
+  label: any
+  key: string
+}
+
 type SidepanelProps = {
-  items: Array<any>
+  items: Array<Item>
 }
 
 const Sidepanel: React.FC<SidepanelProps> = (props: SidepanelProps) => {
   const { items } = { ...props }
-  //items должны содержать label и key
   return (
     <Menu
       mode={'vertical'}

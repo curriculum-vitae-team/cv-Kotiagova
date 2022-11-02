@@ -7,11 +7,11 @@ type InputProps = {
   label: string
   placeholder?: string
   status?: '' | 'error'
-  handler?: ChangeEventHandler
+  onChange?: ChangeEventHandler
 }
 
 const AppTextarea: React.FC<InputProps> = (props: InputProps) => {
-  const { label, placeholder, status, handler } = { ...props }
+  const { label, placeholder, status, onChange } = { ...props }
   return (
     <Wrapper>
       <label>
@@ -22,7 +22,7 @@ const AppTextarea: React.FC<InputProps> = (props: InputProps) => {
           style={{ resize: 'none' }}
           placeholder={placeholder}
           status={status}
-          onChange={handler}
+          onChange={onChange}
         />
         <span> {status ? 'Please, specify the field' : ''}</span>
       </label>

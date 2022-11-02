@@ -10,8 +10,8 @@ export default {
   title: 'UI/inputs/AppInput',
   component: AppInput,
   argTypes: {
-    handler: {
-      action: 'handler',
+    onChange: {
+      action: 'onChange',
       type: 'ChangeEventHandler',
       description: 'Обработчик ввода',
       defaultValue: example

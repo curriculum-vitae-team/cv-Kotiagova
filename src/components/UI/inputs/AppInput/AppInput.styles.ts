@@ -1,14 +1,13 @@
 import styled from 'styled-components'
 
 export const Wrapper = styled.div`
-  width: 14.888vw;
+  width: 200px;
   display: flex;
   flex-direction: column;
   span {
     color: red;
   }
   label {
-    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 12px;

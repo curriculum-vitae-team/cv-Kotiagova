@@ -10,8 +10,8 @@ export default {
   title: 'UI/inputs/DateInput',
   component: DateInput,
   argTypes: {
-    handler: {
-      action: 'handler',
+    onChange: {
+      action: 'onChange',
       type: 'any',
       description: 'Обработчик ввода',
       defaultValue: example

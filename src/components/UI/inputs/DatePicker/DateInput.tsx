@@ -3,14 +3,14 @@ import { DatePicker } from 'antd'
 import { Wrapper } from './DateInput.styles'
 
 type InputProps = {
-  handler?: any
+  onChange?: any
 }
 
 const DateInput: React.FC<InputProps> = (props: InputProps) => {
-  const { handler } = { ...props }
+  const { onChange } = { ...props }
   return (
     <Wrapper>
-      <DatePicker onChange={handler} />
+      <DatePicker onChange={onChange} />
     </Wrapper>
   )
 }

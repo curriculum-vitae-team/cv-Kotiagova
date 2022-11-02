@@ -7,17 +7,17 @@ type InputProps = {
   placeholder?: string
   value?: string
   status?: '' | 'error'
-  handler?: ChangeEventHandler
+  onChange?: ChangeEventHandler
 }
 
 const AppInput: React.FC<InputProps> = (props: InputProps) => {
-  const { label, placeholder, value, status, handler } = { ...props }
+  const { label, placeholder, value, status, onChange } = { ...props }
   return (
     <Wrapper>
       <label>
         {label}
         <span> {status ? '*' : ''}</span>
-        <Input placeholder={placeholder} value={value} status={status} onChange={handler} />
+        <Input placeholder={placeholder} value={value} status={status} onChange={onChange} />
         <span> {status ? 'Please, specify the field' : ''}</span>
       </label>
     </Wrapper>
