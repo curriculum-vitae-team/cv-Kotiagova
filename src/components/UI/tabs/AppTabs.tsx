@@ -1,0 +1,23 @@
+import React from 'react'
+import { Tabs } from 'antd'
+
+type TabsProps = {
+  titles: Array<any>
+  contents: Array<any>
+  onChange?: any
+}
+
+const AppTabs: React.FC<TabsProps> = (props: TabsProps) => {
+  const { titles, contents, onChange } = { ...props }
+  const items = []
+  titles.forEach((title, index) => {
+    items.push({ label: title, key: `item-${index}` })
+  })
+  contents.forEach((content, index) => {
+    items[index].children = content
+  })
+
+  return <Tabs items={items} onChange={onChange} />
+}
+
+export default AppTabs
