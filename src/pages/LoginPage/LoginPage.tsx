@@ -3,7 +3,15 @@ import AppInput from '@/components/UI/inputs/AppInput/AppInput'
 import Language from '@/icons/Language'
 import Question from '@/icons/Question'
 import AppButton from '@/components/UI/buttons/AppButton/AppButton'
-import { Wrapper, Container, QuestionBtn, LanguageBtn, InnerContainer } from './LoginPage.styles'
+import {
+  Wrapper,
+  TabsContainer,
+  QuestionBtn,
+  LanguageBtn,
+  InnerContainer
+} from './LoginPage.styles'
+import AppTabs from '@/components/UI/tabs/AppTabs'
+import LogIn from '@/pages/LoginPage/LogIn'
 
 const LoginPage = () => {
   return (
@@ -14,19 +22,15 @@ const LoginPage = () => {
       <QuestionBtn>
         <Question />
       </QuestionBtn>
-      <Container>
-        <h1>CV-generator</h1>
-        <AppInput label={'Username'} />
-        <AppInput label={'Password'} />
-        <InnerContainer>
-          <label>
-            <input type='checkbox' name='remember_me' checked />
-            Remember me
-          </label>
-          <AppButton type={'link'} text={'Forgot your password?'} />
-        </InnerContainer>
-        <AppButton type={'primary'} text={'Login'} />
-      </Container>
+      <TabsContainer>
+        <AppTabs
+          titles={['Log In', 'Register']}
+          contents={[
+            <LogIn btnText={'Login'} authHandler={''} />,
+            <LogIn btnText={'Register'} authHandler={''} />
+          ]}
+        />
+      </TabsContainer>
     </Wrapper>
   )
 }

@@ -1,4 +1,6 @@
 import styled from 'styled-components'
+import AppTabs from '@/components/UI/tabs/AppTabs'
+import 'antd/dist/antd.css'
 
 export const Container = styled.div`
   display: flex;
@@ -78,5 +80,13 @@ export const InnerContainer = styled.div`
   }
   button {
     margin-right: -15px;
+  }
+`
+
+export const TabsContainer = styled.div`
+  .ant-tabs-nav-list {
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
 `
