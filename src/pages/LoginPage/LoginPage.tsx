@@ -1,17 +1,11 @@
 import React from 'react'
-import AppInput from '@/components/UI/inputs/AppInput/AppInput'
-import Language from '@/icons/Language'
-import Question from '@/icons/Question'
-import AppButton from '@/components/UI/buttons/AppButton/AppButton'
-import {
-  Wrapper,
-  TabsContainer,
-  QuestionBtn,
-  LanguageBtn,
-  InnerContainer
-} from './LoginPage.styles'
+import Language from '@/components/icons/Language'
+import Question from '@/components/icons/Question'
+import { Wrapper, TabsContainer, QuestionBtn, LanguageBtn } from './LoginPage.styles'
 import AppTabs from '@/components/UI/tabs/AppTabs'
 import LogIn from '@/pages/LoginPage/LogIn'
+import { LOGIN_QUERY } from '@/gql/LOGIN_QUERY'
+import { REGISTER_QUERY } from '@/gql/REGISTER_QUERY'
 
 const LoginPage = () => {
   return (
@@ -26,8 +20,8 @@ const LoginPage = () => {
         <AppTabs
           titles={['Log In', 'Register']}
           contents={[
-            <LogIn btnText={'Login'} authHandler={''} />,
-            <LogIn btnText={'Register'} authHandler={''} />
+            <LogIn btnText={'Login'} authQuery={LOGIN_QUERY} />,
+            <LogIn btnText={'Register'} authQuery={REGISTER_QUERY} />
           ]}
         />
       </TabsContainer>

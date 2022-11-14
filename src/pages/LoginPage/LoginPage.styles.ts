@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import AppTabs from '@/components/UI/tabs/AppTabs'
 import 'antd/dist/antd.css'
 
 export const Container = styled.div`
