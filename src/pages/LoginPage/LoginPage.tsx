@@ -5,7 +5,7 @@ import { Wrapper, TabsContainer, QuestionBtn, LanguageBtn } from './LoginPage.st
 import AppTabs from '@/components/UI/tabs/AppTabs'
 import LogIn from '@/pages/LoginPage/LogIn'
 import { LOGIN_QUERY } from '@/gql/LOGIN_QUERY'
-import { REGISTER_QUERY } from '@/gql/REGISTER_QUERY'
+import { REGISTER_MUTATION } from '@/gql/REGISTER_MUTATION'
 
 const LoginPage = () => {
   return (
@@ -21,7 +21,7 @@ const LoginPage = () => {
           titles={['Log In', 'Register']}
           contents={[
             <LogIn btnText={'Login'} authQuery={LOGIN_QUERY} />,
-            <LogIn btnText={'Register'} authQuery={REGISTER_QUERY} />
+            <LogIn btnText={'Register'} authQuery={REGISTER_MUTATION} />
           ]}
         />
       </TabsContainer>

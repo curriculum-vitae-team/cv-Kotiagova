@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 
-export const REGISTER_QUERY = gql`
+export const REGISTER_MUTATION = gql`
   mutation LOGIN($auth: AuthInput!) {
     signup(auth: $auth) {
       user {
