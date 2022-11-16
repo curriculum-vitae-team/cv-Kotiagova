@@ -6,6 +6,7 @@ import { useLazyQuery, useMutation } from '@apollo/client'
 import { useDispatch } from 'react-redux'
 import { setUser } from '@/store/slices/userSlice'
 import { LOGIN_QUERY } from '@/gql/LOGIN_QUERY'
+import { redirect, useNavigate } from 'react-router-dom'
 
 type LogInProps = {
   btnText: string
@@ -19,6 +20,7 @@ const LogIn: React.FC<LogInProps> = (props: LogInProps) => {
   const [AT, setAT] = useState('')
   const [id, setId] = useState(0)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   function handleEmailInput(value: string) {
     setEmail(value)
@@ -56,6 +58,7 @@ const LogIn: React.FC<LogInProps> = (props: LogInProps) => {
             })
           )
         }
+        navigate('/employees')
       })
       .catch((error) => console.log(error))
   }
