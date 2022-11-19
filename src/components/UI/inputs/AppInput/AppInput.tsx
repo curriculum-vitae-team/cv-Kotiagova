@@ -9,10 +9,11 @@ type InputProps = {
   value?: string
   status?: '' | 'error'
   onChange?: any
+  errorText?: string
 }
 
 const AppInput: React.FC<InputProps> = (props: InputProps) => {
-  const { label, type, placeholder, value, status, onChange } = { ...props }
+  const { label, type, placeholder, value, status, onChange, errorText } = { ...props }
   const [stateValue, setStateValue] = useState(value ? value : '')
 
   useEffect(() => {
@@ -32,7 +33,7 @@ const AppInput: React.FC<InputProps> = (props: InputProps) => {
             setStateValue(event.target.value)
           }}
         />
-        <span> {status ? 'Please, specify the field' : ''}</span>
+        <span> {status ? errorText : ''}</span>
       </label>
     </Wrapper>
   )
