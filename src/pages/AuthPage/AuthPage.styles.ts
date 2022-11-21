@@ -5,7 +5,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 25vw;
+  width: 360px;
 
   h1 {
     font-size: 35px;
@@ -17,17 +17,27 @@ export const Container = styled.div`
   div {
     width: 100%;
   }
+
+  @media (max-width: 407px) {
+    width: 100%;
+  }
+  @media (max-width: 300px) {
+    h1 {
+      font-size: 30px;
+    }
+  }
 `
 
 export const Wrapper = styled.div`
   background: #f0f2f5;
   height: 100vh;
+  width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
-
-  //font-family: 'Roboto', sans-serif;
+  margin: 0 auto;
 `
+
 export const QuestionBtn = styled.button`
   position: fixed;
   bottom: 42px;
@@ -43,6 +53,11 @@ export const QuestionBtn = styled.button`
   div > svg {
     height: 16px;
     width: 12px;
+  }
+
+  @media (max-width: 400px) {
+    bottom: 32px;
+    right: 47px;
   }
 `
 export const LanguageBtn = styled.button`

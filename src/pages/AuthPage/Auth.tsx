@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Container, InnerContainer } from '@/pages/LoginPage/LoginPage.styles'
+import { Container, InnerContainer } from '@/pages/AuthPage/AuthPage.styles'
 import AppInput from '@/components/UI/inputs/AppInput/AppInput'
 import AppButton from '@/components/UI/buttons/AppButton/AppButton'
 import { useLazyQuery, useMutation } from '@apollo/client'
@@ -8,20 +8,16 @@ import { setUser } from '@/store/slices/userSlice'
 import { LOGIN_QUERY } from '@/gql/LOGIN_QUERY'
 import { useNavigate } from 'react-router-dom'
 import { auth_errors, AuthErrorResponse } from '@/errors/auth_errors'
-import { Simulate } from 'react-dom/test-utils'
-import error = Simulate.error
 
-type LogInProps = {
+type AuthProps = {
   btnText: string
   authQuery: any
 }
 
-const LogIn: React.FC<LogInProps> = (props: LogInProps) => {
+const Auth: React.FC<AuthProps> = (props: AuthProps) => {
   const { btnText, authQuery } = { ...props }
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  // const [AT, setAT] = useState('')
-  // const [id, setId] = useState(0)
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
   const dispatch = useDispatch()
@@ -160,4 +156,4 @@ const LogIn: React.FC<LogInProps> = (props: LogInProps) => {
   )
 }
 
-export default LogIn
+export default Auth
