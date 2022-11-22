@@ -23,6 +23,13 @@ const Auth: React.FC<AuthProps> = (props: AuthProps) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
+  let executeQuery
+  if (authQuery === LOGIN_QUERY) {
+    ;[executeQuery, {}] = useLazyQuery(authQuery)
+  } else {
+    ;[executeQuery, {}] = useMutation(authQuery)
+  }
+
   function handleEmailInput(value: string) {
     setEmail(value)
   }
@@ -30,11 +37,56 @@ const Auth: React.FC<AuthProps> = (props: AuthProps) => {
     setPassword(value)
   }
 
-  let executeQuery
-  if (authQuery === LOGIN_QUERY) {
-    ;[executeQuery, {}] = useLazyQuery(authQuery)
-  } else {
-    ;[executeQuery, {}] = useMutation(authQuery)
+  function handleGoodResponse(response: any) {
+    if (authQuery === LOGIN_QUERY) {
+      dispatch(
+        setUser({
+          email: response.data.login.user.email,
+          id: response.data.login.user.id,
+          access_token: response.data.login.access_token
+        })
+      )
+    } else {
+      dispatch(
+        setUser({
+          email: response.data.signup.user.email,
+          id: response.data.signup.user.id,
+          access_token: response.data.signup.access_token
+        })
+      )
+    }
+    navigate('/employees')
+  }
+
+  function handleBadResponse(responseError: any) {
+    const possibleErrors = []
+    for (const e of auth_errors.keys()) {
+      possibleErrors.push(e)
+    }
+    const fullError: AuthErrorResponse = { type: 'email', message: '' }
+
+    possibleErrors.forEach((error) => {
+      if (responseError.includes(error)) {
+        fullError.type = auth_errors.get(error).type
+        fullError.message = auth_errors.get(error).message
+      }
+    })
+
+    switch (fullError.type) {
+      case 'email': {
+        setEmailError(fullError.message)
+        break
+      }
+      case 'password': {
+        setPasswordError(fullError.message)
+        break
+      }
+      case 'both': {
+        setEmailError(fullError.message)
+        setPasswordError(fullError.message)
+        break
+      }
+    }
   }
 
   const handleClick = () => {
@@ -43,88 +95,15 @@ const Auth: React.FC<AuthProps> = (props: AuthProps) => {
     })
       .then((response) => {
         if (response.data?.login || response.data?.signup) {
-          if (authQuery === LOGIN_QUERY) {
-            dispatch(
-              setUser({
-                email: response.data.login.user.email,
-                id: response.data.login.user.id,
-                access_token: response.data.login.access_token
-              })
-            )
-          } else {
-            dispatch(
-              setUser({
-                email: response.data.signup.user.email,
-                id: response.data.signup.user.id,
-                access_token: response.data.signup.access_token
-              })
-            )
-          }
-          navigate('/employees')
+          handleGoodResponse(response)
         } else {
           const responseError = response.error.graphQLErrors[0].message
-          const possibleErrors = []
-          for (const e of auth_errors.keys()) {
-            possibleErrors.push(e)
-          }
-          const fullError: AuthErrorResponse = { type: 'email', message: '' }
-
-          possibleErrors.forEach((error) => {
-            if (responseError.includes(error)) {
-              fullError.type = auth_errors.get(error).type
-              fullError.message = auth_errors.get(error).message
-            }
-          })
-          console.log(fullError)
-
-          switch (fullError.type) {
-            case 'email': {
-              setEmailError(fullError.message)
-              break
-            }
-            case 'password': {
-              setPasswordError(fullError.message)
-              break
-            }
-            case 'both': {
-              setEmailError(fullError.message)
-              setPasswordError(fullError.message)
-              break
-            }
-          }
+          handleBadResponse(responseError)
         }
       })
       .catch((error) => {
         const responseError = error.message
-        const possibleErrors = []
-        for (const e of auth_errors.keys()) {
-          possibleErrors.push(e)
-        }
-        const fullError: AuthErrorResponse = { type: 'email', message: '' }
-
-        possibleErrors.forEach((er) => {
-          if (responseError.includes(er)) {
-            fullError.type = auth_errors.get(er).type
-            fullError.message = auth_errors.get(er).message
-          }
-        })
-        console.log(fullError)
-
-        switch (fullError.type) {
-          case 'email': {
-            setEmailError(fullError.message)
-            break
-          }
-          case 'password': {
-            setPasswordError(fullError.message)
-            break
-          }
-          case 'both': {
-            setEmailError(fullError.message)
-            setPasswordError(fullError.message)
-            break
-          }
-        }
+        handleBadResponse(responseError)
       })
   }
 
