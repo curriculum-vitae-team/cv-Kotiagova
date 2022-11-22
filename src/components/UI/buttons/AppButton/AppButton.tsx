@@ -6,7 +6,7 @@ type BtnProps = {
   text: string
   icon?: ReactNode
   block?: boolean
-  onClick?: MouseEventHandler
+  onClick?: any
 }
 
 const AppButton: React.FC<BtnProps> = (props: BtnProps) => {
