@@ -5,8 +5,6 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  flex: 0 1 360px;
-  margin: 0 20px;
 
   h1 {
     font-size: 35px;
@@ -96,6 +94,9 @@ export const InnerContainer = styled.div`
 `
 
 export const TabsContainer = styled.div`
+  flex: 0 1 360px;
+  margin: 0 20px;
+
   .ant-tabs-nav-list {
     width: 100%;
     display: flex;
