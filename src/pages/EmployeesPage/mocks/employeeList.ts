@@ -1,8 +1,9 @@
+import { nanoid } from 'nanoid'
 import { Employee } from './../../../components/EmployeesList/EmployeesList'
 
 export const mockEmployeeList: Employee[] = [
   {
-    key: '1',
+    key: nanoid(),
     firstName: 'Vasya',
     lastName: 'Pupkin',
     email: 'Vasya.Pupkin@gmail.com',
@@ -10,7 +11,7 @@ export const mockEmployeeList: Employee[] = [
     specialization: 'React'
   },
   {
-    key: '2',
+    key: nanoid(),
     firstName: 'Anton',
     lastName: 'Mihailov',
     email: 'Anton.Mihailov@gmail.com',
@@ -18,7 +19,7 @@ export const mockEmployeeList: Employee[] = [
     specialization: 'Angular'
   },
   {
-    key: '3',
+    key: nanoid(),
     firstName: 'Kirill',
     lastName: 'Sadovnikov',
     email: 'Kirill.Sadovnikov@gmail.com',
@@ -26,7 +27,7 @@ export const mockEmployeeList: Employee[] = [
     specialization: 'Vue'
   },
   {
-    key: '4',
+    key: nanoid(),
     firstName: 'Mihail',
     lastName: 'Novoselov',
     email: 'Mihail.Novoselov@gmail.com',
