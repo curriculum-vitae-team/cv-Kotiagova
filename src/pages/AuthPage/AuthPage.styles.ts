@@ -5,7 +5,8 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 360px;
+  flex: 0 1 360px;
+  margin: 0 20px;
 
   h1 {
     font-size: 35px;
@@ -18,9 +19,6 @@ export const Container = styled.div`
     width: 100%;
   }
 
-  @media (max-width: 407px) {
-    width: 100%;
-  }
   @media (max-width: 300px) {
     h1 {
       font-size: 30px;
