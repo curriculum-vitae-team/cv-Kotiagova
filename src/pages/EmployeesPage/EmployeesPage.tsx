@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { Button, Typography } from 'antd'
 import Search from 'antd/lib/input/Search'
 import { mockEmployeeList } from './mocks/employeeList'
+import { nanoid } from 'nanoid'
 
 const { Title } = Typography
 
@@ -14,6 +15,7 @@ const EmployeesPage = () => {
   const addEmployee = () => {
     setEmployeeList((prevEmployeeList) =>
       prevEmployeeList.concat({
+        key: nanoid(),
         firstName: 'Anton',
         lastName: 'Antonov',
         department: 'IOS',
@@ -33,7 +35,11 @@ const EmployeesPage = () => {
         onChange={(e) => setSearchedEmployee(e.target.value)}
         style={{ marginBottom: '10px' }}
       />
-      <EmployeesList searchedEmployee={searchedEmployee} employeeList={employeeList} />
+      <EmployeesList
+        searchedEmployee={searchedEmployee}
+        employeeList={employeeList}
+        setEmployeeList={setEmployeeList}
+      />
     </>
   )
 }
