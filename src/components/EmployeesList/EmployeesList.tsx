@@ -1,6 +1,6 @@
 import { Button, Table } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
-import React from 'react'
+import React, { useState } from 'react'
 
 export type Employee = {
   key: string
@@ -14,10 +14,19 @@ export type Employee = {
 type Props = {
   searchedEmployee: string
   employeeList: Employee[]
-  setEmployeeList: React.Dispatch<React.SetStateAction<Employee[]>>
+  newEmployeeContent: Employee
+  setIsDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+  setIsNewEmployeeModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+  setNewEmployeeContent: React.Dispatch<React.SetStateAction<Employee>>
 }
 
-const EmployeesList: React.FC<Props> = ({ searchedEmployee, employeeList, setEmployeeList }) => {
+const EmployeesList: React.FC<Props> = ({
+  searchedEmployee,
+  employeeList,
+  setNewEmployeeContent,
+  setIsNewEmployeeModalOpen,
+  setIsDeleteModalOpen
+}) => {
   const columns: ColumnsType<Employee> = [
     {
       title: 'First Name',
@@ -60,14 +69,18 @@ const EmployeesList: React.FC<Props> = ({ searchedEmployee, employeeList, setEmp
     }
   ]
 
-  const deleteEmployee = (employeeToDelete) => {
-    setEmployeeList((prevEmployeeList) => {
-      return prevEmployeeList.filter((employee) => {
-        if (employee.key !== employeeToDelete.key) {
-          return employee
-        }
-      })
-    })
+  const [expandedRowKeys, setExpandedRowKeys] = useState([])
+
+  const handleDeleteButtonClick = (record: Employee) => {
+    setIsDeleteModalOpen(true)
+    setNewEmployeeContent(record)
+    setExpandedRowKeys([])
+  }
+
+  const handleUpdateButtonClick = (record: Employee) => {
+    setIsNewEmployeeModalOpen(true)
+    setNewEmployeeContent(record)
+    setExpandedRowKeys([])
   }
 
   return (
@@ -75,16 +88,30 @@ const EmployeesList: React.FC<Props> = ({ searchedEmployee, employeeList, setEmp
       pagination={{
         pageSize: 6
       }}
+      expandedRowKeys={expandedRowKeys}
+      onExpand={(_, record) => {
+        setNewEmployeeContent(record)
+        setExpandedRowKeys((prevRowKeys) => {
+          if (prevRowKeys[0] === record.key) {
+            return []
+          }
+          return [record.key]
+        })
+      }}
       expandable={{
         expandRowByClick: true,
-        expandedRowRender: (record) => (
-          <>
-            <Button type='default'>Update</Button>
-            <Button type='primary' onClick={() => deleteEmployee(record)}>
-              Delete
-            </Button>
-          </>
-        )
+        expandedRowRender: (record) => {
+          return (
+            <>
+              <Button type='default' onClick={() => handleUpdateButtonClick(record)}>
+                Update
+              </Button>
+              <Button type='primary' onClick={() => handleDeleteButtonClick(record)}>
+                Delete
+              </Button>
+            </>
+          )
+        }
       }}
       dataSource={employeeList}
       columns={columns}
