@@ -1,8 +1,9 @@
 import { Button, Table } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
-import React, { useState } from 'react'
+import React from 'react'
 
 export type Employee = {
+  key: string
   firstName: string
   lastName: string
   email: string
@@ -13,9 +14,10 @@ export type Employee = {
 type Props = {
   searchedEmployee: string
   employeeList: Employee[]
+  setEmployeeList: React.Dispatch<React.SetStateAction<Employee[]>>
 }
 
-const EmployeesList: React.FC<Props> = ({ searchedEmployee, employeeList }) => {
+const EmployeesList: React.FC<Props> = ({ searchedEmployee, employeeList, setEmployeeList }) => {
   const columns: ColumnsType<Employee> = [
     {
       title: 'First Name',
@@ -58,25 +60,31 @@ const EmployeesList: React.FC<Props> = ({ searchedEmployee, employeeList }) => {
     }
   ]
 
-  const [expandedKey, setExpandedKey] = useState([])
+  const deleteEmployee = (employeeToDelete) => {
+    setEmployeeList((prevEmployeeList) => {
+      return prevEmployeeList.filter((employee) => {
+        if (employee.key !== employeeToDelete.key) {
+          return employee
+        }
+      })
+    })
+  }
 
   return (
     <Table
       pagination={{
         pageSize: 6
       }}
-      onRow={(_, rowIndex) => {
-        return {
-          onClick: () => setExpandedKey([`${rowIndex}`])
-        }
-      }}
       expandable={{
-        expandedRowKeys: expandedKey,
         expandRowByClick: true,
-        expandedRowRender: (employee, index) => {
-          alert('i get expanded')
-          return <p style={{ margin: 0 }}>{employee.email}</p>
-        }
+        expandedRowRender: (record) => (
+          <>
+            <Button type='default'>Update</Button>
+            <Button type='primary' onClick={() => deleteEmployee(record)}>
+              Delete
+            </Button>
+          </>
+        )
       }}
       dataSource={employeeList}
       columns={columns}
