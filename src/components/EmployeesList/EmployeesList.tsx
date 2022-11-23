@@ -83,36 +83,42 @@ const EmployeesList: React.FC<Props> = ({
     setExpandedRowKeys([])
   }
 
+  const handleExpand = (expanded: boolean, record: Employee) => {
+    setNewEmployeeContent(record)
+    setExpandedRowKeys((prevRowKeys) => {
+      if (prevRowKeys[0] === record.key) {
+        return []
+      }
+      return [record.key]
+    })
+  }
+
+  const expandableConfig = {
+    expandRowByClick: true,
+    expandedRowRender: (record: Employee) => {
+      return (
+        <>
+          <Button type='default' onClick={() => handleUpdateButtonClick(record)}>
+            Update
+          </Button>
+          <Button type='primary' onClick={() => handleDeleteButtonClick(record)}>
+            Delete
+          </Button>
+        </>
+      )
+    }
+  }
+
+  const paginationConfig = {
+    pageSize: 6
+  }
+
   return (
     <Table
-      pagination={{
-        pageSize: 6
-      }}
+      pagination={paginationConfig}
       expandedRowKeys={expandedRowKeys}
-      onExpand={(_, record) => {
-        setNewEmployeeContent(record)
-        setExpandedRowKeys((prevRowKeys) => {
-          if (prevRowKeys[0] === record.key) {
-            return []
-          }
-          return [record.key]
-        })
-      }}
-      expandable={{
-        expandRowByClick: true,
-        expandedRowRender: (record) => {
-          return (
-            <>
-              <Button type='default' onClick={() => handleUpdateButtonClick(record)}>
-                Update
-              </Button>
-              <Button type='primary' onClick={() => handleDeleteButtonClick(record)}>
-                Delete
-              </Button>
-            </>
-          )
-        }
-      }}
+      onExpand={handleExpand}
+      expandable={expandableConfig}
       dataSource={employeeList}
       columns={columns}
       size='large'
