@@ -30,6 +30,7 @@ const NewEmployeeModal: React.FC<Props> = ({
 
   return (
     <Modal
+      title='Input Employee Info'
       centered
       open={isNewEmployeeModalOpen}
       onOk={() => (wasEmpty ? addEmployee() : updateEmployee())}
@@ -38,37 +39,37 @@ const NewEmployeeModal: React.FC<Props> = ({
       <Form>
         <Form.Item>
           <Input
-            onChange={(e) => handleChange(e, 'firstName')}
-            value={newEmployeeContent.firstName}
             placeholder={'First Name'}
+            value={newEmployeeContent.firstName}
+            onChange={(e) => handleChange(e, 'firstName')}
           />
         </Form.Item>
         <Form.Item>
           <Input
-            onChange={(e) => handleChange(e, 'lastName')}
-            value={newEmployeeContent.lastName}
             placeholder={'Last Name'}
+            value={newEmployeeContent.lastName}
+            onChange={(e) => handleChange(e, 'lastName')}
           />
         </Form.Item>
         <Form.Item>
           <Input
+            placeholder={'Email'}
             value={newEmployeeContent.email}
             onChange={(e) => handleChange(e, 'email')}
-            placeholder={'Email'}
           />
         </Form.Item>
         <Form.Item>
           <Input
+            placeholder={'Department'}
             value={newEmployeeContent.department}
             onChange={(e) => handleChange(e, 'department')}
-            placeholder={'Department'}
           />
         </Form.Item>
         <Form.Item>
           <Input
+            placeholder={'Specialization'}
             value={newEmployeeContent.specialization}
             onChange={(e) => handleChange(e, 'specialization')}
-            placeholder={'Specialization'}
           />
         </Form.Item>
       </Form>
