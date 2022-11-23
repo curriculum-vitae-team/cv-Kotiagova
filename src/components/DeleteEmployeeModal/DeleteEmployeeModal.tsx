@@ -18,7 +18,7 @@ const DeleteEmployeeModal: React.FC<Props> = ({
   return (
     <>
       <Modal
-        title='20px to Top'
+        title={`Delete ${newEmployeeContent.firstName}`}
         centered
         open={isDeleteModalOpen}
         onOk={() => deleteEmployee()}
