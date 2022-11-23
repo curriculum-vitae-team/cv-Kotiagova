@@ -1,6 +1,7 @@
 import { Button, Table } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import React, { useState } from 'react'
+import { ExpandedRow, UpdateButton } from './EmployeesList.style'
 
 export type Employee = {
   key: string
@@ -11,7 +12,7 @@ export type Employee = {
   specialization: string
 }
 
-type Props = {
+type EmployeesListProps = {
   searchedEmployee: string
   employeeList: Employee[]
   newEmployeeContent: Employee
@@ -20,7 +21,7 @@ type Props = {
   setNewEmployeeContent: React.Dispatch<React.SetStateAction<Employee>>
 }
 
-const EmployeesList: React.FC<Props> = ({
+const EmployeesList: React.FC<EmployeesListProps> = ({
   searchedEmployee,
   employeeList,
   setNewEmployeeContent,
@@ -97,14 +98,14 @@ const EmployeesList: React.FC<Props> = ({
     expandRowByClick: true,
     expandedRowRender: (record: Employee) => {
       return (
-        <>
-          <Button type='default' onClick={() => handleUpdateButtonClick(record)}>
+        <ExpandedRow>
+          <UpdateButton type='default' onClick={() => handleUpdateButtonClick(record)}>
             Update
-          </Button>
+          </UpdateButton>
           <Button type='primary' onClick={() => handleDeleteButtonClick(record)}>
             Delete
           </Button>
-        </>
+        </ExpandedRow>
       )
     }
   }
