@@ -2,7 +2,7 @@ import { Form, Input, Modal } from 'antd'
 import React, { useMemo } from 'react'
 import { Employee } from '../EmployeesList/EmployeesList'
 
-type Props = {
+type NewEmployeeModalProps = {
   newEmployeeContent: Employee
   isNewEmployeeModalOpen: boolean
   setIsNewEmployeeModalOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -11,7 +11,7 @@ type Props = {
   addEmployee: () => void
 }
 
-const NewEmployeeModal: React.FC<Props> = ({
+const NewEmployeeModal: React.FC<NewEmployeeModalProps> = ({
   newEmployeeContent,
   isNewEmployeeModalOpen,
   setIsNewEmployeeModalOpen,
@@ -19,7 +19,10 @@ const NewEmployeeModal: React.FC<Props> = ({
   setNewEmployeeContent,
   addEmployee
 }) => {
+  //true if no employee was selected, i.e add button was clicked
   const wasEmpty = useMemo(() => newEmployeeContent.firstName === '', [isNewEmployeeModalOpen])
+
+  const [form] = Form.useForm()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, field: keyof Employee) => {
     setNewEmployeeContent((prevEmployeeContent) => ({
@@ -28,17 +31,26 @@ const NewEmployeeModal: React.FC<Props> = ({
     }))
   }
 
+  const handleSubmit = () => {
+    if (wasEmpty) {
+      addEmployee()
+    } else {
+      updateEmployee()
+    }
+  }
+
   return (
     <Modal
       title='Input Employee Info'
       centered
       open={isNewEmployeeModalOpen}
-      onOk={() => (wasEmpty ? addEmployee() : updateEmployee())}
+      onOk={handleSubmit}
       onCancel={() => setIsNewEmployeeModalOpen(false)}
     >
-      <Form>
+      <Form form={form}>
         <Form.Item>
           <Input
+            required
             placeholder={'First Name'}
             value={newEmployeeContent.firstName}
             onChange={(e) => handleChange(e, 'firstName')}
