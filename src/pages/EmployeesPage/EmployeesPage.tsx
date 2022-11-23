@@ -1,12 +1,12 @@
 import EmployeesList, { Employee } from '@/components/EmployeesList/EmployeesList'
 import React, { useState } from 'react'
 
-import { Button, Typography } from 'antd'
-import Search from 'antd/lib/input/Search'
-import { mockEmployeeList } from './mocks/employeeList'
-import { nanoid } from 'nanoid'
-import NewEmployeeModal from '@/components/NewEmployeeModal/NewEmployeeModal'
 import DeleteEmployeeModal from '@/components/DeleteEmployeeModal/DeleteEmployeeModal'
+import NewEmployeeModal from '@/components/NewEmployeeModal/NewEmployeeModal'
+import { Button, Typography } from 'antd'
+import { nanoid } from 'nanoid'
+import { StyledSearch, StyledTableControls } from './EmployeesPage.styles'
+import { mockEmployeeList } from './mocks/employeeList'
 
 const { Title } = Typography
 
@@ -66,13 +66,15 @@ const EmployeesPage = () => {
 
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <StyledTableControls>
         <Title level={3}>Employee list</Title>
-        <Button onClick={handleAddEmployeeButtonClick}>Add employee</Button>
-      </div>
-      <Search
-        onChange={(e) => setSearchedEmployee(e.target.value)}
-        style={{ marginBottom: '10px' }}
+        <Button type='primary' onClick={handleAddEmployeeButtonClick}>
+          Add employee
+        </Button>
+      </StyledTableControls>
+      <StyledSearch
+        placeholder='Search for an employee...'
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchedEmployee(e.target.value)}
       />
       <EmployeesList
         searchedEmployee={searchedEmployee}
