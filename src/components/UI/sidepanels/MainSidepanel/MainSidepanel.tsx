@@ -5,6 +5,8 @@ import { Wrapper } from './MainSidepanel.styles'
 const MainSidepanel: React.FC = () => {
   return (
     //TODO: icons
+
+    // https://ant.design/components/layout can be useful
     <Wrapper>
       <Sidepanel
         items={[
