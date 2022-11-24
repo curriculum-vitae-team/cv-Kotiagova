@@ -2,6 +2,7 @@ import { Button, Table } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import React, { useState } from 'react'
 import { ExpandedRow, UpdateButton } from './EmployeesList.style'
+import { useColumns } from './hooks/useColumns'
 
 export type Employee = {
   key: string
@@ -28,49 +29,9 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
   setIsNewEmployeeModalOpen,
   setIsDeleteModalOpen
 }) => {
-  const columns: ColumnsType<Employee> = [
-    {
-      title: 'First Name',
-      dataIndex: 'firstName',
-      filteredValue: [searchedEmployee],
-      key: 'firstName',
-      width: '15%',
-      onFilter: (value: string, record: Employee) =>
-        record.firstName.toLowerCase().includes(value.toLowerCase()) ||
-        record.lastName.toLowerCase().includes(value.toLowerCase()),
-      sorter: (a, b) => a.firstName.localeCompare(b.firstName)
-    },
-    {
-      title: 'Last Name',
-      dataIndex: 'lastName',
-      key: 'lastName',
-      width: '15%',
-      sorter: (a: Employee, b: Employee) => a.lastName.localeCompare(b.lastName)
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-      width: '30%',
-      sorter: (a: Employee, b: Employee) => a.email.localeCompare(b.email)
-    },
-    {
-      title: 'Department',
-      dataIndex: 'department',
-      key: 'department',
-      width: '20%',
-      sorter: (a: Employee, b: Employee) => a.department.localeCompare(b.department)
-    },
-    {
-      title: 'Specialization',
-      dataIndex: 'specialization',
-      key: 'specialization',
-      width: '20%',
-      sorter: (a: Employee, b: Employee) => a.specialization.localeCompare(b.specialization)
-    }
-  ]
+  const columns: ColumnsType<Employee> = useColumns(searchedEmployee)
 
-  const [expandedRowKeys, setExpandedRowKeys] = useState([])
+  const [expandedRowKeys, setExpandedRowKeys] = useState<string[]>([])
 
   const handleDeleteButtonClick = (record: Employee) => {
     setIsDeleteModalOpen(true)
