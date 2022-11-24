@@ -93,7 +93,7 @@ const EmployeesPage = () => {
         setNewEmployeeContent={setNewEmployeeContent}
       />
       <DeleteEmployeeModal
-        newEmployeeContent={newEmployeeContent}
+        deletedEmployeeContent={newEmployeeContent}
         isDeleteModalOpen={isDeleteModalOpen}
         setIsDeleteModalOpen={setIsDeleteModalOpen}
         deleteEmployee={deleteEmployee}
