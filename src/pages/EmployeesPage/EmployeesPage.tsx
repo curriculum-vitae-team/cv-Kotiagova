@@ -11,29 +11,24 @@ import { mockEmployeeList } from './mocks/employeeList'
 const { Title } = Typography
 
 const EmployeesPage = () => {
-  const [searchedEmployee, setSearchedEmployee] = useState('')
-  const [isNewEmployeeModalOpen, setIsNewEmployeeModalOpen] = useState(false)
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-  const [employeeList, setEmployeeList] = useState<Employee[]>(mockEmployeeList)
-  const [newEmployeeContent, setNewEmployeeContent] = useState<Employee>({
+  const emptyEmployee: Employee = {
     key: nanoid(),
     firstName: '',
     lastName: '',
     email: '',
     department: '',
     specialization: ''
-  })
+  }
+
+  const [searchedEmployee, setSearchedEmployee] = useState('')
+  const [isNewEmployeeModalOpen, setIsNewEmployeeModalOpen] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [employeeList, setEmployeeList] = useState<Employee[]>(mockEmployeeList)
+  const [newEmployeeContent, setNewEmployeeContent] = useState<Employee>(emptyEmployee)
 
   const handleAddEmployeeButtonClick = () => {
     setIsNewEmployeeModalOpen(true)
-    setNewEmployeeContent({
-      key: nanoid(),
-      firstName: '',
-      lastName: '',
-      email: '',
-      department: '',
-      specialization: ''
-    })
+    setNewEmployeeContent(emptyEmployee)
   }
 
   const addEmployee = () => {
