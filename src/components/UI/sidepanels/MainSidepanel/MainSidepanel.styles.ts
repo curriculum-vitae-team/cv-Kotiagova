@@ -1,11 +1,7 @@
 import styled from 'styled-components'
 
 export const Wrapper = styled.div`
-  /* width: 208px; */
   height: 90vh;
-  /* position: fixed;
-  left: 0;
-  top: 0; */
   background-color: white;
 
   .ant-menu-vertical {
