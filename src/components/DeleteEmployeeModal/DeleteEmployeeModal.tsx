@@ -3,28 +3,28 @@ import React from 'react'
 import { Employee } from '../EmployeesList/EmployeesList'
 
 type DeleteEmployeeModalProps = {
-  newEmployeeContent: Employee
+  deletedEmployeeContent: Employee
   isDeleteModalOpen: boolean
   setIsDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>
   deleteEmployee: () => void
 }
 
 const DeleteEmployeeModal: React.FC<DeleteEmployeeModalProps> = ({
-  newEmployeeContent,
+  deletedEmployeeContent,
   isDeleteModalOpen,
   setIsDeleteModalOpen,
   deleteEmployee
 }) => {
   return (
     <Modal
-      title={`Delete ${newEmployeeContent.firstName}`}
+      title={`Delete ${deletedEmployeeContent.firstName}`}
       centered
       open={isDeleteModalOpen}
       onOk={() => deleteEmployee()}
       onCancel={() => setIsDeleteModalOpen(false)}
     >
       <p>
-        Do you want to delete {newEmployeeContent.firstName} {newEmployeeContent.lastName}?
+        Do you want to delete {deletedEmployeeContent.firstName} {deletedEmployeeContent.lastName}?
       </p>
     </Modal>
   )
