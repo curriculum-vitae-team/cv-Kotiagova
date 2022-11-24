@@ -1,47 +1,50 @@
-import { Breadcrumb, Layout, Menu } from 'antd'
+import { Breadcrumb, Layout } from 'antd'
 import React, { useState } from 'react'
 
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 
 import MainSidepanel from '../UI/sidepanels/MainSidepanel/MainSidepanel'
+import {
+  StyledBreadCrumb,
+  StyledFooter,
+  StyledHeader,
+  StyledMainLayout,
+  StyledMainLayoutContent
+} from './LayoutWrapper.styles'
 
-const { Header, Content, Sider, Footer } = Layout
+const { Header, Sider } = Layout
 
 const LayoutWrapper = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false)
 
+  const handleCollapseClick = () => {
+    setCollapsed((prevCollapsed) => !prevCollapsed)
+  }
+
   return (
     <Layout>
-      <Header className='header'>
-        <h1 style={{ color: '#fff' }}>
-          {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-            onClick: () => setCollapsed(!collapsed),
-            style: {
-              color: '#fff'
-            }
-          })}{' '}
+      <Header>
+        <StyledHeader>
+          {collapsed ? (
+            <MenuUnfoldOutlined onClick={handleCollapseClick} />
+          ) : (
+            <MenuFoldOutlined onClick={handleCollapseClick} />
+          )}
           Awesome logo
-        </h1>
+        </StyledHeader>
       </Header>
       <Layout>
-        <Sider collapsed={collapsed}>
+        <Sider collapsed={collapsed} width={200}>
           <MainSidepanel />
         </Sider>
-        <Layout style={{ padding: '0 24px 24px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }}>
+        <StyledMainLayout>
+          <StyledBreadCrumb>
             <Breadcrumb.Item>Employees</Breadcrumb.Item>
-          </Breadcrumb>
-          <Content
-            style={{
-              padding: 24,
-              margin: 0
-            }}
-          >
-            {children}
-          </Content>
-        </Layout>
+          </StyledBreadCrumb>
+          <StyledMainLayoutContent>{children}</StyledMainLayoutContent>
+        </StyledMainLayout>
       </Layout>
-      <Footer style={{ textAlign: 'center' }}>Footer</Footer>
+      <StyledFooter>Footer</StyledFooter>
     </Layout>
   )
 }
