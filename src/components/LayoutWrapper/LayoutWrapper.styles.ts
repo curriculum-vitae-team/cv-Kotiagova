@@ -1,11 +1,20 @@
 import { Breadcrumb, BreadcrumbProps, Layout, LayoutProps } from 'antd'
 import styled from 'styled-components'
 
-export const StyledHeader = styled.h1`
+export const StyledHeader: React.FC<LayoutProps> = styled(Layout.Header)`
   display: flex;
   align-items: center;
   gap: 10px;
-  color: white;
+
+  .anticon {
+    color: white;
+  }
+
+  h1 {
+    margin-right: auto;
+    margin-bottom: 0;
+    color: white;
+  }
 `
 
 export const StyledMainLayout: React.FC<LayoutProps> = styled(Layout)`

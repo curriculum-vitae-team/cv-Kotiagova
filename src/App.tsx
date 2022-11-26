@@ -1,25 +1,13 @@
 import '@/App.css'
-import EmployeesPage from '@/pages/EmployeesPage/EmployeesPage'
 import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import LayoutWrapper from './components/LayoutWrapper/LayoutWrapper'
-import LoginPage from './pages/LoginPage/LoginPage'
+import { BrowserRouter } from 'react-router-dom'
+import AppRouter from './routes/AppRouter'
 
 function App() {
   return (
     <div className='App'>
       <BrowserRouter>
-        <Routes>
-          <Route path='/login' element={<LoginPage />} />
-          <Route
-            path='/employees'
-            element={
-              <LayoutWrapper>
-                <EmployeesPage />
-              </LayoutWrapper>
-            }
-          />
-        </Routes>
+        <AppRouter />
       </BrowserRouter>
     </div>
   )

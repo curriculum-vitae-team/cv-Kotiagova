@@ -1,10 +1,9 @@
-import EmployeesList, { Employee } from '@/components/EmployeesList/EmployeesList'
-import React, { useState } from 'react'
-
 import DeleteEmployeeModal from '@/components/DeleteEmployeeModal/DeleteEmployeeModal'
+import EmployeesList, { Employee } from '@/components/EmployeesList/EmployeesList'
 import NewEmployeeModal from '@/components/NewEmployeeModal/NewEmployeeModal'
 import { Button, Typography } from 'antd'
 import { nanoid } from 'nanoid'
+import React, { useState } from 'react'
 import { StyledSearch, StyledTableControls } from './EmployeesPage.styles'
 import { mockEmployeeList } from './mocks/employeeList'
 

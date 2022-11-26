@@ -1,9 +1,9 @@
-import { Breadcrumb, Layout } from 'antd'
+import { MenuOutlined } from '@ant-design/icons'
+import { Breadcrumb, Button, Layout } from 'antd'
 import React, { useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
-
-import MainSidepanel from '../UI/sidepanels/MainSidepanel/MainSidepanel'
+import { StyledSidebar } from '../UI/Sidebar/Sidebar.styles'
 import {
   StyledBreadCrumb,
   StyledFooter,
@@ -12,35 +12,40 @@ import {
   StyledMainLayoutContent
 } from './LayoutWrapper.styles'
 
-const { Header, Sider } = Layout
-
 const LayoutWrapper = ({ children }) => {
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  const pathSnippets = location.pathname.split('/').filter((i) => i)
+
+  const breadcrumbItems = pathSnippets.map((_, index) => {
+    const url = `/${pathSnippets.slice(0, index + 1).join('/')}`
+    return (
+      <Breadcrumb.Item key={url}>
+        <Link to={url}>{pathSnippets[index]}</Link>
+      </Breadcrumb.Item>
+    )
+  })
+
   const [collapsed, setCollapsed] = useState(false)
 
-  const handleCollapseClick = () => {
+  const collapseMenu = () => {
     setCollapsed((prevCollapsed) => !prevCollapsed)
   }
 
   return (
     <Layout>
-      <Header>
-        <StyledHeader>
-          {collapsed ? (
-            <MenuUnfoldOutlined onClick={handleCollapseClick} />
-          ) : (
-            <MenuFoldOutlined onClick={handleCollapseClick} />
-          )}
-          Awesome logo
-        </StyledHeader>
-      </Header>
+      <StyledHeader>
+        <MenuOutlined onClick={collapseMenu} />
+        <h1>Awesome logo;)</h1>
+        <Button type='primary' onClick={() => navigate('/auth')}>
+          Log Out
+        </Button>
+      </StyledHeader>
       <Layout>
-        <Sider collapsed={collapsed} width={200}>
-          <MainSidepanel />
-        </Sider>
+        <StyledSidebar collapsed={collapsed} width={200} collapsedWidth={0} />
         <StyledMainLayout>
-          <StyledBreadCrumb>
-            <Breadcrumb.Item>Employees</Breadcrumb.Item>
-          </StyledBreadCrumb>
+          <StyledBreadCrumb>{breadcrumbItems} </StyledBreadCrumb>
           <StyledMainLayoutContent>{children}</StyledMainLayoutContent>
         </StyledMainLayout>
       </Layout>
