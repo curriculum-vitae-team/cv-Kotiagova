@@ -3,11 +3,12 @@ import { Breadcrumb, Button, Layout } from 'antd'
 import React, { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
-import { StyledSidebar } from '../UI/Sidebar/Sidebar.styles'
+import { StyledSidebar } from './components/Sidebar/Sidebar.styles'
 import {
   StyledBreadCrumb,
   StyledFooter,
   StyledHeader,
+  StyledLayout,
   StyledMainLayout,
   StyledMainLayoutContent
 } from './LayoutWrapper.styles'
@@ -34,7 +35,7 @@ const LayoutWrapper = ({ children }) => {
   }
 
   return (
-    <Layout>
+    <StyledLayout>
       <StyledHeader>
         <MenuOutlined onClick={collapseMenu} />
         <h1>Awesome logo;)</h1>
@@ -45,12 +46,12 @@ const LayoutWrapper = ({ children }) => {
       <Layout>
         <StyledSidebar collapsed={collapsed} width={200} collapsedWidth={0} />
         <StyledMainLayout>
-          <StyledBreadCrumb>{breadcrumbItems} </StyledBreadCrumb>
+          <StyledBreadCrumb>{breadcrumbItems}</StyledBreadCrumb>
           <StyledMainLayoutContent>{children}</StyledMainLayoutContent>
         </StyledMainLayout>
       </Layout>
-      <StyledFooter>Footer</StyledFooter>
-    </Layout>
+      <StyledFooter>© Innowise-group</StyledFooter>
+    </StyledLayout>
   )
 }
 
