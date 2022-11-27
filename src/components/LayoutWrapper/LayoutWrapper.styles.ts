@@ -1,10 +1,15 @@
 import { Breadcrumb, BreadcrumbProps, Layout, LayoutProps } from 'antd'
 import styled from 'styled-components'
 
+export const StyledLayout: React.FC<LayoutProps> = styled(Layout)`
+  height: 100vh;
+`
+
 export const StyledHeader: React.FC<LayoutProps> = styled(Layout.Header)`
   display: flex;
   align-items: center;
   gap: 10px;
+  height: 6vh;
 
   .anticon {
     color: white;
@@ -31,5 +36,11 @@ export const StyledBreadCrumb: React.FC<BreadcrumbProps> = styled(Breadcrumb)`
 `
 
 export const StyledFooter: React.FC<LayoutProps> = styled(Layout.Footer)`
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  height: 6vh;
+  color: white;
+  background-color: #001529;
 `

@@ -1,6 +1,7 @@
 import { Button, Table } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import React, { useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { ExpandedRow, UpdateButton } from './EmployeesList.style'
 import { useColumns } from './hooks/useColumns'
 
@@ -30,6 +31,8 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
   setIsDeleteModalOpen
 }) => {
   const columns: ColumnsType<Employee> = useColumns(searchedEmployee)
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const [expandedRowKeys, setExpandedRowKeys] = useState<string[]>([])
 
@@ -60,6 +63,9 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
     expandedRowRender: (record: Employee) => {
       return (
         <ExpandedRow>
+          <Button type='link' onClick={() => navigate(`${location.pathname}/${record.key}`)}>
+            View Profile
+          </Button>
           <UpdateButton type='default' onClick={() => handleUpdateButtonClick(record)}>
             Update
           </UpdateButton>
