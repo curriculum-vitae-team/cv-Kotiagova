@@ -1,7 +1,6 @@
 import App from '@/app/App'
 import { store } from '@/state'
-import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client'
-import { setContext } from '@apollo/client/link/context'
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
 import 'antd/dist/antd.css'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
