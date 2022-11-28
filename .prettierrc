@@ -5,5 +5,15 @@
   "singleQuote": true,
   "trailingComma": "none",
   "jsxSingleQuote": true,
-  "bracketSpacing": true
+  "bracketSpacing": true,
+  "importOrder": [
+    "react",
+    "^antd(.*)$",
+    "^@mui/(.*)$",
+    "^@ui/(.*)$",
+    "^@/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": false,
+  "importOrderSortSpecifiers": true
 }

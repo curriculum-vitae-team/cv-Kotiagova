@@ -1,23 +1,98 @@
-import React from 'react'
-import AppButton from '@/components/UI/buttons/AppButton/AppButton'
-import { redirect, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { removeUser } from '@/store/slices/userSlice'
+import DeleteEmployeeModal from '@/components/DeleteEmployeeModal/DeleteEmployeeModal'
+import EmployeesList, { Employee } from '@/components/EmployeesList/EmployeesList'
+import NewEmployeeModal from '@/components/NewEmployeeModal/NewEmployeeModal'
+import { Button, Typography } from 'antd'
+import { nanoid } from 'nanoid'
+import React, { useState } from 'react'
+import { StyledSearch, StyledTableControls } from './EmployeesPage.styles'
+import { mockEmployeeList } from './mocks/employeeList'
+
+const { Title } = Typography
 
 const EmployeesPage = () => {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const emptyEmployee: Employee = {
+    key: nanoid(),
+    firstName: '',
+    lastName: '',
+    email: '',
+    department: '',
+    specialization: ''
+  }
+
+  const [searchedEmployee, setSearchedEmployee] = useState('')
+  const [isNewEmployeeModalOpen, setIsNewEmployeeModalOpen] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [employeeList, setEmployeeList] = useState<Employee[]>(mockEmployeeList)
+  const [newEmployeeContent, setNewEmployeeContent] = useState<Employee>(emptyEmployee)
+
+  const handleAddEmployeeButtonClick = () => {
+    setIsNewEmployeeModalOpen(true)
+    setNewEmployeeContent(emptyEmployee)
+  }
+
+  const addEmployee = () => {
+    setIsNewEmployeeModalOpen(false)
+    setEmployeeList((prevEmployeeList) => prevEmployeeList.concat(newEmployeeContent))
+  }
+
+  const deleteEmployee = () => {
+    setIsDeleteModalOpen(false)
+    setEmployeeList((prevEmployeeList) => {
+      return prevEmployeeList.filter((employee) => {
+        if (employee.key !== newEmployeeContent.key) {
+          return employee
+        }
+      })
+    })
+  }
+
+  const updateEmployee = () => {
+    setIsNewEmployeeModalOpen(false)
+    setEmployeeList((prevEmployeeList) => {
+      return prevEmployeeList.map((employee) => {
+        if (employee.key !== newEmployeeContent.key) {
+          return employee
+        }
+        return newEmployeeContent
+      })
+    })
+  }
+
   return (
-    <div>
-      <AppButton
-        type={'primary'}
-        text={'log out'}
-        onClick={() => {
-          navigate('/')
-          dispatch(removeUser())
-        }}
+    <>
+      <StyledTableControls>
+        <Title level={3}>Employee list</Title>
+        <Button type='primary' onClick={handleAddEmployeeButtonClick}>
+          Add employee
+        </Button>
+      </StyledTableControls>
+      <StyledSearch
+        placeholder='Search for an employee...'
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchedEmployee(e.target.value)}
       />
-    </div>
+      <EmployeesList
+        searchedEmployee={searchedEmployee}
+        newEmployeeContent={newEmployeeContent}
+        employeeList={employeeList}
+        setIsDeleteModalOpen={setIsDeleteModalOpen}
+        setIsNewEmployeeModalOpen={setIsNewEmployeeModalOpen}
+        setNewEmployeeContent={setNewEmployeeContent}
+      />
+      <NewEmployeeModal
+        newEmployeeContent={newEmployeeContent}
+        isNewEmployeeModalOpen={isNewEmployeeModalOpen}
+        setIsNewEmployeeModalOpen={setIsNewEmployeeModalOpen}
+        updateEmployee={updateEmployee}
+        addEmployee={addEmployee}
+        setNewEmployeeContent={setNewEmployeeContent}
+      />
+      <DeleteEmployeeModal
+        deletedEmployeeContent={newEmployeeContent}
+        isDeleteModalOpen={isDeleteModalOpen}
+        setIsDeleteModalOpen={setIsDeleteModalOpen}
+        deleteEmployee={deleteEmployee}
+      />
+    </>
   )
 }
 

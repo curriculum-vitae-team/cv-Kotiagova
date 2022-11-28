@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
-import { Container, InnerContainer } from '@/pages/AuthPage/AuthPage.styles'
 import AppInput from '@/components/UI/inputs/AppInput/AppInput'
-import AppButton from '@/components/UI/buttons/AppButton/AppButton'
-import { useLazyQuery, useMutation } from '@apollo/client'
-import { useDispatch } from 'react-redux'
-import { setUser } from '@/store/slices/userSlice'
+import { AuthErrorResponse, auth_errors } from '@/errors/auth_errors'
 import { LOGIN_QUERY } from '@/gql/LOGIN_QUERY'
+import { Container, InnerContainer } from '@/pages/AuthPage/AuthPage.styles'
+import { setUser } from '@/store/slices/userSlice'
+import { useLazyQuery, useMutation } from '@apollo/client'
+import { Button } from 'antd'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { auth_errors, AuthErrorResponse } from '@/errors/auth_errors'
 
 type AuthProps = {
   btnText: string
@@ -128,9 +128,11 @@ const Auth: React.FC<AuthProps> = (props: AuthProps) => {
           <input type='checkbox' name='remember_me' defaultChecked />
           Remember me
         </label>
-        <AppButton type={'link'} text={'Forgot your password?'} />
+        <Button type='link'>Forgot your password?</Button>
       </InnerContainer>
-      <AppButton type={'primary'} text={btnText} onClick={handleClick} />
+      <Button type='primary' onClick={handleClick}>
+        {btnText}
+      </Button>
     </Container>
   )
 }
