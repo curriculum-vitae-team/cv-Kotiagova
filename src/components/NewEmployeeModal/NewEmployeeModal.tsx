@@ -19,8 +19,11 @@ const NewEmployeeModal: React.FC<NewEmployeeModalProps> = ({
   setNewEmployeeContent,
   addEmployee
 }) => {
-  //true if no employee was selected, i.e add button was clicked
-  const wasEmpty = useMemo(() => newEmployeeContent.firstName === '', [isNewEmployeeModalOpen])
+  //true if no employee was selected, i.e. add button was clicked
+  const wasEmpty = useMemo(
+    () => newEmployeeContent.profile.first_name === '',
+    [isNewEmployeeModalOpen]
+  )
 
   const [form] = Form.useForm()
 
@@ -28,6 +31,19 @@ const NewEmployeeModal: React.FC<NewEmployeeModalProps> = ({
     setNewEmployeeContent((prevEmployeeContent) => ({
       ...prevEmployeeContent,
       [field]: e.target.value
+    }))
+  }
+
+  const handleNameChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    field: 'first_name' | 'last_name'
+  ) => {
+    setNewEmployeeContent((prevEmployeeContent) => ({
+      ...prevEmployeeContent,
+      profile: {
+        ...prevEmployeeContent.profile,
+        [field]: e.target.value
+      }
     }))
   }
 
@@ -52,15 +68,15 @@ const NewEmployeeModal: React.FC<NewEmployeeModalProps> = ({
           <Input
             required
             placeholder={'First Name'}
-            value={newEmployeeContent.firstName}
-            onChange={(e) => handleChange(e, 'firstName')}
+            value={newEmployeeContent.profile.first_name}
+            onChange={(e) => handleNameChange(e, 'first_name')}
           />
         </Form.Item>
         <Form.Item>
           <Input
             placeholder={'Last Name'}
-            value={newEmployeeContent.lastName}
-            onChange={(e) => handleChange(e, 'lastName')}
+            value={newEmployeeContent.profile.last_name}
+            onChange={(e) => handleNameChange(e, 'last_name')}
           />
         </Form.Item>
         <Form.Item>
@@ -73,15 +89,15 @@ const NewEmployeeModal: React.FC<NewEmployeeModalProps> = ({
         <Form.Item>
           <Input
             placeholder={'Department'}
-            value={newEmployeeContent.department}
-            onChange={(e) => handleChange(e, 'department')}
+            value={newEmployeeContent.department_name}
+            onChange={(e) => handleChange(e, 'department_name')}
           />
         </Form.Item>
         <Form.Item>
           <Input
             placeholder={'Specialization'}
-            value={newEmployeeContent.specialization}
-            onChange={(e) => handleChange(e, 'specialization')}
+            value={newEmployeeContent.position_name}
+            onChange={(e) => handleChange(e, 'position_name')}
           />
         </Form.Item>
       </Form>

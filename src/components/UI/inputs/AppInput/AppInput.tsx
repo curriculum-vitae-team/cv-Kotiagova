@@ -1,5 +1,5 @@
-import React, { ChangeEventHandler, useEffect, useState } from 'react'
 import { Input } from 'antd'
+import React, { useEffect, useState } from 'react'
 import { Wrapper } from './AppInput.styles'
 
 type InputProps = {

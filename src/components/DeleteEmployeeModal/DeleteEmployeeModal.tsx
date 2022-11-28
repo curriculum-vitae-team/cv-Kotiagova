@@ -17,14 +17,15 @@ const DeleteEmployeeModal: React.FC<DeleteEmployeeModalProps> = ({
 }) => {
   return (
     <Modal
-      title={`Delete ${deletedEmployeeContent.firstName}`}
+      title={`Delete ${deletedEmployeeContent.profile.first_name}`}
       centered
       open={isDeleteModalOpen}
       onOk={() => deleteEmployee()}
       onCancel={() => setIsDeleteModalOpen(false)}
     >
       <p>
-        Do you want to delete {deletedEmployeeContent.firstName} {deletedEmployeeContent.lastName}?
+        Do you want to delete {deletedEmployeeContent.profile.first_name}{' '}
+        {deletedEmployeeContent.profile.last_name}?
       </p>
     </Modal>
   )

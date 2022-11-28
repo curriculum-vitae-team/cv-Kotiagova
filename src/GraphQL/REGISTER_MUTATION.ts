@@ -6,6 +6,7 @@ export const REGISTER_MUTATION = gql`
       user {
         id
         email
+        is_verified
       }
       access_token
     }
