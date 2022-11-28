@@ -1,8 +1,8 @@
 import AppInput from '@/components/UI/inputs/AppInput/AppInput'
 import { AuthErrorResponse, auth_errors } from '@/errors/auth_errors'
-import { LOGIN_QUERY } from '@/gql/LOGIN_QUERY'
+import { LOGIN_QUERY } from '@/GraphQL/LOGIN_QUERY'
 import { Container, InnerContainer } from '@/pages/AuthPage/AuthPage.styles'
-import { setUser } from '@/store/slices/userSlice'
+import { setUser } from '@/state/slices/userSlice'
 import { useLazyQuery, useMutation } from '@apollo/client'
 import { Button } from 'antd'
 import React, { useState } from 'react'
@@ -43,17 +43,21 @@ const Auth: React.FC<AuthProps> = (props: AuthProps) => {
         setUser({
           email: response.data.login.user.email,
           id: response.data.login.user.id,
-          access_token: response.data.login.access_token
+          access_token: response.data.login.access_token,
+          is_verified: response.data.login.user.is_verified
         })
       )
+      localStorage.setItem('token', response.data.login.access_token)
     } else {
       dispatch(
         setUser({
           email: response.data.signup.user.email,
           id: response.data.signup.user.id,
-          access_token: response.data.signup.access_token
+          access_token: response.data.signup.access_token,
+          is_verified: response.data.signup.user.is_verified
         })
       )
+      localStorage.setItem('token', response.data.signup.access_token)
     }
     navigate('/employees')
   }
