@@ -1,5 +1,5 @@
-import React from 'react'
 import { DatePicker } from 'antd'
+import React from 'react'
 import { Wrapper } from './DateInput.styles'
 
 type InputProps = {

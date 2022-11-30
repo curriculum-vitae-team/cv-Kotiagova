@@ -1,6 +1,6 @@
-import React from 'react'
 import { DeleteOutlined } from '@ant-design/icons'
 import { Collapse } from 'antd'
+import React from 'react'
 
 const { Panel } = Collapse
 

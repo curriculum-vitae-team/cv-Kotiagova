@@ -1,5 +1,5 @@
-import React, { ChangeEventHandler } from 'react'
 import { Input } from 'antd'
+import React, { ChangeEventHandler } from 'react'
 import { Wrapper } from '../AppInput/AppInput.styles'
 const { TextArea } = Input
 
