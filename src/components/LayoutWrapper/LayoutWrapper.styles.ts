@@ -1,4 +1,4 @@
-import { Breadcrumb, BreadcrumbProps, Layout, LayoutProps } from 'antd'
+import { Breadcrumb, BreadcrumbProps, Layout, LayoutProps, Typography, TypographyProps } from 'antd'
 import styled from 'styled-components'
 
 export const StyledLayout: React.FC<LayoutProps> = styled(Layout)`
@@ -10,16 +10,17 @@ export const StyledHeader: React.FC<LayoutProps> = styled(Layout.Header)`
   align-items: center;
   gap: 10px;
   height: 6vh;
-
-  .anticon {
-    color: white;
-  }
+  color: white;
 
   h1 {
     margin-right: auto;
     margin-bottom: 0;
     color: white;
   }
+`
+
+export const StyledEmail = styled<TypographyProps>(Typography)`
+  color: white;
 `
 
 export const StyledMainLayout: React.FC<LayoutProps> = styled(Layout)`

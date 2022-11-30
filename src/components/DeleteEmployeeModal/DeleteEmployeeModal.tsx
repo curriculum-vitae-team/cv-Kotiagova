@@ -1,26 +1,25 @@
 import { Modal } from 'antd'
 import React from 'react'
-import { Employee } from '../EmployeesList/EmployeesList'
 
 type DeleteEmployeeModalProps = {
   deletedEmployeeContent: Employee
   isDeleteModalOpen: boolean
   setIsDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>
-  deleteEmployee: () => void
+  handleDeleteEmployee: () => void
 }
 
 const DeleteEmployeeModal: React.FC<DeleteEmployeeModalProps> = ({
   deletedEmployeeContent,
   isDeleteModalOpen,
   setIsDeleteModalOpen,
-  deleteEmployee
+  handleDeleteEmployee
 }) => {
   return (
     <Modal
       title={`Delete ${deletedEmployeeContent.profile.first_name}`}
       centered
       open={isDeleteModalOpen}
-      onOk={() => deleteEmployee()}
+      onOk={() => handleDeleteEmployee()}
       onCancel={() => setIsDeleteModalOpen(false)}
     >
       <p>

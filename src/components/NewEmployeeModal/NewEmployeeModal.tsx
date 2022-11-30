@@ -1,104 +1,81 @@
-import { Form, Input, Modal } from 'antd'
-import React, { useMemo } from 'react'
-import { Employee } from '../EmployeesList/EmployeesList'
+import { Button, Form, Input, Modal, Select } from 'antd'
+import React, { useEffect, useState } from 'react'
 
 type NewEmployeeModalProps = {
-  newEmployeeContent: Employee
   isNewEmployeeModalOpen: boolean
   setIsNewEmployeeModalOpen: React.Dispatch<React.SetStateAction<boolean>>
-  setNewEmployeeContent: React.Dispatch<React.SetStateAction<Employee>>
-  updateEmployee: () => void
-  addEmployee: () => void
+  addEmployee: (values: Employee) => void
 }
 
 const NewEmployeeModal: React.FC<NewEmployeeModalProps> = ({
-  newEmployeeContent,
   isNewEmployeeModalOpen,
   setIsNewEmployeeModalOpen,
-  updateEmployee,
-  setNewEmployeeContent,
   addEmployee
 }) => {
-  //true if no employee was selected, i.e. add button was clicked
-  const wasEmpty = useMemo(
-    () => newEmployeeContent.profile.first_name === '',
-    [isNewEmployeeModalOpen]
-  )
-
+  const [role, setRole] = useState('employee')
   const [form] = Form.useForm()
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, field: keyof Employee) => {
-    setNewEmployeeContent((prevEmployeeContent) => ({
-      ...prevEmployeeContent,
-      [field]: e.target.value
-    }))
-  }
-
-  const handleNameChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    field: 'first_name' | 'last_name'
-  ) => {
-    setNewEmployeeContent((prevEmployeeContent) => ({
-      ...prevEmployeeContent,
-      profile: {
-        ...prevEmployeeContent.profile,
-        [field]: e.target.value
-      }
-    }))
-  }
-
-  const handleSubmit = () => {
-    if (wasEmpty) {
-      addEmployee()
-    } else {
-      updateEmployee()
+  useEffect(() => {
+    return () => {
+      form.resetFields()
     }
+  })
+
+  const handleSubmit = (values: Employee) => {
+    addEmployee({ ...values, role: role })
   }
+
+  const selectOptions = [
+    {
+      value: 'employee',
+      label: 'employee'
+    },
+    {
+      value: 'admin',
+      label: 'admin'
+    }
+  ]
 
   return (
     <Modal
       title='Input Employee Info'
       centered
       open={isNewEmployeeModalOpen}
-      onOk={handleSubmit}
+      footer={null}
       onCancel={() => setIsNewEmployeeModalOpen(false)}
     >
-      <Form form={form}>
-        <Form.Item>
-          <Input
-            required
-            placeholder={'First Name'}
-            value={newEmployeeContent.profile.first_name}
-            onChange={(e) => handleNameChange(e, 'first_name')}
-          />
+      <Form
+        form={form}
+        onFinish={handleSubmit}
+        initialValues={{
+          role: role
+        }}
+      >
+        <Form.Item name='first_name'>
+          <Input placeholder={'First Name'} />
+        </Form.Item>
+        <Form.Item name='last_name'>
+          <Input placeholder={'Last Name'} />
+        </Form.Item>
+        <Form.Item name='email'>
+          <Input required placeholder={'Email'} type='email' />
+        </Form.Item>
+        <Form.Item name='password'>
+          <Input.Password required type='password' placeholder={'Password'} />
+        </Form.Item>
+        <Form.Item name='department_name'>
+          <Input placeholder={'Department'} />
+        </Form.Item>
+        <Form.Item name='position_name'>
+          <Input placeholder={'Specialization'} />
+        </Form.Item>
+        <Form.Item name='role' required>
+          <Select options={selectOptions} onChange={setRole} placeholder={'Role'} />
         </Form.Item>
         <Form.Item>
-          <Input
-            placeholder={'Last Name'}
-            value={newEmployeeContent.profile.last_name}
-            onChange={(e) => handleNameChange(e, 'last_name')}
-          />
-        </Form.Item>
-        <Form.Item>
-          <Input
-            placeholder={'Email'}
-            value={newEmployeeContent.email}
-            onChange={(e) => handleChange(e, 'email')}
-          />
-        </Form.Item>
-        <Form.Item>
-          <Input
-            placeholder={'Department'}
-            value={newEmployeeContent.department_name}
-            onChange={(e) => handleChange(e, 'department_name')}
-          />
-        </Form.Item>
-        <Form.Item>
-          <Input
-            placeholder={'Specialization'}
-            value={newEmployeeContent.position_name}
-            onChange={(e) => handleChange(e, 'position_name')}
-          />
+          <Button block type='primary' htmlType='submit'>
+            Submit
+          </Button>
         </Form.Item>
       </Form>
     </Modal>

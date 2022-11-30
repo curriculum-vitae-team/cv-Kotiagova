@@ -1,6 +1,12 @@
 import App from '@/app/App'
-import { store } from '@/state'
-import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client'
+import { store } from '@/state/store'
+import {
+  ApolloClient,
+  ApolloProvider,
+  createHttpLink,
+  DefaultOptions,
+  InMemoryCache
+} from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import 'antd/dist/antd.css'
 import React from 'react'
@@ -13,20 +19,31 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
-  const token = localStorage.getItem('token')
-
+  const { access_token } = JSON.parse(localStorage.getItem('user') ?? '{}')
   // return the headers to the context so httpLink can read them
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : ''
+      authorization: access_token ? `Bearer ${access_token}` : ''
     }
   }
 })
 
+const defaultOptions: DefaultOptions = {
+  watchQuery: {
+    fetchPolicy: 'no-cache',
+    errorPolicy: 'ignore'
+  },
+  query: {
+    fetchPolicy: 'no-cache',
+    errorPolicy: 'all'
+  }
+}
+
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
+  defaultOptions: defaultOptions
 })
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)

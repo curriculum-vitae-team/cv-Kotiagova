@@ -1,97 +1,152 @@
 import DeleteEmployeeModal from '@/components/DeleteEmployeeModal/DeleteEmployeeModal'
-import EmployeesList, { Employee } from '@/components/EmployeesList/EmployeesList'
+import EmployeesList from '@/components/EmployeesList/EmployeesList'
 import NewEmployeeModal from '@/components/NewEmployeeModal/NewEmployeeModal'
+import UpdateEmployeeModal from '@/components/UpdateEmployeeModal/UpdateEmployeeModal'
+import { useDeleteEmployee } from '@/GraphQL/hooks/deleteEmployee'
+import { useAddEmployee } from '@/GraphQL/hooks/useAddEmployee'
+import { useEmployees } from '@/GraphQL/hooks/useEmployees'
+import { useUpdateEmployee } from '@/GraphQL/hooks/useUpdateEmployee'
+import { useAppSelector } from '@/state'
 import { Button, Typography } from 'antd'
-import { nanoid } from 'nanoid'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyledSearch, StyledTableControls } from './EmployeesPage.styles'
-import { mockEmployeeList } from './mocks/employeeList'
+import { initialEmployee } from './InitialEmployee'
 
 const { Title } = Typography
 
 const EmployeesPage = () => {
-  const emptyEmployee: Employee = {
-    key: nanoid(),
-    firstName: '',
-    lastName: '',
-    email: '',
-    department: '',
-    specialization: ''
-  }
+  const user = useAppSelector((state) => state.user)
 
   const [searchedEmployee, setSearchedEmployee] = useState('')
   const [isNewEmployeeModalOpen, setIsNewEmployeeModalOpen] = useState(false)
+  const [isUpdateEmployeeModalOpen, setIsUpdateEmployeeModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-  const [employeeList, setEmployeeList] = useState<Employee[]>(mockEmployeeList)
-  const [newEmployeeContent, setNewEmployeeContent] = useState<Employee>(emptyEmployee)
+  const [isFetching, setIsFetching] = useState(true)
+  const [employeeList, setEmployeeList] = useState<Employee[]>([])
+  const [employeeToUpdate, setEmployeeToUpdate] = useState<Employee>(initialEmployee)
+
+  const employees = useEmployees()
+  const addEmployee = useAddEmployee()
+  const updateEmployee = useUpdateEmployee()
+  const deleteEmployee = useDeleteEmployee()
+
+  const fetchEmployees = () => {
+    setIsFetching(true)
+    employees()
+      .then((res) => {
+        setEmployeeList(res.data.users)
+        setIsFetching(false)
+      })
+      .catch((err) => console.error(err))
+  }
+
+  useEffect(() => {
+    fetchEmployees()
+  }, [])
 
   const handleAddEmployeeButtonClick = () => {
     setIsNewEmployeeModalOpen(true)
-    setNewEmployeeContent(emptyEmployee)
   }
 
-  const addEmployee = () => {
+  const handleAddEmployee = (values) => {
+    addEmployee({
+      variables: {
+        user: {
+          auth: {
+            email: values.email,
+            password: values.password
+          },
+          profile: {
+            first_name: values.first_name ?? '',
+            last_name: values.last_name ?? '',
+            skills: [],
+            languages: []
+          },
+          cvsIds: [],
+          role: values.role ?? 'employee',
+          departmentId: '1',
+          positionId: '1'
+        }
+      }
+    })
+      .then(() => {
+        fetchEmployees()
+      })
+      .catch(console.error)
     setIsNewEmployeeModalOpen(false)
-    setEmployeeList((prevEmployeeList) => prevEmployeeList.concat(newEmployeeContent))
   }
 
-  const deleteEmployee = () => {
+  const handleDeleteEmployee = () => {
+    deleteEmployee({
+      variables: { id: employeeToUpdate.id }
+    })
+      .then(() => {
+        fetchEmployees()
+      })
+      .catch(console.error)
     setIsDeleteModalOpen(false)
-    setEmployeeList((prevEmployeeList) => {
-      return prevEmployeeList.filter((employee) => {
-        if (employee.key !== newEmployeeContent.key) {
-          return employee
-        }
-      })
-    })
   }
 
-  const updateEmployee = () => {
-    setIsNewEmployeeModalOpen(false)
-    setEmployeeList((prevEmployeeList) => {
-      return prevEmployeeList.map((employee) => {
-        if (employee.key !== newEmployeeContent.key) {
-          return employee
-        }
-        return newEmployeeContent
-      })
+  const handleUpdateEmployee = (values) => {
+    updateEmployee({
+      variables: {
+        id: employeeToUpdate.id,
+        user: values
+      }
     })
+      .then(() => {
+        fetchEmployees()
+      })
+      .catch(console.error)
+    setIsUpdateEmployeeModalOpen(false)
   }
 
   return (
     <>
       <StyledTableControls>
         <Title level={3}>Employee list</Title>
-        <Button type='primary' onClick={handleAddEmployeeButtonClick}>
-          Add employee
-        </Button>
+        {user.is_verified && (
+          <Button type='primary' onClick={handleAddEmployeeButtonClick}>
+            Add employee
+          </Button>
+        )}
       </StyledTableControls>
       <StyledSearch
         placeholder='Search for an employee...'
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchedEmployee(e.target.value)}
       />
       <EmployeesList
-        searchedEmployee={searchedEmployee}
-        newEmployeeContent={newEmployeeContent}
+        isAdmin={user.is_verified}
+        isFetching={isFetching}
         employeeList={employeeList}
+        searchedEmployee={searchedEmployee}
+        chosenEmployee={employeeToUpdate}
         setIsDeleteModalOpen={setIsDeleteModalOpen}
-        setIsNewEmployeeModalOpen={setIsNewEmployeeModalOpen}
-        setNewEmployeeContent={setNewEmployeeContent}
+        setChosenEmployee={setEmployeeToUpdate}
+        setIsUpdateEmployeeModalOpen={setIsUpdateEmployeeModalOpen}
       />
-      <NewEmployeeModal
-        newEmployeeContent={newEmployeeContent}
-        isNewEmployeeModalOpen={isNewEmployeeModalOpen}
-        setIsNewEmployeeModalOpen={setIsNewEmployeeModalOpen}
-        updateEmployee={updateEmployee}
-        addEmployee={addEmployee}
-        setNewEmployeeContent={setNewEmployeeContent}
-      />
-      <DeleteEmployeeModal
-        deletedEmployeeContent={newEmployeeContent}
-        isDeleteModalOpen={isDeleteModalOpen}
-        setIsDeleteModalOpen={setIsDeleteModalOpen}
-        deleteEmployee={deleteEmployee}
-      />
+      {user.is_verified && (
+        <>
+          <NewEmployeeModal
+            addEmployee={handleAddEmployee}
+            isNewEmployeeModalOpen={isNewEmployeeModalOpen}
+            setIsNewEmployeeModalOpen={setIsNewEmployeeModalOpen}
+          />
+          <DeleteEmployeeModal
+            handleDeleteEmployee={handleDeleteEmployee}
+            isDeleteModalOpen={isDeleteModalOpen}
+            deletedEmployeeContent={employeeToUpdate}
+            setIsDeleteModalOpen={setIsDeleteModalOpen}
+          />
+          <UpdateEmployeeModal
+            handleUpdateEmployee={handleUpdateEmployee}
+            employeeToUpdate={employeeToUpdate}
+            setEmployeeToUpdate={setEmployeeToUpdate}
+            setIsUpdateEmployeeModalOpen={setIsUpdateEmployeeModalOpen}
+            isUpdateEmployeeModalOpen={isUpdateEmployeeModalOpen}
+          />
+        </>
+      )}
     </>
   )
 }

@@ -6,42 +6,15 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { ExpandedRow, UpdateButton } from './EmployeesList.style'
 import { useColumns } from './hooks/useColumns'
 
-export type Employee = {
-  department_name: string
-  position_name: string
-  id: string
-  created_at: string
-  email: string
-  is_verified: boolean
-  profile: {
-    id: number
-    first_name: string
-    last_name: string
-  }
-  skills: [
-    {
-      skill_name: string
-      mastery: string
-    }
-  ]
-  languages: [
-    {
-      language_name: string
-      proficiency: string
-    }
-  ]
-  role: string
-}
-
 type EmployeesListProps = {
   isAdmin: boolean
   isFetching: boolean
   searchedEmployee: string
   employeeList: Employee[]
-  newEmployeeContent: Employee
+  chosenEmployee: Employee
   setIsDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>
-  setNewEmployeeContent: React.Dispatch<React.SetStateAction<Employee>>
-  setIsNewEmployeeModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+  setChosenEmployee: React.Dispatch<React.SetStateAction<Employee>>
+  setIsUpdateEmployeeModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const EmployeesList: React.FC<EmployeesListProps> = ({
@@ -50,8 +23,8 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
   employeeList,
   searchedEmployee,
   setIsDeleteModalOpen,
-  setNewEmployeeContent,
-  setIsNewEmployeeModalOpen
+  setChosenEmployee,
+  setIsUpdateEmployeeModalOpen
 }) => {
   const columns: ColumnsType<Employee> = useColumns(searchedEmployee)
   const navigate = useNavigate()
@@ -61,18 +34,18 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
 
   const handleDeleteButtonClick = (record: Employee) => {
     setIsDeleteModalOpen(true)
-    setNewEmployeeContent(record)
+    setChosenEmployee(record)
     setExpandedRowKeys([])
   }
 
   const handleUpdateButtonClick = (record: Employee) => {
-    setIsNewEmployeeModalOpen(true)
-    setNewEmployeeContent(record)
+    setIsUpdateEmployeeModalOpen(true)
+    setChosenEmployee(record)
     setExpandedRowKeys([])
   }
 
   const handleExpand = (expanded: boolean, record: Employee) => {
-    setNewEmployeeContent(record)
+    setChosenEmployee(record)
     setExpandedRowKeys((prevRowKeys) => {
       if (prevRowKeys[0] === record.id) {
         return []

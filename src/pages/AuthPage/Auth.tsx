@@ -2,12 +2,13 @@ import AppInput from '@/components/UI/inputs/AppInput/AppInput'
 import { AuthErrorResponse, auth_errors } from '@/errors/auth_errors'
 import { LOGIN_QUERY } from '@/GraphQL/LOGIN_QUERY'
 import { Container, InnerContainer } from '@/pages/AuthPage/AuthPage.styles'
-import { setUser } from '@/state/slices/userSlice'
+import { actionCreators } from '@/state'
 import { useLazyQuery, useMutation } from '@apollo/client'
 import { Button } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { bindActionCreators } from 'redux'
 
 type AuthProps = {
   btnText: string
@@ -22,6 +23,8 @@ const Auth: React.FC<AuthProps> = (props: AuthProps) => {
   const [passwordError, setPasswordError] = useState('')
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
+  const { setUser } = bindActionCreators(actionCreators, dispatch)
 
   let executeQuery
   if (authQuery === LOGIN_QUERY) {
@@ -39,25 +42,23 @@ const Auth: React.FC<AuthProps> = (props: AuthProps) => {
 
   function handleGoodResponse(response: any) {
     if (authQuery === LOGIN_QUERY) {
-      dispatch(
-        setUser({
-          email: response.data.login.user.email,
-          id: response.data.login.user.id,
-          access_token: response.data.login.access_token,
-          is_verified: response.data.login.user.is_verified
-        })
-      )
-      localStorage.setItem('token', response.data.login.access_token)
+      setUser({
+        email: response.data.login.user.email,
+        id: response.data.login.user.id,
+        access_token: response.data.login.access_token,
+        is_verified: response.data.login.user.is_verified
+      })
+
+      localStorage.setItem('user', JSON.stringify(response.data.login))
     } else {
-      dispatch(
-        setUser({
-          email: response.data.signup.user.email,
-          id: response.data.signup.user.id,
-          access_token: response.data.signup.access_token,
-          is_verified: response.data.signup.user.is_verified
-        })
-      )
-      localStorage.setItem('token', response.data.signup.access_token)
+      setUser({
+        email: response.data.signup.user.email,
+        id: response.data.signup.user.id,
+        access_token: response.data.signup.access_token,
+        is_verified: response.data.signup.user.is_verified
+      })
+
+      localStorage.setItem('user', JSON.stringify(response.data.signup))
     }
     navigate('/employees')
   }
@@ -110,6 +111,10 @@ const Auth: React.FC<AuthProps> = (props: AuthProps) => {
         handleBadResponse(responseError)
       })
   }
+
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem('user')) !== null) navigate('/employees')
+  }, [])
 
   return (
     <Container>

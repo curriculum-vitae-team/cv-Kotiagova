@@ -1,5 +1,3 @@
-import { Employee } from '../EmployeesList'
-
 export const useColumns = (searchedEmployee: string) => {
   return [
     {
@@ -34,14 +32,14 @@ export const useColumns = (searchedEmployee: string) => {
       dataIndex: 'department',
       key: 'department',
       width: '20%',
-      render: (item) => (!item ? 'Unknown' : item)
+      render: (department) => (!department ? 'Unknown' : department.name)
     },
     {
-      title: 'Specialization',
-      dataIndex: 'specialization',
-      key: 'specialization',
+      title: 'Position',
+      dataIndex: 'position',
+      key: 'position',
       width: '20%',
-      render: (item) => (!item ? 'Unknown' : item)
+      render: (position) => (!position ? 'Unknown' : position.name)
     }
   ]
 }
