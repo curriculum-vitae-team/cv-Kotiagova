@@ -1,3 +1,6 @@
+type Profile = Employee['profile']
+type Department = Employee['department']
+
 export const useColumns = (searchedEmployee: string) => {
   return [
     {
@@ -6,7 +9,7 @@ export const useColumns = (searchedEmployee: string) => {
       filteredValue: [searchedEmployee],
       key: 'firstName',
       width: '15%',
-      render: (item) => item.first_name || 'Unknown',
+      render: (profile: Profile) => profile.first_name || 'Unknown',
       onFilter: (value: string, record: Employee) =>
         (record.profile.first_name ?? 'Unknown')?.toLowerCase().includes(value.toLowerCase()) ??
         (record.profile.last_name ?? 'Unknown')?.toLowerCase().includes(value.toLowerCase()),
@@ -18,7 +21,7 @@ export const useColumns = (searchedEmployee: string) => {
       dataIndex: 'profile',
       key: 'lastName',
       width: '15%',
-      render: (item) => item.last_name || 'Unknown',
+      render: (profile: Profile) => profile.last_name || 'Unknown',
       sorter: (a: Employee, b: Employee) => a.profile.last_name?.localeCompare(b.profile.last_name)
     },
     {
@@ -32,14 +35,14 @@ export const useColumns = (searchedEmployee: string) => {
       dataIndex: 'department',
       key: 'department',
       width: '20%',
-      render: (department) => (!department ? 'Unknown' : department.name)
+      render: (department: Department) => (!department ? 'Unknown' : department.name)
     },
     {
       title: 'Position',
       dataIndex: 'position',
       key: 'position',
       width: '20%',
-      render: (position) => (!position ? 'Unknown' : position.name)
+      render: (position: Department) => (!position ? 'Unknown' : position.name)
     }
   ]
 }

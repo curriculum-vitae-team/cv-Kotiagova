@@ -1,6 +1,6 @@
 import AppInput from '@/components/UI/inputs/AppInput/AppInput'
 import { AuthErrorResponse, auth_errors } from '@/errors/auth_errors'
-import { LOGIN_QUERY } from '@/GraphQL/LOGIN_QUERY'
+import { LOGIN_QUERY } from '@/GraphQL/queries'
 import { Container, InnerContainer } from '@/pages/AuthPage/AuthPage.styles'
 import { actionCreators } from '@/state'
 import { useLazyQuery, useMutation } from '@apollo/client'
@@ -33,14 +33,15 @@ const Auth: React.FC<AuthProps> = (props: AuthProps) => {
     ;[executeQuery, {}] = useMutation(authQuery)
   }
 
-  function handleEmailInput(value: string) {
+  const handleEmailInput = (value: string) => {
     setEmail(value)
   }
-  function handlePasswordInput(value: string) {
+
+  const handlePasswordInput = (value: string) => {
     setPassword(value)
   }
 
-  function handleGoodResponse(response: any) {
+  const handleGoodResponse = (response) => {
     if (authQuery === LOGIN_QUERY) {
       setUser({
         email: response.data.login.user.email,
@@ -63,7 +64,7 @@ const Auth: React.FC<AuthProps> = (props: AuthProps) => {
     navigate('/employees')
   }
 
-  function handleBadResponse(responseError: any) {
+  const handleBadResponse = (responseError: any) => {
     const possibleErrors = []
     for (const e of auth_errors.keys()) {
       possibleErrors.push(e)
@@ -121,13 +122,13 @@ const Auth: React.FC<AuthProps> = (props: AuthProps) => {
       <h1>CV-generator</h1>
       <AppInput
         label={'Username'}
-        onChange={handleEmailInput}
+        handleChange={handleEmailInput}
         errorText={emailError}
         status={emailError ? 'error' : ''}
       />
       <AppInput
         label={'Password'}
-        onChange={handlePasswordInput}
+        handleChange={handlePasswordInput}
         type={'password'}
         errorText={passwordError}
         status={passwordError ? 'error' : ''}

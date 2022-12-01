@@ -1,3 +1,4 @@
+import { useAppSelector } from '@/state'
 import { Button, Table } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import { ExpandableConfig } from 'antd/lib/table/interface'
@@ -7,7 +8,6 @@ import { ExpandedRow, UpdateButton } from './EmployeesList.style'
 import { useColumns } from './hooks/useColumns'
 
 type EmployeesListProps = {
-  isAdmin: boolean
   isFetching: boolean
   searchedEmployee: string
   employeeList: Employee[]
@@ -18,7 +18,6 @@ type EmployeesListProps = {
 }
 
 const EmployeesList: React.FC<EmployeesListProps> = ({
-  isAdmin,
   isFetching,
   employeeList,
   searchedEmployee,
@@ -29,6 +28,7 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
   const columns: ColumnsType<Employee> = useColumns(searchedEmployee)
   const navigate = useNavigate()
   const location = useLocation()
+  const { is_verified } = useAppSelector((state) => state.user)
 
   const [expandedRowKeys, setExpandedRowKeys] = useState<string[]>([])
 
@@ -62,7 +62,7 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
           <Button type='link' onClick={() => navigate(`${location.pathname}/${record.id}`)}>
             View Profile
           </Button>
-          {isAdmin && (
+          {is_verified && (
             <>
               <UpdateButton type='default' onClick={() => handleUpdateButtonClick(record)}>
                 Update
@@ -89,9 +89,7 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
       bordered
       loading={isFetching}
       rowKey='id'
-      scroll={{
-        y: 400
-      }}
+      scroll={{ y: 400 }}
     />
   )
 }

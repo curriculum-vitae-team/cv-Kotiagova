@@ -1,6 +1,19 @@
-import { gql, useLazyQuery } from '@apollo/client'
+import { gql } from '@apollo/client'
 
-const EMPLOYEES_QUERY = gql`
+export const LOGIN_QUERY = gql`
+  query LOGIN($auth: AuthInput!) {
+    login(auth: $auth) {
+      user {
+        id
+        email
+        is_verified
+      }
+      access_token
+    }
+  }
+`
+
+export const EMPLOYEES_QUERY = gql`
   query GET_EMPLOYEES {
     users {
       id
@@ -22,7 +35,3 @@ const EMPLOYEES_QUERY = gql`
     }
   }
 `
-
-export const useEmployees = () => {
-  return useLazyQuery(EMPLOYEES_QUERY)[0]
-}

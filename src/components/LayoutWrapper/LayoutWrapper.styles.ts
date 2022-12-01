@@ -1,4 +1,12 @@
-import { Breadcrumb, BreadcrumbProps, Layout, LayoutProps, Typography, TypographyProps } from 'antd'
+import {
+  Breadcrumb,
+  BreadcrumbProps,
+  Layout,
+  LayoutProps,
+  SiderProps,
+  Typography,
+  TypographyProps
+} from 'antd'
 import styled from 'styled-components'
 
 export const StyledLayout: React.FC<LayoutProps> = styled(Layout)`
@@ -30,6 +38,10 @@ export const StyledMainLayout: React.FC<LayoutProps> = styled(Layout)`
 export const StyledMainLayoutContent: React.FC<LayoutProps> = styled(Layout.Content)`
   padding: 24px;
   margin: 0;
+`
+
+export const StyledSidebar: React.FC<SiderProps> = styled(Layout.Sider)`
+  background-color: white;
 `
 
 export const StyledBreadCrumb: React.FC<BreadcrumbProps> = styled(Breadcrumb)`

@@ -4,7 +4,6 @@ import EmployeePage from '@/pages/EmployeePage/EmployeePage'
 import EmployeesPage from '@/pages/EmployeesPage/EmployeesPage'
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import Logout from './Logout'
 
 const AppRouter = () => {
   return (
@@ -28,7 +27,6 @@ const AppRouter = () => {
       />
       <Route path='dashboard' element={<LayoutWrapper>{'dashboard'}</LayoutWrapper>} />
       <Route path='projects' element={<LayoutWrapper>{'projects'}</LayoutWrapper>} />
-      <Route path='logout' element={<Logout />} />
     </Routes>
   )
 }

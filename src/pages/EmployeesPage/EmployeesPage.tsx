@@ -2,11 +2,10 @@ import DeleteEmployeeModal from '@/components/DeleteEmployeeModal/DeleteEmployee
 import EmployeesList from '@/components/EmployeesList/EmployeesList'
 import NewEmployeeModal from '@/components/NewEmployeeModal/NewEmployeeModal'
 import UpdateEmployeeModal from '@/components/UpdateEmployeeModal/UpdateEmployeeModal'
-import { useDeleteEmployee } from '@/GraphQL/hooks/deleteEmployee'
-import { useAddEmployee } from '@/GraphQL/hooks/useAddEmployee'
-import { useEmployees } from '@/GraphQL/hooks/useEmployees'
-import { useUpdateEmployee } from '@/GraphQL/hooks/useUpdateEmployee'
+import { ADD_EMPLOYEE, DELETE_EMPLOYEE, UPDATE_EMPLOYEE } from '@/GraphQL/mutations'
+import { EMPLOYEES_QUERY } from '@/GraphQL/queries'
 import { useAppSelector } from '@/state'
+import { useLazyQuery, useMutation } from '@apollo/client'
 import { Button, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { StyledSearch, StyledTableControls } from './EmployeesPage.styles'
@@ -25,10 +24,10 @@ const EmployeesPage = () => {
   const [employeeList, setEmployeeList] = useState<Employee[]>([])
   const [employeeToUpdate, setEmployeeToUpdate] = useState<Employee>(initialEmployee)
 
-  const employees = useEmployees()
-  const addEmployee = useAddEmployee()
-  const updateEmployee = useUpdateEmployee()
-  const deleteEmployee = useDeleteEmployee()
+  const [employees] = useLazyQuery(EMPLOYEES_QUERY)
+  const [addEmployee] = useMutation(ADD_EMPLOYEE)
+  const [updateEmployee] = useMutation(UPDATE_EMPLOYEE)
+  const [deleteEmployee] = useMutation(DELETE_EMPLOYEE)
 
   const fetchEmployees = () => {
     setIsFetching(true)
@@ -116,7 +115,6 @@ const EmployeesPage = () => {
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchedEmployee(e.target.value)}
       />
       <EmployeesList
-        isAdmin={user.is_verified}
         isFetching={isFetching}
         employeeList={employeeList}
         searchedEmployee={searchedEmployee}

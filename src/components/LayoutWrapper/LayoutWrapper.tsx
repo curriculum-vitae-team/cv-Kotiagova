@@ -1,12 +1,13 @@
-import { actionCreators, useAppSelector } from '@/state'
-import { MenuOutlined } from '@ant-design/icons'
-import { Breadcrumb, Button, Layout } from 'antd'
+import { Breadcrumb, Button, Layout, Menu } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 
-import { StyledSidebar } from './components/Sidebar/Sidebar.styles'
+import { actionCreators, useAppSelector } from '@/state'
+import { MenuOutlined } from '@ant-design/icons'
+import { useApolloClient } from '@apollo/client'
+
 import {
   StyledBreadCrumb,
   StyledEmail,
@@ -14,25 +15,20 @@ import {
   StyledHeader,
   StyledLayout,
   StyledMainLayout,
-  StyledMainLayoutContent
+  StyledMainLayoutContent,
+  StyledSidebar
 } from './LayoutWrapper.styles'
 
 const LayoutWrapper = ({ children }) => {
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useDispatch()
+  const client = useApolloClient()
+  const [collapsed, setCollapsed] = useState(false)
   const user = useAppSelector((state) => state.user)
   const localStorageUser = JSON.parse(localStorage.getItem('user'))
 
   const { setUser } = bindActionCreators(actionCreators, dispatch)
-
-  useEffect(() => {
-    if (localStorageUser === null) {
-      navigate('/auth')
-    } else {
-      setUser(localStorageUser.user)
-    }
-  }, [])
 
   const pathSnippets = location.pathname.split('/').filter((i) => i)
 
@@ -45,15 +41,29 @@ const LayoutWrapper = ({ children }) => {
     )
   })
 
-  const [collapsed, setCollapsed] = useState(false)
+  const menuItems = ['dashboard', 'employees', 'projects'].map((menuItem: string) => (
+    <Menu.Item onClick={() => navigate(`/${menuItem}`)} key={`${menuItem}`}>
+      {menuItem}
+    </Menu.Item>
+  ))
 
   const collapseMenu = () => {
     setCollapsed((prevCollapsed) => !prevCollapsed)
   }
 
   const logOut = () => {
-    navigate('/logout')
+    client.clearStore()
+    localStorage.removeItem('user')
+    navigate('/auth')
   }
+
+  useEffect(() => {
+    if (localStorageUser === null) {
+      logOut()
+    } else {
+      setUser(localStorageUser.user)
+    }
+  }, [])
 
   return (
     <StyledLayout>
@@ -66,7 +76,9 @@ const LayoutWrapper = ({ children }) => {
         </Button>
       </StyledHeader>
       <Layout>
-        <StyledSidebar collapsed={collapsed} width={200} collapsedWidth={0} />
+        <StyledSidebar collapsed={collapsed} width={200} collapsedWidth={0}>
+          <Menu>{menuItems}</Menu>
+        </StyledSidebar>
         <StyledMainLayout>
           <StyledBreadCrumb>{breadcrumbItems}</StyledBreadCrumb>
           <StyledMainLayoutContent>{children}</StyledMainLayoutContent>

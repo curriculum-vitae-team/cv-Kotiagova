@@ -1,24 +1,24 @@
-import { Input } from 'antd'
-import React, { useEffect, useState } from 'react'
+import { Input, InputProps } from 'antd'
+import React, { useState } from 'react'
 import { Wrapper } from './AppInput.styles'
 
-type InputProps = {
+interface AppInputProps extends InputProps {
+  errorText: string
   label: string
-  type?: 'password' | ''
-  placeholder?: string
-  value?: string
-  status?: '' | 'error'
-  onChange?: any
-  errorText?: string
+  handleChange: (value: string) => void
 }
 
-const AppInput: React.FC<InputProps> = (props: InputProps) => {
-  const { label, type, placeholder, value, status, onChange, errorText } = { ...props }
+const AppInput: React.FC<AppInputProps> = ({
+  label,
+  type,
+  placeholder,
+  value,
+  status,
+  handleChange,
+  errorText
+}) => {
   const [stateValue, setStateValue] = useState(value ? value : '')
 
-  useEffect(() => {
-    onChange(stateValue)
-  }, [stateValue])
   return (
     <Wrapper>
       <label>
@@ -30,6 +30,7 @@ const AppInput: React.FC<InputProps> = (props: InputProps) => {
           value={stateValue}
           status={status}
           onChange={(event) => {
+            handleChange(event.target.value)
             setStateValue(event.target.value)
           }}
         />
