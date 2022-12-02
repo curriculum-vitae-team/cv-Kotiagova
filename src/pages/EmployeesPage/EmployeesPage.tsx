@@ -112,7 +112,7 @@ const EmployeesPage = () => {
       </StyledTableControls>
       <StyledSearch
         placeholder='Search for an employee...'
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchedEmployee(e.target.value)}
+        onChange={(e) => setSearchedEmployee(e.target.value)}
       />
       <EmployeesList
         isFetching={isFetching}

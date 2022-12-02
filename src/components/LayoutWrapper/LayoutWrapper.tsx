@@ -16,6 +16,7 @@ import {
   StyledLayout,
   StyledMainLayout,
   StyledMainLayoutContent,
+  StyledMenuItem,
   StyledSidebar
 } from './LayoutWrapper.styles'
 
@@ -42,9 +43,9 @@ const LayoutWrapper = ({ children }) => {
   })
 
   const menuItems = ['dashboard', 'employees', 'projects'].map((menuItem: string) => (
-    <Menu.Item onClick={() => navigate(`/${menuItem}`)} key={`${menuItem}`}>
+    <StyledMenuItem onClick={() => navigate(`/${menuItem}`)} key={`${menuItem}`}>
       {menuItem}
-    </Menu.Item>
+    </StyledMenuItem>
   ))
 
   const collapseMenu = () => {

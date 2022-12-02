@@ -3,7 +3,7 @@ import {
   BreadcrumbProps,
   Layout,
   LayoutProps,
-  SiderProps,
+  Menu,
   Typography,
   TypographyProps
 } from 'antd'
@@ -35,13 +35,17 @@ export const StyledMainLayout: React.FC<LayoutProps> = styled(Layout)`
   padding: 0 24px;
 `
 
-export const StyledMainLayoutContent: React.FC<LayoutProps> = styled(Layout.Content)`
+export const StyledMainLayoutContent = styled(Layout.Content)`
   padding: 24px;
   margin: 0;
 `
 
-export const StyledSidebar: React.FC<SiderProps> = styled(Layout.Sider)`
+export const StyledSidebar = styled(Layout.Sider)`
   background-color: white;
+`
+
+export const StyledMenuItem = styled(Menu.Item)`
+  text-transform: capitalize;
 `
 
 export const StyledBreadCrumb: React.FC<BreadcrumbProps> = styled(Breadcrumb)`

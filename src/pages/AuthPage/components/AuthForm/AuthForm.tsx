@@ -1,10 +1,9 @@
-import AppInput from '@/components/UI/inputs/AppInput/AppInput'
 import { AuthErrorResponse, auth_errors } from '@/errors/auth_errors'
 import { LOGIN_QUERY } from '@/GraphQL/queries'
 import { Container, InnerContainer } from '@/pages/AuthPage/AuthPage.styles'
 import { actionCreators } from '@/state'
-import { useLazyQuery, useMutation } from '@apollo/client'
-import { Button } from 'antd'
+import { DocumentNode, useLazyQuery, useMutation } from '@apollo/client'
+import { Button, Input } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -12,11 +11,10 @@ import { bindActionCreators } from 'redux'
 
 type AuthProps = {
   btnText: string
-  authQuery: any
+  authQuery: DocumentNode
 }
 
-const Auth: React.FC<AuthProps> = (props: AuthProps) => {
-  const { btnText, authQuery } = { ...props }
+const AuthForm: React.FC<AuthProps> = ({ btnText, authQuery }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [emailError, setEmailError] = useState('')
@@ -33,33 +31,35 @@ const Auth: React.FC<AuthProps> = (props: AuthProps) => {
     ;[executeQuery, {}] = useMutation(authQuery)
   }
 
-  const handleEmailInput = (value: string) => {
-    setEmail(value)
-  }
-
-  const handlePasswordInput = (value: string) => {
-    setPassword(value)
-  }
-
-  const handleGoodResponse = (response) => {
+  const handleGoodResponse = ({ data }) => {
     if (authQuery === LOGIN_QUERY) {
+      const {
+        user: { email, id, is_verified },
+        access_token
+      } = data.login
+
       setUser({
-        email: response.data.login.user.email,
-        id: response.data.login.user.id,
-        access_token: response.data.login.access_token,
-        is_verified: response.data.login.user.is_verified
+        email,
+        id,
+        access_token,
+        is_verified
       })
 
-      localStorage.setItem('user', JSON.stringify(response.data.login))
+      localStorage.setItem('user', JSON.stringify(data.login))
     } else {
+      const {
+        user: { email, id, is_verified },
+        access_token
+      } = data.signup
+
       setUser({
-        email: response.data.signup.user.email,
-        id: response.data.signup.user.id,
-        access_token: response.data.signup.access_token,
-        is_verified: response.data.signup.user.is_verified
+        email,
+        id,
+        access_token,
+        is_verified
       })
 
-      localStorage.setItem('user', JSON.stringify(response.data.signup))
+      localStorage.setItem('user', JSON.stringify(data.signup))
     }
     navigate('/employees')
   }
@@ -100,6 +100,7 @@ const Auth: React.FC<AuthProps> = (props: AuthProps) => {
       variables: { auth: { email: email, password: password } }
     })
       .then((response) => {
+        console.log(response)
         if (response.data?.login || response.data?.signup) {
           handleGoodResponse(response)
         } else {
@@ -120,19 +121,27 @@ const Auth: React.FC<AuthProps> = (props: AuthProps) => {
   return (
     <Container>
       <h1>CV-generator</h1>
-      <AppInput
-        label={'Username'}
-        handleChange={handleEmailInput}
-        errorText={emailError}
-        status={emailError ? 'error' : ''}
-      />
-      <AppInput
-        label={'Password'}
-        handleChange={handlePasswordInput}
-        type={'password'}
-        errorText={passwordError}
-        status={passwordError ? 'error' : ''}
-      />
+      <label>
+        {'Username'}
+        <Input
+          type='email'
+          value={email}
+          status={emailError && 'error'}
+          onChange={(e) => {
+            setEmail(e.target.value)
+          }}
+        />
+      </label>
+      <label>
+        {'Password'}
+        <Input.Password
+          value={password}
+          status={passwordError && 'error'}
+          onChange={(e) => {
+            setPassword(e.target.value)
+          }}
+        />
+      </label>
       <InnerContainer>
         <label>
           <input type='checkbox' name='remember_me' defaultChecked />
@@ -147,4 +156,4 @@ const Auth: React.FC<AuthProps> = (props: AuthProps) => {
   )
 }
 
-export default Auth
+export default AuthForm
