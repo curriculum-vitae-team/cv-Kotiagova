@@ -21,12 +21,10 @@ export const EMPLOYEES_QUERY = gql`
       department {
         id
         name
-        created_at
       }
       position {
         id
         name
-        created_at
       }
       profile {
         first_name

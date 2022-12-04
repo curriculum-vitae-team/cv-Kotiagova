@@ -2,13 +2,16 @@ import DeleteEmployeeModal from '@/components/DeleteEmployeeModal/DeleteEmployee
 import EmployeesList from '@/components/EmployeesList/EmployeesList'
 import NewEmployeeModal from '@/components/NewEmployeeModal/NewEmployeeModal'
 import UpdateEmployeeModal from '@/components/UpdateEmployeeModal/UpdateEmployeeModal'
-import { ADD_EMPLOYEE, DELETE_EMPLOYEE, UPDATE_EMPLOYEE } from '@/GraphQL/mutations'
-import { EMPLOYEES_QUERY } from '@/GraphQL/queries'
 import { useAppSelector } from '@/state'
-import { useLazyQuery, useMutation } from '@apollo/client'
+
 import { Button, Typography } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
+
 import { StyledSearch, StyledTableControls } from './EmployeesPage.styles'
+import useAddEmployee from './hooks/useAddEmployee'
+import useDeleteEmployee from './hooks/useDeleteEmployee'
+import useFetchEmployees from './hooks/useFetchEmployees'
+import useUpdateEmployee from './hooks/useUpdateEmployee'
 import { initialEmployee } from './InitialEmployee'
 
 const { Title } = Typography
@@ -16,87 +19,40 @@ const { Title } = Typography
 const EmployeesPage = () => {
   const user = useAppSelector((state) => state.user)
 
+  const [isFetching, setIsFetching] = useState(true)
   const [searchedEmployee, setSearchedEmployee] = useState('')
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isNewEmployeeModalOpen, setIsNewEmployeeModalOpen] = useState(false)
   const [isUpdateEmployeeModalOpen, setIsUpdateEmployeeModalOpen] = useState(false)
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-  const [isFetching, setIsFetching] = useState(true)
-  const [employeeList, setEmployeeList] = useState<Employee[]>([])
-  const [employeeToUpdate, setEmployeeToUpdate] = useState<Employee>(initialEmployee)
+  const [employeeList, setEmployeeList] = useState<EmployeesPageUser[]>([])
 
-  const [employees] = useLazyQuery(EMPLOYEES_QUERY)
-  const [addEmployee] = useMutation(ADD_EMPLOYEE)
-  const [updateEmployee] = useMutation(UPDATE_EMPLOYEE)
-  const [deleteEmployee] = useMutation(DELETE_EMPLOYEE)
+  const [selectedEmployee, setSelectedEmployee] = useState<EmployeesPageUser>(initialEmployee)
 
-  const fetchEmployees = () => {
-    setIsFetching(true)
-    employees()
-      .then((res) => {
-        setEmployeeList(res.data.users)
-        setIsFetching(false)
-      })
-      .catch((err) => console.error(err))
-  }
+  const addEmployee = useAddEmployee()
+  const deleteEmployee = useDeleteEmployee()
+  const updateEmployee = useUpdateEmployee()
 
-  useEffect(() => {
-    fetchEmployees()
-  }, [])
+  useFetchEmployees(setIsFetching, setEmployeeList)
 
   const handleAddEmployeeButtonClick = () => {
     setIsNewEmployeeModalOpen(true)
   }
 
-  const handleAddEmployee = (values) => {
-    addEmployee({
-      variables: {
-        user: {
-          auth: {
-            email: values.email,
-            password: values.password
-          },
-          profile: {
-            first_name: values.first_name ?? '',
-            last_name: values.last_name ?? '',
-            skills: [],
-            languages: []
-          },
-          cvsIds: [],
-          role: values.role ?? 'employee',
-          departmentId: '1',
-          positionId: '1'
-        }
-      }
-    })
-      .then(() => {
-        fetchEmployees()
-      })
-      .catch(console.error)
+  const handleAddEmployee = (addFormValues) => {
+    setIsFetching(true)
+    addEmployee(addFormValues, setEmployeeList, setIsFetching)
     setIsNewEmployeeModalOpen(false)
   }
 
   const handleDeleteEmployee = () => {
-    deleteEmployee({
-      variables: { id: employeeToUpdate.id }
-    })
-      .then(() => {
-        fetchEmployees()
-      })
-      .catch(console.error)
+    setIsFetching(true)
+    deleteEmployee(selectedEmployee, setEmployeeList, setIsFetching)
     setIsDeleteModalOpen(false)
   }
 
-  const handleUpdateEmployee = (values) => {
-    updateEmployee({
-      variables: {
-        id: employeeToUpdate.id,
-        user: values
-      }
-    })
-      .then(() => {
-        fetchEmployees()
-      })
-      .catch(console.error)
+  const handleUpdateEmployee = (updateFormValues) => {
+    setIsFetching(true)
+    updateEmployee(updateFormValues, selectedEmployee, setEmployeeList, setIsFetching)
     setIsUpdateEmployeeModalOpen(false)
   }
 
@@ -118,9 +74,8 @@ const EmployeesPage = () => {
         isFetching={isFetching}
         employeeList={employeeList}
         searchedEmployee={searchedEmployee}
-        chosenEmployee={employeeToUpdate}
         setIsDeleteModalOpen={setIsDeleteModalOpen}
-        setChosenEmployee={setEmployeeToUpdate}
+        setSelectedEmployee={setSelectedEmployee}
         setIsUpdateEmployeeModalOpen={setIsUpdateEmployeeModalOpen}
       />
       {user.is_verified && (
@@ -133,13 +88,12 @@ const EmployeesPage = () => {
           <DeleteEmployeeModal
             handleDeleteEmployee={handleDeleteEmployee}
             isDeleteModalOpen={isDeleteModalOpen}
-            deletedEmployeeContent={employeeToUpdate}
+            selectedEmployee={selectedEmployee}
             setIsDeleteModalOpen={setIsDeleteModalOpen}
           />
           <UpdateEmployeeModal
             handleUpdateEmployee={handleUpdateEmployee}
-            employeeToUpdate={employeeToUpdate}
-            setEmployeeToUpdate={setEmployeeToUpdate}
+            selectedEmployee={selectedEmployee}
             setIsUpdateEmployeeModalOpen={setIsUpdateEmployeeModalOpen}
             isUpdateEmployeeModalOpen={isUpdateEmployeeModalOpen}
           />
