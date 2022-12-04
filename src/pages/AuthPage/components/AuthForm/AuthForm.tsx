@@ -1,9 +1,8 @@
-import { AuthErrorResponse, auth_errors } from '@/errors/auth_errors'
 import { LOGIN_QUERY } from '@/GraphQL/queries'
 import { Container, InnerContainer } from '@/pages/AuthPage/AuthPage.styles'
 import { actionCreators } from '@/state'
 import { DocumentNode, useLazyQuery, useMutation } from '@apollo/client'
-import { Button, Input } from 'antd'
+import { Button, Input, notification } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -17,18 +16,28 @@ type AuthProps = {
 const AuthForm: React.FC<AuthProps> = ({ btnText, authQuery }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [emailError, setEmailError] = useState('')
-  const [passwordError, setPasswordError] = useState('')
+  const [shouldRememberUser, setShouldRememberUser] = useState(true)
+
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
+  const [api, contextHolder] = notification.useNotification()
+
   const { setUser } = bindActionCreators(actionCreators, dispatch)
 
-  let executeQuery
+  let executeQuery, error
   if (authQuery === LOGIN_QUERY) {
-    ;[executeQuery, {}] = useLazyQuery(authQuery)
+    ;[executeQuery, { error }] = useLazyQuery(authQuery)
   } else {
-    ;[executeQuery, {}] = useMutation(authQuery)
+    ;[executeQuery, { error }] = useMutation(authQuery)
+  }
+
+  const openNotification = () => {
+    api.error({
+      message: `There was an error!`,
+      description: `${error ?? 'Try again with other credentials'}`,
+      placement: 'bottomLeft'
+    })
   }
 
   const handleGoodResponse = ({ data }) => {
@@ -45,6 +54,12 @@ const AuthForm: React.FC<AuthProps> = ({ btnText, authQuery }) => {
         is_verified
       })
 
+      if (!shouldRememberUser) {
+        window.addEventListener('beforeunload', () => {
+          localStorage.removeItem('user')
+        })
+      }
+
       localStorage.setItem('user', JSON.stringify(data.login))
     } else {
       const {
@@ -59,58 +74,28 @@ const AuthForm: React.FC<AuthProps> = ({ btnText, authQuery }) => {
         is_verified
       })
 
-      localStorage.setItem('user', JSON.stringify(data.signup))
+      if (shouldRememberUser) {
+        localStorage.setItem('user', JSON.stringify(data.signup))
+      }
     }
+
     navigate('/employees')
   }
 
-  const handleBadResponse = (responseError: any) => {
-    const possibleErrors = []
-    for (const e of auth_errors.keys()) {
-      possibleErrors.push(e)
-    }
-    const fullError: AuthErrorResponse = { type: 'email', message: '' }
-
-    possibleErrors.forEach((error) => {
-      if (responseError.includes(error)) {
-        fullError.type = auth_errors.get(error).type
-        fullError.message = auth_errors.get(error).message
-      }
-    })
-
-    switch (fullError.type) {
-      case 'email': {
-        setEmailError(fullError.message)
-        break
-      }
-      case 'password': {
-        setPasswordError(fullError.message)
-        break
-      }
-      case 'both': {
-        setEmailError(fullError.message)
-        setPasswordError(fullError.message)
-        break
-      }
-    }
-  }
-
-  const handleClick = () => {
+  const executeAuthQuery = () => {
     executeQuery({
       variables: { auth: { email: email, password: password } }
     })
       .then((response) => {
-        console.log(response)
         if (response.data?.login || response.data?.signup) {
           handleGoodResponse(response)
         } else {
-          const responseError = response.error.graphQLErrors[0].message
-          handleBadResponse(responseError)
+          openNotification()
         }
       })
       .catch((error) => {
-        const responseError = error.message
-        handleBadResponse(responseError)
+        console.error(error)
+        openNotification()
       })
   }
 
@@ -120,13 +105,13 @@ const AuthForm: React.FC<AuthProps> = ({ btnText, authQuery }) => {
 
   return (
     <Container>
+      {contextHolder}
       <h1>CV-generator</h1>
       <label>
         {'Username'}
         <Input
           type='email'
           value={email}
-          status={emailError && 'error'}
           onChange={(e) => {
             setEmail(e.target.value)
           }}
@@ -136,7 +121,6 @@ const AuthForm: React.FC<AuthProps> = ({ btnText, authQuery }) => {
         {'Password'}
         <Input.Password
           value={password}
-          status={passwordError && 'error'}
           onChange={(e) => {
             setPassword(e.target.value)
           }}
@@ -144,12 +128,16 @@ const AuthForm: React.FC<AuthProps> = ({ btnText, authQuery }) => {
       </label>
       <InnerContainer>
         <label>
-          <input type='checkbox' name='remember_me' defaultChecked />
+          <input
+            type='checkbox'
+            name='remember_me'
+            onChange={() => setShouldRememberUser((prevA) => !prevA)}
+            checked={shouldRememberUser}
+          />
           Remember me
         </label>
-        <Button type='link'>Forgot your password?</Button>
       </InnerContainer>
-      <Button type='primary' onClick={handleClick}>
+      <Button type='primary' onClick={executeAuthQuery}>
         {btnText}
       </Button>
     </Container>

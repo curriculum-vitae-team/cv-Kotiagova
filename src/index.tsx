@@ -1,12 +1,6 @@
 import App from '@/app/App'
 import { store } from '@/state/store'
-import {
-  ApolloClient,
-  ApolloProvider,
-  createHttpLink,
-  DefaultOptions,
-  InMemoryCache
-} from '@apollo/client'
+import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import 'antd/dist/antd.css'
 import React from 'react'
@@ -29,21 +23,9 @@ const authLink = setContext((_, { headers }) => {
   }
 })
 
-const defaultOptions: DefaultOptions = {
-  watchQuery: {
-    fetchPolicy: 'no-cache',
-    errorPolicy: 'ignore'
-  },
-  query: {
-    fetchPolicy: 'no-cache',
-    errorPolicy: 'all'
-  }
-}
-
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
-  defaultOptions: defaultOptions
+  cache: new InMemoryCache()
 })
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
