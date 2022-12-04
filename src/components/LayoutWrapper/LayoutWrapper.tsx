@@ -16,7 +16,6 @@ import {
   StyledLayout,
   StyledMainLayout,
   StyledMainLayoutContent,
-  StyledMenuItem,
   StyledSidebar
 } from './LayoutWrapper.styles'
 
@@ -42,11 +41,11 @@ const LayoutWrapper = ({ children }) => {
     )
   })
 
-  const menuItems = ['dashboard', 'employees', 'projects'].map((menuItem: string) => (
-    <StyledMenuItem onClick={() => navigate(`/${menuItem}`)} key={`${menuItem}`}>
-      {menuItem}
-    </StyledMenuItem>
-  ))
+  const menuItems = ['dashboard', 'employees', 'projects'].map((menuItem: string) => ({
+    key: menuItem,
+    onClick: () => navigate(`/${menuItem}`),
+    label: menuItem.charAt(0).toUpperCase() + menuItem.slice(1)
+  }))
 
   const collapseMenu = () => {
     setCollapsed((prevCollapsed) => !prevCollapsed)
@@ -78,7 +77,7 @@ const LayoutWrapper = ({ children }) => {
       </StyledHeader>
       <Layout>
         <StyledSidebar collapsed={collapsed} width={200} collapsedWidth={0}>
-          <Menu>{menuItems}</Menu>
+          <Menu items={menuItems} />
         </StyledSidebar>
         <StyledMainLayout>
           <StyledBreadCrumb>{breadcrumbItems}</StyledBreadCrumb>

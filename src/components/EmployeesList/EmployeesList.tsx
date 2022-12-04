@@ -10,10 +10,9 @@ import { useColumns } from './hooks/useColumns'
 type EmployeesListProps = {
   isFetching: boolean
   searchedEmployee: string
-  employeeList: Employee[]
-  chosenEmployee: Employee
+  employeeList: EmployeesPageUser[]
   setIsDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>
-  setChosenEmployee: React.Dispatch<React.SetStateAction<Employee>>
+  setSelectedEmployee: React.Dispatch<React.SetStateAction<EmployeesPageUser>>
   setIsUpdateEmployeeModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
@@ -22,30 +21,30 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
   employeeList,
   searchedEmployee,
   setIsDeleteModalOpen,
-  setChosenEmployee,
+  setSelectedEmployee,
   setIsUpdateEmployeeModalOpen
 }) => {
-  const columns: ColumnsType<Employee> = useColumns(searchedEmployee)
+  const columns: ColumnsType<EmployeesPageUser> = useColumns(searchedEmployee)
   const navigate = useNavigate()
   const location = useLocation()
   const { is_verified } = useAppSelector((state) => state.user)
 
   const [expandedRowKeys, setExpandedRowKeys] = useState<string[]>([])
 
-  const handleDeleteButtonClick = (record: Employee) => {
+  const handleDeleteButtonClick = (record: EmployeesPageUser) => {
     setIsDeleteModalOpen(true)
-    setChosenEmployee(record)
+    setSelectedEmployee(record)
     setExpandedRowKeys([])
   }
 
-  const handleUpdateButtonClick = (record: Employee) => {
+  const handleUpdateButtonClick = (record: EmployeesPageUser) => {
     setIsUpdateEmployeeModalOpen(true)
-    setChosenEmployee(record)
+    setSelectedEmployee(record)
     setExpandedRowKeys([])
   }
 
-  const handleExpand = (expanded: boolean, record: Employee) => {
-    setChosenEmployee(record)
+  const handleExpand = (expanded: boolean, record: EmployeesPageUser) => {
+    setSelectedEmployee(record)
     setExpandedRowKeys((prevRowKeys) => {
       if (prevRowKeys[0] === record.id) {
         return []
@@ -54,9 +53,9 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
     })
   }
 
-  const expandableConfig: ExpandableConfig<Employee> = {
+  const expandableConfig: ExpandableConfig<EmployeesPageUser> = {
     expandRowByClick: true,
-    expandedRowRender: (record: Employee) => {
+    expandedRowRender: (record: EmployeesPageUser) => {
       return (
         <ExpandedRow>
           <Button type='link' onClick={() => navigate(`${location.pathname}/${record.id}`)}>

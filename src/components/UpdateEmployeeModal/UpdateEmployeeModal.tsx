@@ -2,15 +2,14 @@ import { Button, Form, Input, Modal } from 'antd'
 import React, { useEffect } from 'react'
 
 type UpdateEmployeeModalProps = {
-  employeeToUpdate: Employee
+  selectedEmployee: EmployeesPageUser
   handleUpdateEmployee: (values) => void
   isUpdateEmployeeModalOpen: boolean
   setIsUpdateEmployeeModalOpen: React.Dispatch<React.SetStateAction<boolean>>
-  setEmployeeToUpdate: React.Dispatch<React.SetStateAction<Employee>>
 }
 
 const UpdateEmployeeModal: React.FC<UpdateEmployeeModalProps> = ({
-  employeeToUpdate,
+  selectedEmployee,
   handleUpdateEmployee,
   isUpdateEmployeeModalOpen,
   setIsUpdateEmployeeModalOpen
@@ -36,10 +35,10 @@ const UpdateEmployeeModal: React.FC<UpdateEmployeeModalProps> = ({
   }
 
   const initialValues = {
-    first_name: employeeToUpdate.profile.first_name,
-    last_name: employeeToUpdate.profile.last_name,
-    departmentId: employeeToUpdate.department?.id,
-    positionId: employeeToUpdate.position?.id
+    first_name: selectedEmployee.profile.first_name,
+    last_name: selectedEmployee.profile.last_name,
+    departmentId: selectedEmployee.department?.id,
+    positionId: selectedEmployee.position?.id
   }
 
   return (

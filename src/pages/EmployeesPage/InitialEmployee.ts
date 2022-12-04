@@ -1,4 +1,4 @@
-export const initialEmployee: Employee = {
+export const initialEmployee: EmployeesPageUser = {
   id: '',
   profile: {
     id: '',
@@ -6,22 +6,6 @@ export const initialEmployee: Employee = {
     last_name: ''
   },
   email: '',
-  password: '',
   department: null,
-  position: null,
-  is_verified: false,
-  created_at: '',
-  languages: [
-    {
-      language_name: '',
-      proficiency: ''
-    }
-  ],
-  role: '',
-  skills: [
-    {
-      mastery: '',
-      skill_name: ''
-    }
-  ]
+  position: null
 }

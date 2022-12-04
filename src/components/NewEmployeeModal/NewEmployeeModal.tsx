@@ -1,10 +1,10 @@
-import { Button, Form, Input, Modal, Select } from 'antd'
-import React, { useEffect, useState } from 'react'
+import { Button, Form, Input, Modal } from 'antd'
+import React, { useEffect } from 'react'
 
 type NewEmployeeModalProps = {
   isNewEmployeeModalOpen: boolean
   setIsNewEmployeeModalOpen: React.Dispatch<React.SetStateAction<boolean>>
-  addEmployee: (values: Employee) => void
+  addEmployee: (values: EmployeesPageUser) => void
 }
 
 const NewEmployeeModal: React.FC<NewEmployeeModalProps> = ({
@@ -12,7 +12,6 @@ const NewEmployeeModal: React.FC<NewEmployeeModalProps> = ({
   setIsNewEmployeeModalOpen,
   addEmployee
 }) => {
-  const [role, setRole] = useState('employee')
   const [form] = Form.useForm()
 
   useEffect(() => {
@@ -21,20 +20,9 @@ const NewEmployeeModal: React.FC<NewEmployeeModalProps> = ({
     }
   })
 
-  const handleSubmit = (values: Employee) => {
-    addEmployee({ ...values, role: role })
+  const handleSubmit = (values: EmployeesPageUser) => {
+    addEmployee({ ...values })
   }
-
-  const selectOptions = [
-    {
-      value: 'employee',
-      label: 'employee'
-    },
-    {
-      value: 'admin',
-      label: 'admin'
-    }
-  ]
 
   return (
     <Modal
@@ -44,13 +32,7 @@ const NewEmployeeModal: React.FC<NewEmployeeModalProps> = ({
       footer={null}
       onCancel={() => setIsNewEmployeeModalOpen(false)}
     >
-      <Form
-        form={form}
-        onFinish={handleSubmit}
-        initialValues={{
-          role: role
-        }}
-      >
+      <Form form={form} onFinish={handleSubmit}>
         <Form.Item name='first_name'>
           <Input placeholder={'First Name'} />
         </Form.Item>
@@ -68,9 +50,6 @@ const NewEmployeeModal: React.FC<NewEmployeeModalProps> = ({
         </Form.Item>
         <Form.Item name='position_name'>
           <Input placeholder={'Specialization'} />
-        </Form.Item>
-        <Form.Item name='role' required>
-          <Select options={selectOptions} onChange={setRole} placeholder={'Role'} />
         </Form.Item>
         <Form.Item>
           <Button block type='primary' htmlType='submit'>
