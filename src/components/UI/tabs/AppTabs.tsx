@@ -1,5 +1,6 @@
-import { Tabs } from 'antd'
 import React from 'react'
+
+import { Tabs } from 'antd'
 
 type TabsProps = {
   titles: Array<any>
@@ -7,8 +8,7 @@ type TabsProps = {
   onChange?: any
 }
 
-const AppTabs: React.FC<TabsProps> = (props: TabsProps) => {
-  const { titles, contents, onChange } = { ...props }
+const AppTabs: React.FC<TabsProps> = ({ titles, contents, onChange }) => {
   const items = []
   titles.forEach((title, index) => {
     items.push({ label: title, key: `item-${index}` })

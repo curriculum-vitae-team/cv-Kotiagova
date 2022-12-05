@@ -1,97 +1,106 @@
-import DeleteEmployeeModal from '@/components/DeleteEmployeeModal/DeleteEmployeeModal'
-import EmployeesList, { Employee } from '@/components/EmployeesList/EmployeesList'
-import NewEmployeeModal from '@/components/NewEmployeeModal/NewEmployeeModal'
 import { Button, Typography } from 'antd'
-import { nanoid } from 'nanoid'
 import React, { useState } from 'react'
+
+import { useAppSelector } from '@/state'
+
+import DeleteEmployeeModal from '@/components/DeleteEmployeeModal/DeleteEmployeeModal'
+import EmployeesList from '@/components/EmployeesList/EmployeesList'
+import NewEmployeeModal from '@/components/NewEmployeeModal/NewEmployeeModal'
+import UpdateEmployeeModal from '@/components/UpdateEmployeeModal/UpdateEmployeeModal'
+
+import useAddEmployee from './hooks/useAddEmployee'
+import useDeleteEmployee from './hooks/useDeleteEmployee'
+import useFetchEmployees from './hooks/useFetchEmployees'
+import useUpdateEmployee from './hooks/useUpdateEmployee'
+import { initialEmployee } from './InitialEmployee'
+
 import { StyledSearch, StyledTableControls } from './EmployeesPage.styles'
-import { mockEmployeeList } from './mocks/employeeList'
 
 const { Title } = Typography
 
 const EmployeesPage = () => {
-  const emptyEmployee: Employee = {
-    key: nanoid(),
-    firstName: '',
-    lastName: '',
-    email: '',
-    department: '',
-    specialization: ''
-  }
+  const user = useAppSelector((state) => state.user)
 
+  const [isFetching, setIsFetching] = useState(true)
   const [searchedEmployee, setSearchedEmployee] = useState('')
-  const [isNewEmployeeModalOpen, setIsNewEmployeeModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-  const [employeeList, setEmployeeList] = useState<Employee[]>(mockEmployeeList)
-  const [newEmployeeContent, setNewEmployeeContent] = useState<Employee>(emptyEmployee)
+  const [isNewEmployeeModalOpen, setIsNewEmployeeModalOpen] = useState(false)
+  const [isUpdateEmployeeModalOpen, setIsUpdateEmployeeModalOpen] = useState(false)
+  const [employeeList, setEmployeeList] = useState<EmployeesPageUser[]>([])
+
+  const [selectedEmployee, setSelectedEmployee] = useState<EmployeesPageUser>(initialEmployee)
+
+  const addEmployee = useAddEmployee()
+  const deleteEmployee = useDeleteEmployee()
+  const updateEmployee = useUpdateEmployee()
+
+  useFetchEmployees(setIsFetching, setEmployeeList)
 
   const handleAddEmployeeButtonClick = () => {
     setIsNewEmployeeModalOpen(true)
-    setNewEmployeeContent(emptyEmployee)
   }
 
-  const addEmployee = () => {
+  const handleAddEmployee = (addFormValues) => {
+    setIsFetching(true)
+    addEmployee(addFormValues, setEmployeeList, setIsFetching)
     setIsNewEmployeeModalOpen(false)
-    setEmployeeList((prevEmployeeList) => prevEmployeeList.concat(newEmployeeContent))
   }
 
-  const deleteEmployee = () => {
+  const handleDeleteEmployee = () => {
+    setIsFetching(true)
+    deleteEmployee(selectedEmployee, setEmployeeList, setIsFetching)
     setIsDeleteModalOpen(false)
-    setEmployeeList((prevEmployeeList) => {
-      return prevEmployeeList.filter((employee) => {
-        if (employee.key !== newEmployeeContent.key) {
-          return employee
-        }
-      })
-    })
   }
 
-  const updateEmployee = () => {
-    setIsNewEmployeeModalOpen(false)
-    setEmployeeList((prevEmployeeList) => {
-      return prevEmployeeList.map((employee) => {
-        if (employee.key !== newEmployeeContent.key) {
-          return employee
-        }
-        return newEmployeeContent
-      })
-    })
+  const handleUpdateEmployee = (updateFormValues) => {
+    setIsFetching(true)
+    updateEmployee(updateFormValues, selectedEmployee, setEmployeeList, setIsFetching)
+    setIsUpdateEmployeeModalOpen(false)
   }
 
   return (
     <>
       <StyledTableControls>
         <Title level={3}>Employee list</Title>
-        <Button type='primary' onClick={handleAddEmployeeButtonClick}>
-          Add employee
-        </Button>
+        {user.is_verified && (
+          <Button type='primary' onClick={handleAddEmployeeButtonClick}>
+            Add employee
+          </Button>
+        )}
       </StyledTableControls>
       <StyledSearch
         placeholder='Search for an employee...'
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchedEmployee(e.target.value)}
+        onChange={(e) => setSearchedEmployee(e.target.value)}
       />
       <EmployeesList
-        searchedEmployee={searchedEmployee}
-        newEmployeeContent={newEmployeeContent}
+        isFetching={isFetching}
         employeeList={employeeList}
+        searchedEmployee={searchedEmployee}
         setIsDeleteModalOpen={setIsDeleteModalOpen}
-        setIsNewEmployeeModalOpen={setIsNewEmployeeModalOpen}
-        setNewEmployeeContent={setNewEmployeeContent}
+        setSelectedEmployee={setSelectedEmployee}
+        setIsUpdateEmployeeModalOpen={setIsUpdateEmployeeModalOpen}
       />
-      <NewEmployeeModal
-        newEmployeeContent={newEmployeeContent}
-        isNewEmployeeModalOpen={isNewEmployeeModalOpen}
-        setIsNewEmployeeModalOpen={setIsNewEmployeeModalOpen}
-        updateEmployee={updateEmployee}
-        addEmployee={addEmployee}
-        setNewEmployeeContent={setNewEmployeeContent}
-      />
-      <DeleteEmployeeModal
-        deletedEmployeeContent={newEmployeeContent}
-        isDeleteModalOpen={isDeleteModalOpen}
-        setIsDeleteModalOpen={setIsDeleteModalOpen}
-        deleteEmployee={deleteEmployee}
-      />
+      {user.is_verified && (
+        <>
+          <NewEmployeeModal
+            addEmployee={handleAddEmployee}
+            isNewEmployeeModalOpen={isNewEmployeeModalOpen}
+            setIsNewEmployeeModalOpen={setIsNewEmployeeModalOpen}
+          />
+          <DeleteEmployeeModal
+            handleDeleteEmployee={handleDeleteEmployee}
+            isDeleteModalOpen={isDeleteModalOpen}
+            selectedEmployee={selectedEmployee}
+            setIsDeleteModalOpen={setIsDeleteModalOpen}
+          />
+          <UpdateEmployeeModal
+            handleUpdateEmployee={handleUpdateEmployee}
+            selectedEmployee={selectedEmployee}
+            setIsUpdateEmployeeModalOpen={setIsUpdateEmployeeModalOpen}
+            isUpdateEmployeeModalOpen={isUpdateEmployeeModalOpen}
+          />
+        </>
+      )}
     </>
   )
 }

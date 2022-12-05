@@ -1,5 +1,6 @@
-import Search, { SearchProps } from 'antd/lib/input/Search'
 import styled from 'styled-components'
+
+import Search, { SearchProps } from 'antd/lib/input/Search'
 
 export const StyledTableControls = styled.div`
   display: flex;

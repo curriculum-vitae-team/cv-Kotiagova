@@ -1,45 +1,60 @@
-import { Employee } from '../EmployeesList'
+type Profile = EmployeesPageUser['profile']
+type Department = EmployeesPageUser['department']
+type Position = EmployeesPageUser['position']
+
+const hasSearchValue = (searchValue: string, name?: string) =>
+  (name ?? '').search(new RegExp(searchValue, 'i')) === 0
+
+const filterByName = (value: string, record: EmployeesPageUser) =>
+  hasSearchValue(value, record.profile.first_name) ||
+  hasSearchValue(value, record.profile.last_name)
+
+const sortByFirstName = (a: EmployeesPageUser, b: EmployeesPageUser) =>
+  a.profile.first_name?.localeCompare(b.profile.first_name)
+
+const sortByLastName = (a: EmployeesPageUser, b: EmployeesPageUser) =>
+  a.profile.last_name?.localeCompare(b.profile.last_name)
 
 export const useColumns = (searchedEmployee: string) => {
   return [
     {
       title: 'First Name',
-      dataIndex: 'firstName',
+      dataIndex: 'profile',
       filteredValue: [searchedEmployee],
       key: 'firstName',
       width: '15%',
-      onFilter: (value: string, record: Employee) =>
-        record.firstName.toLowerCase().includes(value.toLowerCase()) ||
-        record.lastName.toLowerCase().includes(value.toLowerCase()),
-      sorter: (a: Employee, b: Employee) => a.firstName.localeCompare(b.firstName)
+      render: (profile: Profile) => profile?.first_name || 'Unknown',
+      onFilter: filterByName,
+      sorter: sortByFirstName
     },
     {
       title: 'Last Name',
-      dataIndex: 'lastName',
+      dataIndex: 'profile',
+      filteredValue: [searchedEmployee],
       key: 'lastName',
       width: '15%',
-      sorter: (a: Employee, b: Employee) => a.lastName.localeCompare(b.lastName)
+      render: (profile: Profile) => profile?.last_name || 'Unknown',
+      sorter: sortByLastName
     },
     {
       title: 'Email',
       dataIndex: 'email',
       key: 'email',
-      width: '30%',
-      sorter: (a: Employee, b: Employee) => a.email.localeCompare(b.email)
+      width: '30%'
     },
     {
       title: 'Department',
       dataIndex: 'department',
       key: 'department',
       width: '20%',
-      sorter: (a: Employee, b: Employee) => a.department.localeCompare(b.department)
+      render: (department: Department) => department?.name || 'Unknown'
     },
     {
-      title: 'Specialization',
-      dataIndex: 'specialization',
-      key: 'specialization',
+      title: 'Position',
+      dataIndex: 'position',
+      key: 'position',
       width: '20%',
-      sorter: (a: Employee, b: Employee) => a.specialization.localeCompare(b.specialization)
+      render: (position: Position) => position?.name || 'Unknown'
     }
   ]
 }

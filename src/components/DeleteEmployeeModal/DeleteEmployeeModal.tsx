@@ -1,30 +1,31 @@
-import { Modal } from 'antd'
 import React from 'react'
-import { Employee } from '../EmployeesList/EmployeesList'
+
+import { Modal } from 'antd'
 
 type DeleteEmployeeModalProps = {
-  deletedEmployeeContent: Employee
+  selectedEmployee: EmployeesPageUser
   isDeleteModalOpen: boolean
   setIsDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>
-  deleteEmployee: () => void
+  handleDeleteEmployee: () => void
 }
 
 const DeleteEmployeeModal: React.FC<DeleteEmployeeModalProps> = ({
-  deletedEmployeeContent,
+  selectedEmployee,
   isDeleteModalOpen,
   setIsDeleteModalOpen,
-  deleteEmployee
+  handleDeleteEmployee
 }) => {
   return (
     <Modal
-      title={`Delete ${deletedEmployeeContent.firstName}`}
+      title={`Delete ${selectedEmployee.profile.first_name}`}
       centered
       open={isDeleteModalOpen}
-      onOk={() => deleteEmployee()}
+      onOk={() => handleDeleteEmployee()}
       onCancel={() => setIsDeleteModalOpen(false)}
     >
       <p>
-        Do you want to delete {deletedEmployeeContent.firstName} {deletedEmployeeContent.lastName}?
+        Do you want to delete {selectedEmployee.profile.first_name}{' '}
+        {selectedEmployee.profile.last_name}?
       </p>
     </Modal>
   )

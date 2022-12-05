@@ -1,95 +1,97 @@
-import { Button, Table } from 'antd'
-import { ColumnsType } from 'antd/lib/table'
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { ExpandedRow, UpdateButton } from './EmployeesList.style'
+
+import { Button, Table } from 'antd'
+import { ColumnsType } from 'antd/lib/table'
+import { ExpandableConfig } from 'antd/lib/table/interface'
+
+import { useAppSelector } from '@/state'
 import { useColumns } from './hooks/useColumns'
 
-export type Employee = {
-  key: string
-  firstName: string
-  lastName: string
-  email: string
-  department: string
-  specialization: string
-}
+import { ExpandedRow, UpdateButton } from './EmployeesList.style'
 
 type EmployeesListProps = {
+  isFetching: boolean
   searchedEmployee: string
-  employeeList: Employee[]
-  newEmployeeContent: Employee
+  employeeList: EmployeesPageUser[]
   setIsDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>
-  setIsNewEmployeeModalOpen: React.Dispatch<React.SetStateAction<boolean>>
-  setNewEmployeeContent: React.Dispatch<React.SetStateAction<Employee>>
+  setSelectedEmployee: React.Dispatch<React.SetStateAction<EmployeesPageUser>>
+  setIsUpdateEmployeeModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const EmployeesList: React.FC<EmployeesListProps> = ({
-  searchedEmployee,
+  isFetching,
   employeeList,
-  setNewEmployeeContent,
-  setIsNewEmployeeModalOpen,
-  setIsDeleteModalOpen
+  searchedEmployee,
+  setIsDeleteModalOpen,
+  setSelectedEmployee,
+  setIsUpdateEmployeeModalOpen
 }) => {
-  const columns: ColumnsType<Employee> = useColumns(searchedEmployee)
+  const columns: ColumnsType<EmployeesPageUser> = useColumns(searchedEmployee)
   const navigate = useNavigate()
   const location = useLocation()
+  const { is_verified } = useAppSelector((state) => state.user)
 
   const [expandedRowKeys, setExpandedRowKeys] = useState<string[]>([])
 
-  const handleDeleteButtonClick = (record: Employee) => {
+  const handleDeleteButtonClick = (record: EmployeesPageUser) => {
     setIsDeleteModalOpen(true)
-    setNewEmployeeContent(record)
+    setSelectedEmployee(record)
     setExpandedRowKeys([])
   }
 
-  const handleUpdateButtonClick = (record: Employee) => {
-    setIsNewEmployeeModalOpen(true)
-    setNewEmployeeContent(record)
+  const handleUpdateButtonClick = (record: EmployeesPageUser) => {
+    setIsUpdateEmployeeModalOpen(true)
+    setSelectedEmployee(record)
     setExpandedRowKeys([])
   }
 
-  const handleExpand = (expanded: boolean, record: Employee) => {
-    setNewEmployeeContent(record)
+  const handleExpand = (expanded: boolean, record: EmployeesPageUser) => {
+    setSelectedEmployee(record)
     setExpandedRowKeys((prevRowKeys) => {
-      if (prevRowKeys[0] === record.key) {
+      if (prevRowKeys[0] === record.id) {
         return []
       }
-      return [record.key]
+      return [record.id]
     })
   }
 
-  const expandableConfig = {
+  const expandableConfig: ExpandableConfig<EmployeesPageUser> = {
     expandRowByClick: true,
-    expandedRowRender: (record: Employee) => {
+    expandedRowRender: (record: EmployeesPageUser) => {
       return (
         <ExpandedRow>
-          <Button type='link' onClick={() => navigate(`${location.pathname}/${record.key}`)}>
+          <Button type='link' onClick={() => navigate(`${location.pathname}/${record.id}`)}>
             View Profile
           </Button>
-          <UpdateButton type='default' onClick={() => handleUpdateButtonClick(record)}>
-            Update
-          </UpdateButton>
-          <Button type='primary' onClick={() => handleDeleteButtonClick(record)}>
-            Delete
-          </Button>
+          {is_verified && (
+            <>
+              <UpdateButton type='default' onClick={() => handleUpdateButtonClick(record)}>
+                Update
+              </UpdateButton>
+              <Button type='primary' onClick={() => handleDeleteButtonClick(record)}>
+                Delete
+              </Button>
+            </>
+          )}
         </ExpandedRow>
       )
     }
   }
 
-  const paginationConfig = {
-    pageSize: 6
-  }
-
   return (
     <Table
-      pagination={paginationConfig}
+      tableLayout='auto'
+      pagination={false}
       expandedRowKeys={expandedRowKeys}
       onExpand={handleExpand}
       expandable={expandableConfig}
       dataSource={employeeList}
       columns={columns}
-      size='large'
+      bordered
+      loading={isFetching}
+      rowKey='id'
+      scroll={{ y: 400 }}
     />
   )
 }

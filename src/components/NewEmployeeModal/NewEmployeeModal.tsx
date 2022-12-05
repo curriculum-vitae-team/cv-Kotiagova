@@ -1,42 +1,28 @@
-import { Form, Input, Modal } from 'antd'
-import React, { useMemo } from 'react'
-import { Employee } from '../EmployeesList/EmployeesList'
+import React, { useEffect } from 'react'
+
+import { Button, Form, Input, Modal } from 'antd'
 
 type NewEmployeeModalProps = {
-  newEmployeeContent: Employee
   isNewEmployeeModalOpen: boolean
   setIsNewEmployeeModalOpen: React.Dispatch<React.SetStateAction<boolean>>
-  setNewEmployeeContent: React.Dispatch<React.SetStateAction<Employee>>
-  updateEmployee: () => void
-  addEmployee: () => void
+  addEmployee: (values: EmployeesPageUser) => void
 }
 
 const NewEmployeeModal: React.FC<NewEmployeeModalProps> = ({
-  newEmployeeContent,
   isNewEmployeeModalOpen,
   setIsNewEmployeeModalOpen,
-  updateEmployee,
-  setNewEmployeeContent,
   addEmployee
 }) => {
-  //true if no employee was selected, i.e add button was clicked
-  const wasEmpty = useMemo(() => newEmployeeContent.firstName === '', [isNewEmployeeModalOpen])
-
   const [form] = Form.useForm()
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, field: keyof Employee) => {
-    setNewEmployeeContent((prevEmployeeContent) => ({
-      ...prevEmployeeContent,
-      [field]: e.target.value
-    }))
-  }
-
-  const handleSubmit = () => {
-    if (wasEmpty) {
-      addEmployee()
-    } else {
-      updateEmployee()
+  useEffect(() => {
+    return () => {
+      form.resetFields()
     }
+  })
+
+  const handleSubmit = (values: EmployeesPageUser) => {
+    addEmployee({ ...values })
   }
 
   return (
@@ -44,45 +30,32 @@ const NewEmployeeModal: React.FC<NewEmployeeModalProps> = ({
       title='Input Employee Info'
       centered
       open={isNewEmployeeModalOpen}
-      onOk={handleSubmit}
+      footer={null}
       onCancel={() => setIsNewEmployeeModalOpen(false)}
     >
-      <Form form={form}>
-        <Form.Item>
-          <Input
-            required
-            placeholder={'First Name'}
-            value={newEmployeeContent.firstName}
-            onChange={(e) => handleChange(e, 'firstName')}
-          />
+      <Form form={form} onFinish={handleSubmit}>
+        <Form.Item name='first_name'>
+          <Input placeholder={'First Name'} />
+        </Form.Item>
+        <Form.Item name='last_name'>
+          <Input placeholder={'Last Name'} />
+        </Form.Item>
+        <Form.Item name='email'>
+          <Input required placeholder={'Email'} type='email' />
+        </Form.Item>
+        <Form.Item name='password'>
+          <Input.Password required type='password' placeholder={'Password'} />
+        </Form.Item>
+        <Form.Item name='department_name'>
+          <Input placeholder={'Department'} />
+        </Form.Item>
+        <Form.Item name='position_name'>
+          <Input placeholder={'Specialization'} />
         </Form.Item>
         <Form.Item>
-          <Input
-            placeholder={'Last Name'}
-            value={newEmployeeContent.lastName}
-            onChange={(e) => handleChange(e, 'lastName')}
-          />
-        </Form.Item>
-        <Form.Item>
-          <Input
-            placeholder={'Email'}
-            value={newEmployeeContent.email}
-            onChange={(e) => handleChange(e, 'email')}
-          />
-        </Form.Item>
-        <Form.Item>
-          <Input
-            placeholder={'Department'}
-            value={newEmployeeContent.department}
-            onChange={(e) => handleChange(e, 'department')}
-          />
-        </Form.Item>
-        <Form.Item>
-          <Input
-            placeholder={'Specialization'}
-            value={newEmployeeContent.specialization}
-            onChange={(e) => handleChange(e, 'specialization')}
-          />
+          <Button block type='primary' htmlType='submit'>
+            Submit
+          </Button>
         </Form.Item>
       </Form>
     </Modal>
