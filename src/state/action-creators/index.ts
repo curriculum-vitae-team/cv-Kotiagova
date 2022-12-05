@@ -11,10 +11,29 @@ export const setUser = (user: UserState) => {
   }
 }
 
-export const removeUser = () => {
+export const setEmployeeList = (employees: EmployeesPageUser[]) => {
   return (dispatch: Dispatch<Action>) => {
     dispatch({
-      type: ActionType.REMOVE_USER
+      type: ActionType.SET_EMPLOYEE_LIST,
+      payload: employees
+    })
+  }
+}
+
+export const setIsLoading = (loading: boolean) => {
+  return (dispatch: Dispatch<Action>) => {
+    dispatch({
+      type: ActionType.SET_IS_LOADING,
+      payload: loading
+    })
+  }
+}
+
+export const setSelectedEmployee = (employee: EmployeesPageUser) => {
+  return (dispatch: Dispatch<Action>) => {
+    dispatch({
+      type: ActionType.SET_SELECTED_EMPLOYEE,
+      payload: employee
     })
   }
 }

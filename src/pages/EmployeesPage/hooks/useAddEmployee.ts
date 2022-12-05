@@ -1,14 +1,19 @@
+import { bindActionCreators } from 'redux'
+
+import { actionCreators, useAppDispatch, useAppSelector } from '@/state'
+
 import { ADD_EMPLOYEE } from '@/GraphQL/mutations'
 import { useMutation } from '@apollo/client'
 
 const useAddEmployee = () => {
   const [addEmployeeMutation] = useMutation(ADD_EMPLOYEE)
+  const dispatch = useAppDispatch()
 
-  const addEmployee = (
-    addFormValues,
-    setEmployeeList: React.Dispatch<React.SetStateAction<EmployeesPageUser[]>>,
-    setIsFetching: React.Dispatch<React.SetStateAction<boolean>>
-  ) => {
+  const employees = useAppSelector((state) => state.employees)
+
+  const { setEmployeeList, setIsLoading } = bindActionCreators(actionCreators, dispatch)
+
+  const addEmployee = (addFormValues) => {
     addEmployeeMutation({
       variables: {
         user: {
@@ -30,11 +35,11 @@ const useAddEmployee = () => {
       }
     })
       .then(({ data: { createUser } }) => {
-        setEmployeeList((prevEmployeeList) => prevEmployeeList.concat(createUser))
+        setEmployeeList(employees.concat(createUser))
       })
       .catch(console.error)
       .finally(() => {
-        setIsFetching(false)
+        setIsLoading(false)
       })
   }
 

@@ -4,22 +4,57 @@ declare module '*.css' {
 }
 
 declare global {
+  interface Department {
+    id: string
+    name: string
+  }
+
+  interface Position {
+    id: string
+    name: string
+  }
+
   interface EmployeesPageUser {
     id: string
     email: string
     profile: {
       id: string
-      first_name: string
-      last_name: string
+      first_name: string | null
+      last_name: string | null
     }
-    department: {
+    department: Department | null
+    position: Position | null
+  }
+
+  interface EmployeePageUser {
+    email: string
+    profile: {
       id: string
-      name: string
-    } | null
-    position: {
-      id: string
-      name: string
-    } | null
+      first_name: string | null
+      last_name: string | null
+      avatar: string | null
+      skills: [
+        {
+          skill_name: string
+          mastery: string
+        }
+      ]
+      languages: [
+        {
+          language_name: string
+          proficiency: string
+        }
+      ]
+    }
+    cvs: [
+      {
+        id: string
+        name: string
+        description: string
+      }
+    ]
+    department: Department
+    position: Position
   }
 }
 

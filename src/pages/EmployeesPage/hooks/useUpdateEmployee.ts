@@ -1,34 +1,41 @@
+import { bindActionCreators } from 'redux'
+
 import { UPDATE_EMPLOYEE } from '@/GraphQL/mutations'
+import { actionCreators, useAppDispatch, useAppSelector } from '@/state'
 import { useMutation } from '@apollo/client'
 
 const useUpdateEmployee = () => {
   const [updateEmployeeMutation] = useMutation(UPDATE_EMPLOYEE)
+  const dispatch = useAppDispatch()
+  const { employees } = useAppSelector((state) => state)
 
-  const updateEmployee = (
-    updateFormValues,
-    selectedEmployee: EmployeesPageUser,
-    setEmployeeList: React.Dispatch<React.SetStateAction<EmployeesPageUser[]>>,
-    setIsFetching: React.Dispatch<React.SetStateAction<boolean>>
-  ) => {
+  const { setEmployeeList, setIsLoading } = bindActionCreators(actionCreators, dispatch)
+
+  const updateEmployee = (updateFormValues, id: string) => {
     updateEmployeeMutation({
       variables: {
-        id: selectedEmployee.id,
-        user: updateFormValues
+        id: id,
+        user: {
+          departmentId: updateFormValues.departmentId ?? '',
+          positionId: updateFormValues.positionId ?? '',
+          profile: {
+            first_name: updateFormValues.first_name,
+            last_name: updateFormValues.last_name,
+            skills: [],
+            languages: []
+          },
+          cvsIds: []
+        }
       }
     })
       .then(({ data: { updateUser } }) => {
-        setEmployeeList((prevEmployeeList) =>
-          prevEmployeeList.map((employee) => {
-            if (employee.id === updateUser.id) {
-              return updateUser
-            }
-            return employee
-          })
+        setEmployeeList(
+          employees.map((employee) => (employee.id === updateUser.id ? updateUser : employee))
         )
       })
       .catch(console.error)
       .finally(() => {
-        setIsFetching(false)
+        setIsLoading(false)
       })
   }
 

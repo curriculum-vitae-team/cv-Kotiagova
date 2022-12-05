@@ -1,20 +1,21 @@
 import React, { useEffect } from 'react'
 
+import { useAppSelector } from '@/state'
 import { Button, Form, Input, Modal } from 'antd'
 
 type UpdateEmployeeModalProps = {
-  selectedEmployee: EmployeesPageUser
   handleUpdateEmployee: (values) => void
   isUpdateEmployeeModalOpen: boolean
   setIsUpdateEmployeeModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const UpdateEmployeeModal: React.FC<UpdateEmployeeModalProps> = ({
-  selectedEmployee,
   handleUpdateEmployee,
   isUpdateEmployeeModalOpen,
   setIsUpdateEmployeeModalOpen
 }) => {
+  const selectedEmployee = useAppSelector((state) => state.selectedEmployee)
+
   const [form] = Form.useForm()
 
   useEffect(() => {
@@ -22,17 +23,7 @@ const UpdateEmployeeModal: React.FC<UpdateEmployeeModalProps> = ({
   })
 
   const handleSubmit = (values) => {
-    handleUpdateEmployee({
-      departmentId: values.departmentId ?? '',
-      positionId: values.positionId ?? '',
-      profile: {
-        first_name: values.first_name,
-        last_name: values.last_name,
-        skills: [],
-        languages: []
-      },
-      cvsIds: []
-    })
+    handleUpdateEmployee(values)
   }
 
   const initialValues = {

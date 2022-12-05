@@ -17,13 +17,6 @@ const reducer = (user: UserState = initialState, action: Action) => {
         access_token: action.payload.access_token,
         is_verified: action.payload.is_verified
       }
-    case ActionType.REMOVE_USER:
-      return {
-        email: '',
-        id: '',
-        access_token: '',
-        is_verified: false
-      }
     default:
       return user
   }
