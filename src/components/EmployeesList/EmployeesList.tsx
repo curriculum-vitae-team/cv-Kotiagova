@@ -1,11 +1,14 @@
-import { useAppSelector } from '@/state'
+import React, { useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+
 import { Button, Table } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import { ExpandableConfig } from 'antd/lib/table/interface'
-import React, { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { ExpandedRow, UpdateButton } from './EmployeesList.style'
+
+import { useAppSelector } from '@/state'
 import { useColumns } from './hooks/useColumns'
+
+import { ExpandedRow, UpdateButton } from './EmployeesList.style'
 
 type EmployeesListProps = {
   isFetching: boolean

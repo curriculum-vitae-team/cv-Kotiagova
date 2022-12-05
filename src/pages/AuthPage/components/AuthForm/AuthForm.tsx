@@ -1,12 +1,13 @@
-import { LOGIN_QUERY } from '@/GraphQL/queries'
-import { Container, InnerContainer } from '@/pages/AuthPage/AuthPage.styles'
-import { actionCreators } from '@/state'
-import { DocumentNode, useLazyQuery, useMutation } from '@apollo/client'
 import { Button, Input, notification } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
+
+import { LOGIN_QUERY } from '@/GraphQL/queries'
+import { Container, InnerContainer } from '@/pages/AuthPage/AuthPage.styles'
+import { actionCreators } from '@/state'
+import { DocumentNode, useLazyQuery, useMutation } from '@apollo/client'
 
 type AuthProps = {
   btnText: string

@@ -1,11 +1,12 @@
-import App from '@/app/App'
-import { store } from '@/state/store'
-import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client'
-import { setContext } from '@apollo/client/link/context'
-import 'antd/dist/antd.css'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
+
+import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client'
+import { setContext } from '@apollo/client/link/context'
+
+import App from '@/app/App'
+import { store } from '@/state/store'
 
 const httpLink = createHttpLink({
   uri: 'https://cv-project-js.inno.ws/api/graphql'
@@ -14,6 +15,7 @@ const httpLink = createHttpLink({
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
   const { access_token } = JSON.parse(localStorage.getItem('user') ?? '{}')
+
   // return the headers to the context so httpLink can read them
   return {
     headers: {

@@ -1,18 +1,20 @@
+import { Button, Typography } from 'antd'
+import React, { useState } from 'react'
+
+import { useAppSelector } from '@/state'
+
 import DeleteEmployeeModal from '@/components/DeleteEmployeeModal/DeleteEmployeeModal'
 import EmployeesList from '@/components/EmployeesList/EmployeesList'
 import NewEmployeeModal from '@/components/NewEmployeeModal/NewEmployeeModal'
 import UpdateEmployeeModal from '@/components/UpdateEmployeeModal/UpdateEmployeeModal'
-import { useAppSelector } from '@/state'
 
-import { Button, Typography } from 'antd'
-import React, { useState } from 'react'
-
-import { StyledSearch, StyledTableControls } from './EmployeesPage.styles'
 import useAddEmployee from './hooks/useAddEmployee'
 import useDeleteEmployee from './hooks/useDeleteEmployee'
 import useFetchEmployees from './hooks/useFetchEmployees'
 import useUpdateEmployee from './hooks/useUpdateEmployee'
 import { initialEmployee } from './InitialEmployee'
+
+import { StyledSearch, StyledTableControls } from './EmployeesPage.styles'
 
 const { Title } = Typography
 

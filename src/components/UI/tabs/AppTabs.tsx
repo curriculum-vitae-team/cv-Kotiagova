@@ -1,5 +1,6 @@
-import { Tabs } from 'antd'
 import React from 'react'
+
+import { Tabs } from 'antd'
 
 type TabsProps = {
   titles: Array<any>

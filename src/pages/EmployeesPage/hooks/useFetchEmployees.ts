@@ -1,6 +1,7 @@
+import { useEffect } from 'react'
+
 import { EMPLOYEES_QUERY } from '@/GraphQL/queries'
 import { useLazyQuery } from '@apollo/client'
-import { useEffect } from 'react'
 
 const useFetchEmployees: (
   setIsFetching: React.Dispatch<React.SetStateAction<boolean>>,
