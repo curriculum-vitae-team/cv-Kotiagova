@@ -8,11 +8,12 @@ import { useForm } from 'antd/es/form/Form'
 
 type ProfileProps = {
   id: string
+  canEdit: boolean
   employee: ProfilePageUser
   setEmployee: React.Dispatch<React.SetStateAction<ProfilePageUser>>
 }
 
-const Profile: React.FC<ProfileProps> = ({ id, employee, setEmployee }) => {
+const Profile: React.FC<ProfileProps> = ({ id, employee, canEdit, setEmployee }) => {
   const [form] = useForm()
   const updateEmployee = useUpdateEmployee()
 
@@ -53,9 +54,11 @@ const Profile: React.FC<ProfileProps> = ({ id, employee, setEmployee }) => {
       <Form.Item name='positionId'>
         <Input placeholder='Position' />
       </Form.Item>
-      <Button block type='primary' htmlType='submit'>
-        Submit
-      </Button>
+      {canEdit && (
+        <Button block type='primary' htmlType='submit'>
+          Submit
+        </Button>
+      )}
     </Form>
   )
 }

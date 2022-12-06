@@ -2,15 +2,21 @@ import { List } from 'antd'
 import React from 'react'
 
 type CVsProps = {
+  canEdit: boolean
   CVsData: ProfilePageUser['cvs']
 }
 
-const CVs: React.FC<CVsProps> = ({ CVsData }) => {
+const CVs: React.FC<CVsProps> = ({ canEdit, CVsData }) => {
   const info = CVsData.map((cv: CV) => ({
     title: cv.name
   }))
 
-  return <List renderItem={(item) => <List.Item>{item.title}</List.Item>} dataSource={info} />
+  return (
+    <List
+      renderItem={(item) => <List.Item aria-disabled={!canEdit}>{item.title}</List.Item>}
+      dataSource={info}
+    />
+  )
 }
 
 export default CVs
