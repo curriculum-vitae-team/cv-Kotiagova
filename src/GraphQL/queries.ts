@@ -33,3 +33,44 @@ export const EMPLOYEES_QUERY = gql`
     }
   }
 `
+
+export const EMPLOYEE_QUERY = gql`
+  query GET_EMPLOYEE($id: ID!) {
+    user(id: $id) {
+      email
+
+      profile {
+        first_name
+        last_name
+
+        avatar
+
+        skills {
+          skill_name
+          mastery
+        }
+
+        languages {
+          language_name
+          proficiency
+        }
+      }
+
+      cvs {
+        id
+        name
+        description
+      }
+
+      position {
+        id
+        name
+      }
+
+      department {
+        id
+        name
+      }
+    }
+  }
+`

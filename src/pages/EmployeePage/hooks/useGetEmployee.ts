@@ -1,14 +1,21 @@
-import { EMPLOYEE_QUERY } from '@/GraphQL/queries'
+import { bindActionCreators } from 'redux'
+
 import { useLazyQuery } from '@apollo/client'
+
+import { EMPLOYEE_QUERY } from '@/GraphQL/queries'
+import { actionCreators, useAppDispatch } from '@/state'
 
 const useGetEmployee = () => {
   const [getEmployeeQuery] = useLazyQuery(EMPLOYEE_QUERY)
+  const dispatch = useAppDispatch()
+
+  const { setIsLoading } = bindActionCreators(actionCreators, dispatch)
 
   const getEmployee = (
     id: string,
-    setEmployee: React.Dispatch<React.SetStateAction<EmployeePageUser>>,
-    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
+    setEmployee: React.Dispatch<React.SetStateAction<ProfilePageUser>>
   ) => {
+    setIsLoading(true)
     getEmployeeQuery({
       variables: {
         id: id
