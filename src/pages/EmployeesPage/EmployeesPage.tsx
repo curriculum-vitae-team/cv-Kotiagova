@@ -1,6 +1,7 @@
-import { Button, Typography } from 'antd'
 import React, { useState } from 'react'
 import { bindActionCreators } from 'redux'
+
+import { Button, Typography } from 'antd'
 
 import { actionCreators, useAppDispatch, useAppSelector } from '@/state'
 
@@ -19,11 +20,10 @@ import { StyledSearch, StyledTableControls } from './EmployeesPage.styles'
 const { Title } = Typography
 
 const EmployeesPage = () => {
-  const user = useAppSelector((state) => state.user)
-  const selectedEmployee = useAppSelector((state) => state.selectedEmployee)
-  const dispatch = useAppDispatch()
+  const { user, employees, selectedEmployee } = useAppSelector((state) => state)
 
-  const { setIsLoading } = bindActionCreators(actionCreators, dispatch)
+  const dispatch = useAppDispatch()
+  const { setEmployeeList } = bindActionCreators(actionCreators, dispatch)
 
   const [searchedEmployee, setSearchedEmployee] = useState('')
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
@@ -41,20 +41,21 @@ const EmployeesPage = () => {
   }
 
   const handleAddEmployee = (addFormValues) => {
-    setIsLoading(true)
     addEmployee(addFormValues)
     setIsNewEmployeeModalOpen(false)
   }
 
   const handleDeleteEmployee = () => {
-    setIsLoading(true)
     deleteEmployee()
     setIsDeleteModalOpen(false)
   }
 
   const handleUpdateEmployee = (updateFormValues) => {
-    setIsLoading(true)
-    updateEmployee(updateFormValues, selectedEmployee.id)
+    updateEmployee(updateFormValues, selectedEmployee.id, (updateUser) => {
+      setEmployeeList(
+        employees.map((employee) => (employee.id === updateUser.id ? updateUser : employee))
+      )
+    })
     setIsUpdateEmployeeModalOpen(false)
   }
 

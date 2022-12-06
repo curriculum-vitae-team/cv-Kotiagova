@@ -1,17 +1,17 @@
 import { bindActionCreators } from 'redux'
 
 import { UPDATE_EMPLOYEE } from '@/GraphQL/mutations'
-import { actionCreators, useAppDispatch, useAppSelector } from '@/state'
+import { actionCreators, useAppDispatch } from '@/state'
 import { useMutation } from '@apollo/client'
 
 const useUpdateEmployee = () => {
   const [updateEmployeeMutation] = useMutation(UPDATE_EMPLOYEE)
   const dispatch = useAppDispatch()
-  const { employees } = useAppSelector((state) => state)
 
-  const { setEmployeeList, setIsLoading } = bindActionCreators(actionCreators, dispatch)
+  const { setIsLoading } = bindActionCreators(actionCreators, dispatch)
 
-  const updateEmployee = (updateFormValues, id: string) => {
+  const updateEmployee = (updateFormValues, id: string, onSuccess: (updateUser) => void) => {
+    setIsLoading(true)
     updateEmployeeMutation({
       variables: {
         id: id,
@@ -29,9 +29,7 @@ const useUpdateEmployee = () => {
       }
     })
       .then(({ data: { updateUser } }) => {
-        setEmployeeList(
-          employees.map((employee) => (employee.id === updateUser.id ? updateUser : employee))
-        )
+        onSuccess(updateUser)
       })
       .catch(console.error)
       .finally(() => {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 
 import LayoutWrapper from '@/components/LayoutWrapper/LayoutWrapper'
 import AuthPage from '@/pages/AuthPage/AuthPage'
@@ -28,6 +28,7 @@ const AppRouter = () => {
       />
       <Route path='dashboard' element={<LayoutWrapper>{'dashboard'}</LayoutWrapper>} />
       <Route path='projects' element={<LayoutWrapper>{'projects'}</LayoutWrapper>} />
+      <Route path='*' element={<Navigate to='auth' />} />
     </Routes>
   )
 }

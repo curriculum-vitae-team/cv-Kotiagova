@@ -14,6 +14,12 @@ declare global {
     name: string
   }
 
+  interface CV {
+    id: string
+    name: string
+    description: string
+  }
+
   interface EmployeesPageUser {
     id: string
     email: string
@@ -26,33 +32,31 @@ declare global {
     position: Position | null
   }
 
-  interface EmployeePageUser {
-    email: string
+  interface ProfilePageUser {
+    email?: string
     profile: {
       id: string
       first_name: string | null
       last_name: string | null
-      avatar: string | null
-      skills: [
-        {
-          skill_name: string
-          mastery: string
-        }
-      ]
-      languages: [
-        {
-          language_name: string
-          proficiency: string
-        }
-      ]
+      avatar?: string
+      skills?:
+        | [
+            {
+              skill_name: string
+              mastery: string
+            }
+          ]
+        | []
+      languages?:
+        | [
+            {
+              language_name: string
+              proficiency: string
+            }
+          ]
+        | []
     }
-    cvs: [
-      {
-        id: string
-        name: string
-        description: string
-      }
-    ]
+    cvs?: CV[] | []
     department: Department
     position: Position
   }

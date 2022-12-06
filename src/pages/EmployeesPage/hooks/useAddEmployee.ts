@@ -14,6 +14,7 @@ const useAddEmployee = () => {
   const { setEmployeeList, setIsLoading } = bindActionCreators(actionCreators, dispatch)
 
   const addEmployee = (addFormValues) => {
+    setIsLoading(true)
     addEmployeeMutation({
       variables: {
         user: {

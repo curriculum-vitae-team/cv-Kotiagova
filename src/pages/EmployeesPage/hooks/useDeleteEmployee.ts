@@ -14,6 +14,7 @@ const useDeleteEmployee = () => {
   const { setEmployeeList, setIsLoading } = bindActionCreators(actionCreators, dispatch)
 
   const deleteEmployee = () => {
+    setIsLoading(true)
     deleteEmployeeMutation({
       variables: { id: selectedEmployee.id }
     })
