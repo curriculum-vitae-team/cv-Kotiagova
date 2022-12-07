@@ -74,3 +74,16 @@ export const EMPLOYEE_QUERY = gql`
     }
   }
 `
+
+export const GET_DEPARTMENTS_AND_POSITIONS = gql`
+  query GET_DEPARTMENTS_AND_POSITIONS {
+    departments {
+      id
+      name
+    }
+    positions {
+      id
+      name
+    }
+  }
+`

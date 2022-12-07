@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { useAppSelector } from '@/state'
-import { Button, Form, Input, Modal } from 'antd'
+import { Modal } from 'antd'
+import UpdateEmployeeForm from './components/UpdateEmployeeForm/UpdateEmployeeForm'
 
 type UpdateEmployeeModalProps = {
-  handleUpdateEmployee: (values) => void
+  handleUpdateEmployee: (formValues) => void
   isUpdateEmployeeModalOpen: boolean
   setIsUpdateEmployeeModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -16,14 +17,8 @@ const UpdateEmployeeModal: React.FC<UpdateEmployeeModalProps> = ({
 }) => {
   const selectedEmployee = useAppSelector((state) => state.selectedEmployee)
 
-  const [form] = Form.useForm()
-
-  useEffect(() => {
-    return () => form.resetFields()
-  })
-
-  const handleSubmit = (values) => {
-    handleUpdateEmployee(values)
+  const handleSubmit = (formValues) => {
+    handleUpdateEmployee(formValues)
   }
 
   const initialValues = {
@@ -43,25 +38,7 @@ const UpdateEmployeeModal: React.FC<UpdateEmployeeModalProps> = ({
         setIsUpdateEmployeeModalOpen(false)
       }}
     >
-      <Form form={form} onFinish={handleSubmit} initialValues={initialValues}>
-        <Form.Item name='first_name'>
-          <Input placeholder={'First Name'} />
-        </Form.Item>
-        <Form.Item name='last_name'>
-          <Input placeholder={'Last Name'} />
-        </Form.Item>
-        <Form.Item name='departmentId'>
-          <Input placeholder={'Department id'} />
-        </Form.Item>
-        <Form.Item name='positionId'>
-          <Input placeholder={'Position id'} />
-        </Form.Item>
-        <Form.Item>
-          <Button block type='primary' htmlType='submit'>
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
+      <UpdateEmployeeForm handleSubmit={handleSubmit} initialValues={initialValues} canEdit />
     </Modal>
   )
 }

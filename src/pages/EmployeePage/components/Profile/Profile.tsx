@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 
-import { Button, Form, Input, Spin } from 'antd'
+import { Spin } from 'antd'
 
+import UpdateEmployeeForm from '@/components/UpdateEmployeeModal/components/UpdateEmployeeForm/UpdateEmployeeForm'
 import useUpdateEmployee from '@/pages/EmployeesPage/hooks/useUpdateEmployee'
 import { useAppSelector } from '@/state'
 import { useForm } from 'antd/es/form/Form'
@@ -26,8 +27,8 @@ const Profile: React.FC<ProfileProps> = ({ id, employee, canEdit, setEmployee })
     departmentId: employee?.department?.id
   }
 
-  const handleSubmit = (values) => {
-    updateEmployee(values, id, (updateUser) => {
+  const handleSubmit = (formValues) => {
+    updateEmployee(formValues, id, (updateUser) => {
       setEmployee(updateUser)
     })
   }
@@ -41,25 +42,11 @@ const Profile: React.FC<ProfileProps> = ({ id, employee, canEdit, setEmployee })
   return isLoading ? (
     <Spin />
   ) : (
-    <Form form={form} initialValues={initialValues} onFinish={handleSubmit}>
-      <Form.Item name='first_name'>
-        <Input placeholder='First Name' />
-      </Form.Item>
-      <Form.Item name='last_name'>
-        <Input placeholder='Last Name' />
-      </Form.Item>
-      <Form.Item name='departmentId'>
-        <Input placeholder='Department' />
-      </Form.Item>
-      <Form.Item name='positionId'>
-        <Input placeholder='Position' />
-      </Form.Item>
-      {canEdit && (
-        <Button block type='primary' htmlType='submit'>
-          Submit
-        </Button>
-      )}
-    </Form>
+    <UpdateEmployeeForm
+      canEdit={canEdit}
+      initialValues={initialValues}
+      handleSubmit={handleSubmit}
+    />
   )
 }
 
