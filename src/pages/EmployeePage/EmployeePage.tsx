@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { useAppSelector } from '@/state'
 import { Tabs } from 'antd'
+
+import { useAppSelector } from '@/state'
 import CVs from './components/CVs/CVs'
 import Profile from './components/Profile/Profile'
-import { StyledLoader } from './EmployeePage.style'
+
 import useGetEmployee from './hooks/useGetEmployee'
+
+import { StyledLoader } from './EmployeePage.style'
 
 const EmployeePage = () => {
   const { id } = useParams()

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { bindActionCreators } from 'redux'
 
 import { Button, Typography } from 'antd'
@@ -12,7 +12,7 @@ import UpdateEmployeeModal from '@/components/UpdateEmployeeModal/UpdateEmployee
 
 import useAddEmployee from './hooks/useAddEmployee'
 import useDeleteEmployee from './hooks/useDeleteEmployee'
-import useFetchEmployees from './hooks/useGetEmployees'
+import useGetEmployees from './hooks/useGetEmployees'
 import useUpdateEmployee from './hooks/useUpdateEmployee'
 
 import { StyledSearch, StyledTableControls } from './EmployeesPage.styles'
@@ -33,8 +33,11 @@ const EmployeesPage = () => {
   const addEmployee = useAddEmployee()
   const deleteEmployee = useDeleteEmployee()
   const updateEmployee = useUpdateEmployee()
+  const getEmployees = useGetEmployees()
 
-  useFetchEmployees()
+  useEffect(() => {
+    getEmployees()
+  }, [])
 
   const handleAddEmployeeButtonClick = () => {
     setIsNewEmployeeModalOpen(true)

@@ -20,6 +20,16 @@ declare global {
     description: string
   }
 
+  interface Language {
+    language_name: string
+    proficiency: string
+  }
+
+  interface Skill {
+    skill_name: string
+    mastery: string
+  }
+
   interface EmployeesPageUser {
     id: string
     email: string
@@ -39,24 +49,10 @@ declare global {
       first_name: string | null
       last_name: string | null
       avatar?: string
-      skills?:
-        | [
-            {
-              skill_name: string
-              mastery: string
-            }
-          ]
-        | []
-      languages?:
-        | [
-            {
-              language_name: string
-              proficiency: string
-            }
-          ]
-        | []
+      skills?: [Skill]
+      languages?: [Language]
     }
-    cvs?: CV[] | []
+    cvs?: [CV]
     department: Department
     position: Position
   }
