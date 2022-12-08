@@ -8,7 +8,7 @@ import { actionCreators, useAppDispatch, useAppSelector } from '@/state'
 import DeleteEmployeeModal from '@/components/DeleteEmployeeModal/DeleteEmployeeModal'
 import EmployeesList from '@/components/EmployeesList/EmployeesList'
 import NewEmployeeModal from '@/components/NewEmployeeModal/NewEmployeeModal'
-import UpdateEmployeeModal from '@/components/UpdateEmployeeModal/UpdateEmployeeModal'
+import UpdateEmployeeModal from '@/pages/EmployeesPage/components/UpdateEmployeeModal/UpdateEmployeeModal'
 
 import useAddEmployee from './hooks/useAddEmployee'
 import useDeleteEmployee from './hooks/useDeleteEmployee'

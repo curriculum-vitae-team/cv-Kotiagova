@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 
 import { Spin } from 'antd'
 
-import UpdateEmployeeForm from '@/components/UpdateEmployeeModal/components/UpdateEmployeeForm/UpdateEmployeeForm'
+import UpdateEmployeeForm from '@/components/UpdateEmployeeForm/UpdateEmployeeForm'
 import useUpdateEmployee from '@/pages/EmployeesPage/hooks/useUpdateEmployee'
 import { useAppSelector } from '@/state'
 import { useForm } from 'antd/es/form/Form'

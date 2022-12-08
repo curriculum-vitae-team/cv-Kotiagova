@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useAppSelector } from '@/state'
 import { Modal } from 'antd'
-import UpdateEmployeeForm from './components/UpdateEmployeeForm/UpdateEmployeeForm'
+import UpdateEmployeeForm from '../../../../components/UpdateEmployeeForm/UpdateEmployeeForm'
 
 type UpdateEmployeeModalProps = {
   handleUpdateEmployee: (formValues) => void
