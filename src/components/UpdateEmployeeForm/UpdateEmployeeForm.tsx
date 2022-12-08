@@ -29,21 +29,23 @@ const UpdateEmployeeForm: React.FC<UpdateEmployeeFormProps> = ({
 
   const departmentOptions = departments?.map((department) => ({
     value: department.id,
-    label: department.name
+    label: department.name,
+    disabled: !canEdit
   }))
 
   const positionOptions = positions?.map((positions) => ({
     value: positions.id,
-    label: positions.name
+    label: positions.name,
+    disabled: !canEdit
   }))
 
   return (
     <Form form={form} initialValues={initialValues} onFinish={handleSubmit}>
       <Form.Item name='first_name'>
-        <Input placeholder='First Name' />
+        <Input placeholder='First Name' readOnly={!canEdit} />
       </Form.Item>
       <Form.Item name='last_name'>
-        <Input placeholder='Last Name' />
+        <Input placeholder='Last Name' readOnly={!canEdit} />
       </Form.Item>
       <Form.Item required name='departmentId'>
         <Select defaultActiveFirstOption options={departmentOptions} />
