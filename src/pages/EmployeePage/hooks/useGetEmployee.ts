@@ -1,21 +1,20 @@
-import { bindActionCreators } from 'redux'
+// import { bindActionCreators } from 'redux'
 
 import { useLazyQuery } from '@apollo/client'
 
 import { EMPLOYEE_QUERY } from '@/GraphQL/queries'
-import { actionCreators, useAppDispatch } from '@/state'
+// import { actionCreators, useAppDispatch } from '@/state'
+import { useState } from 'react'
 
 const useGetEmployee = () => {
+  const [isFetching, setIsFetching] = useState(false)
   const [getEmployeeQuery] = useLazyQuery(EMPLOYEE_QUERY)
-  const dispatch = useAppDispatch()
-
-  const { setIsLoading } = bindActionCreators(actionCreators, dispatch)
 
   const getEmployee = (
     id: string,
     setEmployee: React.Dispatch<React.SetStateAction<ProfilePageUser>>
   ) => {
-    setIsLoading(true)
+    setIsFetching(true)
     getEmployeeQuery({
       variables: {
         id: id
@@ -25,10 +24,12 @@ const useGetEmployee = () => {
         setEmployee(user)
       })
       .catch(console.error)
-      .finally(() => setIsLoading(false))
+      .finally(() => {
+        setIsFetching(false)
+      })
   }
 
-  return getEmployee
+  return { getEmployee, isFetching }
 }
 
 export default useGetEmployee

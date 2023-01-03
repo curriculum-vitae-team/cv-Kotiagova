@@ -30,10 +30,13 @@ const EmployeesPage = () => {
   const [isNewEmployeeModalOpen, setIsNewEmployeeModalOpen] = useState(false)
   const [isUpdateEmployeeModalOpen, setIsUpdateEmployeeModalOpen] = useState(false)
 
-  const addEmployee = useAddEmployee()
-  const deleteEmployee = useDeleteEmployee()
-  const updateEmployee = useUpdateEmployee()
-  const getEmployees = useGetEmployees()
+  const { addEmployee, isFetching: isAddFetching } = useAddEmployee()
+  const { getEmployees, isFetching: isGetFetching } = useGetEmployees()
+  const { deleteEmployee, isFetching: isDeleteFetching } = useDeleteEmployee()
+  const { updateEmployee, isFetching: isUpdateFetching } = useUpdateEmployee()
+
+  const isAnythingFetching: boolean =
+    isAddFetching || isGetFetching || isDeleteFetching || isUpdateFetching
 
   useEffect(() => {
     getEmployees()
@@ -77,6 +80,7 @@ const EmployeesPage = () => {
         onChange={(e) => setSearchedEmployee(e.target.value)}
       />
       <EmployeesList
+        isFetching={isAnythingFetching}
         searchedEmployee={searchedEmployee}
         setIsDeleteModalOpen={setIsDeleteModalOpen}
         setIsUpdateEmployeeModalOpen={setIsUpdateEmployeeModalOpen}

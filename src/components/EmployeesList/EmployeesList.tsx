@@ -12,12 +12,14 @@ import { bindActionCreators } from 'redux'
 import { ExpandedRow, UpdateButton } from './EmployeesList.style'
 
 type EmployeesListProps = {
+  isFetching: boolean
   searchedEmployee: string
   setIsDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>
   setIsUpdateEmployeeModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const EmployeesList: React.FC<EmployeesListProps> = ({
+  isFetching,
   searchedEmployee,
   setIsDeleteModalOpen,
   setIsUpdateEmployeeModalOpen
@@ -30,7 +32,6 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
   const { setSelectedEmployee } = bindActionCreators(actionCreators, dispatch)
 
   const {
-    isLoading,
     employees,
     user: { is_verified }
   } = useAppSelector((state) => state)
@@ -92,7 +93,7 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
       dataSource={employees}
       columns={columns}
       bordered
-      loading={isLoading}
+      loading={isFetching}
       rowKey='id'
       scroll={{ y: 400 }}
     />

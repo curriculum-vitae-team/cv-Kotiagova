@@ -4,7 +4,6 @@ import { Spin } from 'antd'
 
 import UpdateEmployeeForm from '@/components/UpdateEmployeeForm/UpdateEmployeeForm'
 import useUpdateEmployee from '@/pages/EmployeesPage/hooks/useUpdateEmployee'
-import { useAppSelector } from '@/state'
 import { useForm } from 'antd/es/form/Form'
 
 type ProfileProps = {
@@ -16,9 +15,7 @@ type ProfileProps = {
 
 const Profile: React.FC<ProfileProps> = ({ id, employee, canEdit, setEmployee }) => {
   const [form] = useForm()
-  const updateEmployee = useUpdateEmployee()
-
-  const isLoading = useAppSelector((state) => state.isLoading)
+  const { updateEmployee, isFetching } = useUpdateEmployee()
 
   const initialValues = {
     first_name: employee?.profile.first_name,
@@ -39,7 +36,7 @@ const Profile: React.FC<ProfileProps> = ({ id, employee, canEdit, setEmployee })
     }
   })
 
-  return isLoading ? (
+  return isFetching ? (
     <Spin />
   ) : (
     <UpdateEmployeeForm

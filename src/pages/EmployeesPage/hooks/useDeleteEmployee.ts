@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { bindActionCreators } from 'redux'
 
 import { actionCreators, useAppDispatch, useAppSelector } from '@/state'
@@ -8,13 +9,14 @@ import { useMutation } from '@apollo/client'
 const useDeleteEmployee = () => {
   const [deleteEmployeeMutation] = useMutation(DELETE_EMPLOYEE)
   const dispatch = useAppDispatch()
+  const [isFetching, setIsFetching] = useState(false)
 
   const { employees, selectedEmployee } = useAppSelector((state) => state)
 
-  const { setEmployeeList, setIsLoading } = bindActionCreators(actionCreators, dispatch)
+  const { setEmployeeList } = bindActionCreators(actionCreators, dispatch)
 
   const deleteEmployee = () => {
-    setIsLoading(true)
+    setIsFetching(true)
     deleteEmployeeMutation({
       variables: { id: selectedEmployee.id }
     })
@@ -23,11 +25,11 @@ const useDeleteEmployee = () => {
       })
       .catch(console.error)
       .finally(() => {
-        setIsLoading(false)
+        setIsFetching(false)
       })
   }
 
-  return deleteEmployee
+  return { deleteEmployee, isFetching }
 }
 
 export default useDeleteEmployee

@@ -1,17 +1,14 @@
-import { bindActionCreators } from 'redux'
+import { useState } from 'react'
 
 import { UPDATE_EMPLOYEE } from '@/GraphQL/mutations'
-import { actionCreators, useAppDispatch } from '@/state'
 import { useMutation } from '@apollo/client'
 
 const useUpdateEmployee = () => {
   const [updateEmployeeMutation] = useMutation(UPDATE_EMPLOYEE)
-  const dispatch = useAppDispatch()
-
-  const { setIsLoading } = bindActionCreators(actionCreators, dispatch)
+  const [isFetching, setIsFetching] = useState(false)
 
   const updateEmployee = (updateFormValues, id: string, onSuccess: (updateUser) => void) => {
-    setIsLoading(true)
+    setIsFetching(true)
     updateEmployeeMutation({
       variables: {
         id: id,
@@ -33,11 +30,11 @@ const useUpdateEmployee = () => {
       })
       .catch(console.error)
       .finally(() => {
-        setIsLoading(false)
+        setIsFetching(false)
       })
   }
 
-  return updateEmployee
+  return { updateEmployee, isFetching }
 }
 
 export default useUpdateEmployee

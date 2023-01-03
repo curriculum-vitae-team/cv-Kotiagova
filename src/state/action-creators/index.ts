@@ -20,15 +20,6 @@ export const setEmployeeList = (employees: EmployeesPageUser[]) => {
   }
 }
 
-export const setIsLoading = (loading: boolean) => {
-  return (dispatch: Dispatch<Action>) => {
-    dispatch({
-      type: ActionType.SET_IS_LOADING,
-      payload: loading
-    })
-  }
-}
-
 export const setSelectedEmployee = (employee: EmployeesPageUser) => {
   return (dispatch: Dispatch<Action>) => {
     dispatch({

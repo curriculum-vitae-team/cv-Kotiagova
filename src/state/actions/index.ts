@@ -10,17 +10,12 @@ interface SetEmployeeList {
   payload: EmployeesPageUser[]
 }
 
-interface SetIsLoading {
-  type: ActionType.SET_IS_LOADING
-  payload: boolean
-}
-
 interface SetSelectedEmployee {
   type: ActionType.SET_SELECTED_EMPLOYEE
   payload: EmployeesPageUser
 }
 
-export type Action = SetUserAction | SetEmployeeList | SetIsLoading | SetSelectedEmployee
+export type Action = SetUserAction | SetEmployeeList | SetSelectedEmployee
 
 export type UserState = {
   email: string

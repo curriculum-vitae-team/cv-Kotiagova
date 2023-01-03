@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { bindActionCreators } from 'redux'
 
 import { actionCreators, useAppDispatch, useAppSelector } from '@/state'
@@ -8,13 +9,14 @@ import { useMutation } from '@apollo/client'
 const useAddEmployee = () => {
   const [addEmployeeMutation] = useMutation(ADD_EMPLOYEE)
   const dispatch = useAppDispatch()
+  const [isFetching, setIsFetching] = useState(false)
 
   const employees = useAppSelector((state) => state.employees)
 
-  const { setEmployeeList, setIsLoading } = bindActionCreators(actionCreators, dispatch)
+  const { setEmployeeList } = bindActionCreators(actionCreators, dispatch)
 
   const addEmployee = (addFormValues) => {
-    setIsLoading(true)
+    setIsFetching(true)
     addEmployeeMutation({
       variables: {
         user: {
@@ -40,11 +42,11 @@ const useAddEmployee = () => {
       })
       .catch(console.error)
       .finally(() => {
-        setIsLoading(false)
+        setIsFetching(false)
       })
   }
 
-  return addEmployee
+  return { addEmployee, isFetching }
 }
 
 export default useAddEmployee
