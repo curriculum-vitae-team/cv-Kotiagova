@@ -24,7 +24,7 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
   setIsDeleteModalOpen,
   setIsUpdateEmployeeModalOpen
 }) => {
-  const columns: ColumnsType<EmployeesPageUser> = useColumns(searchedEmployee)
+  const columns: ColumnsType<Employee> = useColumns(searchedEmployee)
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useAppDispatch()
@@ -38,19 +38,19 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
 
   const [expandedRowKeys, setExpandedRowKeys] = useState<string[]>([])
 
-  const handleDeleteButtonClick = (record: EmployeesPageUser) => {
+  const handleDeleteButtonClick = (record: Employee) => {
     setIsDeleteModalOpen(true)
     setSelectedEmployee(record)
     setExpandedRowKeys([])
   }
 
-  const handleUpdateButtonClick = (record: EmployeesPageUser) => {
+  const handleUpdateButtonClick = (record: Employee) => {
     setIsUpdateEmployeeModalOpen(true)
     setSelectedEmployee(record)
     setExpandedRowKeys([])
   }
 
-  const handleExpand = (expanded: boolean, record: EmployeesPageUser) => {
+  const handleExpand = (expanded: boolean, record: Employee) => {
     setSelectedEmployee(record)
     setExpandedRowKeys((prevRowKeys) => {
       if (prevRowKeys[0] === record.id) {
@@ -60,9 +60,9 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
     })
   }
 
-  const expandableConfig: ExpandableConfig<EmployeesPageUser> = {
+  const expandableConfig: ExpandableConfig<Employee> = {
     expandRowByClick: true,
-    expandedRowRender: (record: EmployeesPageUser) => {
+    expandedRowRender: (record: Employee) => {
       return (
         <ExpandedRow>
           <Button type='link' onClick={() => navigate(`${location.pathname}/${record.id}`)}>

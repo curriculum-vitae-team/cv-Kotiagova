@@ -7,12 +7,12 @@ interface SetUserAction {
 
 interface SetEmployeeList {
   type: ActionType.SET_EMPLOYEE_LIST
-  payload: EmployeesPageUser[]
+  payload: Employee[]
 }
 
 interface SetSelectedEmployee {
   type: ActionType.SET_SELECTED_EMPLOYEE
-  payload: EmployeesPageUser
+  payload: Employee
 }
 
 export type Action = SetUserAction | SetEmployeeList | SetSelectedEmployee

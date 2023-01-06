@@ -1,15 +1,15 @@
 import { ActionType } from '../action-types'
 import { Action } from './../actions/index'
 
-const initialState = {
+const initialState: Employee = {
   email: '',
   id: '',
-  access_token: '',
-  is_verified: false,
   profile: {
     id: '',
     first_name: '',
-    last_name: ''
+    last_name: '',
+    skills: [],
+    languages: []
   },
   department: {
     id: '',
@@ -21,7 +21,7 @@ const initialState = {
   }
 }
 
-const reducer = (employee: EmployeesPageUser = initialState, action: Action) => {
+const reducer = (employee: Employee = initialState, action: Action) => {
   switch (action.type) {
     case ActionType.SET_SELECTED_EMPLOYEE:
       return action.payload

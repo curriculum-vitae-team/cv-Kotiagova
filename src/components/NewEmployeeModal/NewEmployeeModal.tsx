@@ -5,7 +5,7 @@ import { Button, Form, Input, Modal } from 'antd'
 type NewEmployeeModalProps = {
   isNewEmployeeModalOpen: boolean
   setIsNewEmployeeModalOpen: React.Dispatch<React.SetStateAction<boolean>>
-  addEmployee: (values: EmployeesPageUser) => void
+  addEmployee: (values: Employee) => void
 }
 
 const NewEmployeeModal: React.FC<NewEmployeeModalProps> = ({
@@ -21,7 +21,7 @@ const NewEmployeeModal: React.FC<NewEmployeeModalProps> = ({
     }
   })
 
-  const handleSubmit = (values: EmployeesPageUser) => {
+  const handleSubmit = (values: Employee) => {
     addEmployee({ ...values })
   }
 

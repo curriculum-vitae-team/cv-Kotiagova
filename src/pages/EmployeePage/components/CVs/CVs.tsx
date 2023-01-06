@@ -3,7 +3,7 @@ import React from 'react'
 
 type CVsProps = {
   canEdit: boolean
-  CVsData: ProfilePageUser['cvs']
+  CVsData: CV[]
 }
 
 const CVs: React.FC<CVsProps> = ({ canEdit, CVsData }) => {

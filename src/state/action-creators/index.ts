@@ -1,4 +1,5 @@
 import { Dispatch } from 'redux'
+
 import { ActionType } from './../action-types/index'
 import { Action, UserState } from './../actions/index'
 
@@ -11,7 +12,7 @@ export const setUser = (user: UserState) => {
   }
 }
 
-export const setEmployeeList = (employees: EmployeesPageUser[]) => {
+export const setEmployeeList = (employees: Employee[]) => {
   return (dispatch: Dispatch<Action>) => {
     dispatch({
       type: ActionType.SET_EMPLOYEE_LIST,
@@ -20,7 +21,7 @@ export const setEmployeeList = (employees: EmployeesPageUser[]) => {
   }
 }
 
-export const setSelectedEmployee = (employee: EmployeesPageUser) => {
+export const setSelectedEmployee = (employee: Employee) => {
   return (dispatch: Dispatch<Action>) => {
     dispatch({
       type: ActionType.SET_SELECTED_EMPLOYEE,

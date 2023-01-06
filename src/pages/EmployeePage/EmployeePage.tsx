@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { Tabs } from 'antd'
@@ -13,27 +13,26 @@ import { StyledLoader } from './EmployeePage.style'
 
 const EmployeePage = () => {
   const { id } = useParams()
-  const [employee, setEmployee] = useState<ProfilePageUser | undefined>()
   const { getEmployee, isFetching } = useGetEmployee()
 
-  const { user } = useAppSelector((state) => state)
+  const { user, selectedEmployee } = useAppSelector((state) => state)
 
   const canEdit = user.is_verified || user.id === id
 
   useEffect(() => {
-    getEmployee(id, setEmployee)
+    getEmployee(id)
   }, [])
 
   const tabItems = [
     {
       label: 'Profile',
       key: 'profile',
-      children: <Profile id={id} employee={employee} setEmployee={setEmployee} canEdit={canEdit} />
+      children: <Profile id={id} employee={selectedEmployee} canEdit={canEdit} />
     },
     {
       label: 'CVs',
       key: 'cvs',
-      children: <CVs CVsData={employee?.cvs} canEdit={canEdit} />
+      children: <CVs CVsData={selectedEmployee?.cvs} canEdit={canEdit} />
     }
   ]
 

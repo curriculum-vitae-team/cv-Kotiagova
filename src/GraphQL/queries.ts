@@ -29,6 +29,29 @@ export const EMPLOYEES_QUERY = gql`
       profile {
         first_name
         last_name
+        skills {
+          skill_name
+          mastery
+        }
+        languages {
+          language_name
+          proficiency
+        }
+      }
+      cvs {
+        id
+        created_at
+        name
+        description
+        skills {
+          skill_name
+          mastery
+        }
+        languages {
+          language_name
+          proficiency
+        }
+        is_template
       }
     }
   }
@@ -41,14 +64,11 @@ export const EMPLOYEE_QUERY = gql`
       profile {
         first_name
         last_name
-
         avatar
-
         skills {
           skill_name
           mastery
         }
-
         languages {
           language_name
           proficiency

@@ -29,28 +29,16 @@ declare global {
     skill_name: string
     mastery: string
   }
-
-  interface EmployeesPageUser {
+  interface Employee {
     id: string
-    email: string
-    profile: {
-      id: string
-      first_name: string | null
-      last_name: string | null
-    }
-    department: Department | null
-    position: Position | null
-  }
-
-  interface ProfilePageUser {
     email?: string
     profile: {
       id: string
       first_name: string | null
       last_name: string | null
       avatar?: string
-      skills?: [Skill]
-      languages?: [Language]
+      skills?: Skill[]
+      languages?: Language[]
     }
     cvs?: [CV]
     department: Department
