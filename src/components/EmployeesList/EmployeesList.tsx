@@ -5,48 +5,52 @@ import { Button, Table } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import { ExpandableConfig } from 'antd/lib/table/interface'
 
-import { useAppSelector } from '@/state'
+import { actionCreators, useAppDispatch, useAppSelector } from '@/state'
 import { useColumns } from './hooks/useColumns'
 
+import { bindActionCreators } from 'redux'
 import { ExpandedRow, UpdateButton } from './EmployeesList.style'
 
 type EmployeesListProps = {
   isFetching: boolean
   searchedEmployee: string
-  employeeList: EmployeesPageUser[]
   setIsDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>
-  setSelectedEmployee: React.Dispatch<React.SetStateAction<EmployeesPageUser>>
   setIsUpdateEmployeeModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const EmployeesList: React.FC<EmployeesListProps> = ({
   isFetching,
-  employeeList,
   searchedEmployee,
   setIsDeleteModalOpen,
-  setSelectedEmployee,
   setIsUpdateEmployeeModalOpen
 }) => {
-  const columns: ColumnsType<EmployeesPageUser> = useColumns(searchedEmployee)
+  const columns: ColumnsType<Employee> = useColumns(searchedEmployee)
   const navigate = useNavigate()
   const location = useLocation()
-  const { is_verified } = useAppSelector((state) => state.user)
+  const dispatch = useAppDispatch()
+
+  const { setSelectedEmployee } = bindActionCreators(actionCreators, dispatch)
+
+  const {
+    employees,
+    user: { is_verified }
+  } = useAppSelector((state) => state)
 
   const [expandedRowKeys, setExpandedRowKeys] = useState<string[]>([])
 
-  const handleDeleteButtonClick = (record: EmployeesPageUser) => {
+  const handleDeleteButtonClick = (record: Employee) => {
     setIsDeleteModalOpen(true)
     setSelectedEmployee(record)
     setExpandedRowKeys([])
   }
 
-  const handleUpdateButtonClick = (record: EmployeesPageUser) => {
+  const handleUpdateButtonClick = (record: Employee) => {
     setIsUpdateEmployeeModalOpen(true)
     setSelectedEmployee(record)
     setExpandedRowKeys([])
   }
 
-  const handleExpand = (expanded: boolean, record: EmployeesPageUser) => {
+  const handleExpand = (expanded: boolean, record: Employee) => {
     setSelectedEmployee(record)
     setExpandedRowKeys((prevRowKeys) => {
       if (prevRowKeys[0] === record.id) {
@@ -56,9 +60,9 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
     })
   }
 
-  const expandableConfig: ExpandableConfig<EmployeesPageUser> = {
+  const expandableConfig: ExpandableConfig<Employee> = {
     expandRowByClick: true,
-    expandedRowRender: (record: EmployeesPageUser) => {
+    expandedRowRender: (record: Employee) => {
       return (
         <ExpandedRow>
           <Button type='link' onClick={() => navigate(`${location.pathname}/${record.id}`)}>
@@ -86,7 +90,7 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
       expandedRowKeys={expandedRowKeys}
       onExpand={handleExpand}
       expandable={expandableConfig}
-      dataSource={employeeList}
+      dataSource={employees}
       columns={columns}
       bordered
       loading={isFetching}

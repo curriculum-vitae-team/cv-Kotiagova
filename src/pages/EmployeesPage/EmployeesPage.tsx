@@ -1,60 +1,67 @@
-import { Button, Typography } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { bindActionCreators } from 'redux'
 
-import { useAppSelector } from '@/state'
+import { Button, Typography } from 'antd'
+
+import { actionCreators, useAppDispatch, useAppSelector } from '@/state'
 
 import DeleteEmployeeModal from '@/components/DeleteEmployeeModal/DeleteEmployeeModal'
 import EmployeesList from '@/components/EmployeesList/EmployeesList'
 import NewEmployeeModal from '@/components/NewEmployeeModal/NewEmployeeModal'
-import UpdateEmployeeModal from '@/components/UpdateEmployeeModal/UpdateEmployeeModal'
+import UpdateEmployeeModal from '@/pages/EmployeesPage/components/UpdateEmployeeModal/UpdateEmployeeModal'
 
 import useAddEmployee from './hooks/useAddEmployee'
 import useDeleteEmployee from './hooks/useDeleteEmployee'
-import useFetchEmployees from './hooks/useFetchEmployees'
+import useGetEmployees from './hooks/useGetEmployees'
 import useUpdateEmployee from './hooks/useUpdateEmployee'
-import { initialEmployee } from './InitialEmployee'
 
 import { StyledSearch, StyledTableControls } from './EmployeesPage.styles'
 
 const { Title } = Typography
 
 const EmployeesPage = () => {
-  const user = useAppSelector((state) => state.user)
+  const { user, employees, selectedEmployee } = useAppSelector((state) => state)
 
-  const [isFetching, setIsFetching] = useState(true)
+  const dispatch = useAppDispatch()
+  const { setEmployeeList } = bindActionCreators(actionCreators, dispatch)
+
   const [searchedEmployee, setSearchedEmployee] = useState('')
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isNewEmployeeModalOpen, setIsNewEmployeeModalOpen] = useState(false)
   const [isUpdateEmployeeModalOpen, setIsUpdateEmployeeModalOpen] = useState(false)
-  const [employeeList, setEmployeeList] = useState<EmployeesPageUser[]>([])
 
-  const [selectedEmployee, setSelectedEmployee] = useState<EmployeesPageUser>(initialEmployee)
+  const { addEmployee, isFetching: isAddFetching } = useAddEmployee()
+  const { getEmployees, isFetching: isGetFetching } = useGetEmployees()
+  const { deleteEmployee, isFetching: isDeleteFetching } = useDeleteEmployee()
+  const { updateEmployee, isFetching: isUpdateFetching } = useUpdateEmployee()
 
-  const addEmployee = useAddEmployee()
-  const deleteEmployee = useDeleteEmployee()
-  const updateEmployee = useUpdateEmployee()
+  const isAnythingFetching: boolean =
+    isAddFetching || isGetFetching || isDeleteFetching || isUpdateFetching
 
-  useFetchEmployees(setIsFetching, setEmployeeList)
+  useEffect(() => {
+    getEmployees()
+  }, [])
 
   const handleAddEmployeeButtonClick = () => {
     setIsNewEmployeeModalOpen(true)
   }
 
   const handleAddEmployee = (addFormValues) => {
-    setIsFetching(true)
-    addEmployee(addFormValues, setEmployeeList, setIsFetching)
+    addEmployee(addFormValues)
     setIsNewEmployeeModalOpen(false)
   }
 
   const handleDeleteEmployee = () => {
-    setIsFetching(true)
-    deleteEmployee(selectedEmployee, setEmployeeList, setIsFetching)
+    deleteEmployee()
     setIsDeleteModalOpen(false)
   }
 
   const handleUpdateEmployee = (updateFormValues) => {
-    setIsFetching(true)
-    updateEmployee(updateFormValues, selectedEmployee, setEmployeeList, setIsFetching)
+    updateEmployee(updateFormValues, selectedEmployee.id, (updateUser) => {
+      setEmployeeList(
+        employees.map((employee) => (employee.id === updateUser.id ? updateUser : employee))
+      )
+    })
     setIsUpdateEmployeeModalOpen(false)
   }
 
@@ -73,11 +80,9 @@ const EmployeesPage = () => {
         onChange={(e) => setSearchedEmployee(e.target.value)}
       />
       <EmployeesList
-        isFetching={isFetching}
-        employeeList={employeeList}
+        isFetching={isAnythingFetching}
         searchedEmployee={searchedEmployee}
         setIsDeleteModalOpen={setIsDeleteModalOpen}
-        setSelectedEmployee={setSelectedEmployee}
         setIsUpdateEmployeeModalOpen={setIsUpdateEmployeeModalOpen}
       />
       {user.is_verified && (
@@ -90,12 +95,10 @@ const EmployeesPage = () => {
           <DeleteEmployeeModal
             handleDeleteEmployee={handleDeleteEmployee}
             isDeleteModalOpen={isDeleteModalOpen}
-            selectedEmployee={selectedEmployee}
             setIsDeleteModalOpen={setIsDeleteModalOpen}
           />
           <UpdateEmployeeModal
             handleUpdateEmployee={handleUpdateEmployee}
-            selectedEmployee={selectedEmployee}
             setIsUpdateEmployeeModalOpen={setIsUpdateEmployeeModalOpen}
             isUpdateEmployeeModalOpen={isUpdateEmployeeModalOpen}
           />

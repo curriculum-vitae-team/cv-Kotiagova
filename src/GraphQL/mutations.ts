@@ -16,18 +16,30 @@ export const REGISTER_MUTATION = gql`
 export const UPDATE_EMPLOYEE = gql`
   mutation UPDATE_EMPLOYEE($id: ID!, $user: UpdateUserInput!) {
     updateUser(id: $id, user: $user) {
-      id
       email
       profile {
-        id
         first_name
         last_name
+        avatar
+        skills {
+          skill_name
+          mastery
+        }
+        languages {
+          language_name
+          proficiency
+        }
       }
-      department {
+      cvs {
+        id
+        name
+        description
+      }
+      position {
         id
         name
       }
-      position {
+      department {
         id
         name
       }

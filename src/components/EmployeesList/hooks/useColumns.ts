@@ -1,18 +1,18 @@
-type Profile = EmployeesPageUser['profile']
-type Department = EmployeesPageUser['department']
-type Position = EmployeesPageUser['position']
+type Profile = Employee['profile']
+type Department = Employee['department']
+type Position = Employee['position']
 
 const hasSearchValue = (searchValue: string, name?: string) =>
   (name ?? '').search(new RegExp(searchValue, 'i')) === 0
 
-const filterByName = (value: string, record: EmployeesPageUser) =>
+const filterByName = (value: string, record: Employee) =>
   hasSearchValue(value, record.profile.first_name) ||
   hasSearchValue(value, record.profile.last_name)
 
-const sortByFirstName = (a: EmployeesPageUser, b: EmployeesPageUser) =>
+const sortByFirstName = (a: Employee, b: Employee) =>
   a.profile.first_name?.localeCompare(b.profile.first_name)
 
-const sortByLastName = (a: EmployeesPageUser, b: EmployeesPageUser) =>
+const sortByLastName = (a: Employee, b: Employee) =>
   a.profile.last_name?.localeCompare(b.profile.last_name)
 
 export const useColumns = (searchedEmployee: string) => {

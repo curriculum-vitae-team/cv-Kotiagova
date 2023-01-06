@@ -1,20 +1,21 @@
 import React from 'react'
 
+import { useAppSelector } from '@/state'
 import { Modal } from 'antd'
 
 type DeleteEmployeeModalProps = {
-  selectedEmployee: EmployeesPageUser
   isDeleteModalOpen: boolean
   setIsDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>
   handleDeleteEmployee: () => void
 }
 
 const DeleteEmployeeModal: React.FC<DeleteEmployeeModalProps> = ({
-  selectedEmployee,
   isDeleteModalOpen,
   setIsDeleteModalOpen,
   handleDeleteEmployee
 }) => {
+  const selectedEmployee = useAppSelector((state) => state.selectedEmployee)
+
   return (
     <Modal
       title={`Delete ${selectedEmployee.profile.first_name}`}

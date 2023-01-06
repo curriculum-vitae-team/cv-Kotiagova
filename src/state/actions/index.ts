@@ -5,11 +5,17 @@ interface SetUserAction {
   payload: UserState
 }
 
-interface RemoveUserAction {
-  type: ActionType.REMOVE_USER
+interface SetEmployeeList {
+  type: ActionType.SET_EMPLOYEE_LIST
+  payload: Employee[]
 }
 
-export type Action = SetUserAction | RemoveUserAction
+interface SetSelectedEmployee {
+  type: ActionType.SET_SELECTED_EMPLOYEE
+  payload: Employee
+}
+
+export type Action = SetUserAction | SetEmployeeList | SetSelectedEmployee
 
 export type UserState = {
   email: string
