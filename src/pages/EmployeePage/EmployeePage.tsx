@@ -1,15 +1,16 @@
-import React, { useEffect } from 'react'
+import React, { useLayoutEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { Tabs } from 'antd'
 
 import { useAppSelector } from '@/state'
-import CVs from './components/CVs/CVs'
-import Profile from './components/Profile/Profile'
 
 import useGetEmployee from './hooks/useGetEmployee'
 
-import { StyledLoader } from './EmployeePage.style'
+import CVs from './components/CVs/CVs'
+import Languages from './components/Languages/Languages'
+import Profile from './components/Profile/Profile'
+import Skills from './components/Skills/Skills'
 
 const EmployeePage = () => {
   const { id } = useParams()
@@ -19,7 +20,7 @@ const EmployeePage = () => {
 
   const canEdit = user.is_verified || user.id === id
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     getEmployee(id)
   }, [])
 
@@ -27,16 +28,42 @@ const EmployeePage = () => {
     {
       label: 'Profile',
       key: 'profile',
-      children: <Profile id={id} employee={selectedEmployee} canEdit={canEdit} />
+      children: (
+        <Profile
+          canEdit={canEdit}
+          isEmployeeFetching={isFetching}
+          positionId={selectedEmployee?.position?.id}
+          lastName={selectedEmployee?.profile.last_name}
+          departmentId={selectedEmployee?.department?.id}
+          firstName={selectedEmployee?.profile.first_name}
+        />
+      )
     },
     {
       label: 'CVs',
       key: 'cvs',
-      children: <CVs CVsData={selectedEmployee?.cvs} canEdit={canEdit} />
+      children: (
+        <CVs
+          id={selectedEmployee.id}
+          canEdit={user.is_verified}
+          isEmployeeFetching={isFetching}
+          CVsData={selectedEmployee?.cvs}
+        />
+      )
+    },
+    {
+      label: 'Languages',
+      key: 'languages',
+      children: <Languages languagesData={selectedEmployee.profile.languages} />
+    },
+    {
+      label: 'Skills',
+      key: 'skills',
+      children: <Skills skillsData={selectedEmployee.profile.skills} />
     }
   ]
 
-  return <>{isFetching ? <StyledLoader tip='Loading...' /> : <Tabs items={tabItems} />}</>
+  return <Tabs items={tabItems} />
 }
 
 export default EmployeePage
