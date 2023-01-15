@@ -45,7 +45,7 @@ const EmployeePage = () => {
       children: (
         <CVs
           id={selectedEmployee.id}
-          canEdit={user.is_verified}
+          canEdit={canEdit}
           isEmployeeFetching={isFetching}
           CVsData={selectedEmployee?.cvs}
         />

@@ -36,7 +36,12 @@ const CVs: React.FC<CVsProps> = ({ CVsData, id, canEdit, isEmployeeFetching }) =
 
   return (
     <>
-      <ResumesList isFetching={isFetching} unbindResume={unbindResume} CVsData={CVsData} />
+      <ResumesList
+        canEdit={canEdit}
+        isFetching={isFetching}
+        unbindResume={unbindResume}
+        CVsData={CVsData}
+      />
       {canEdit && (
         <>
           <StyledButtonContainer>
