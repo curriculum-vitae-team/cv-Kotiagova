@@ -1,49 +1,51 @@
-import React, { useEffect } from 'react'
-import { bindActionCreators } from 'redux'
+import React from 'react'
 
-import { Spin } from 'antd'
-import { useForm } from 'antd/es/form/Form'
-
-import { actionCreators, useAppDispatch } from '@/state'
-
+import { UpdateEmployeeFormValues } from '@/components/UpdateEmployeeForm/types'
 import UpdateEmployeeForm from '@/components/UpdateEmployeeForm/UpdateEmployeeForm'
 import useUpdateEmployee from '@/pages/EmployeesPage/hooks/useUpdateEmployee'
 
+import { useOptions } from '@/components/UpdateEmployeeForm/hooks/useOptions'
+import { StyledLoader } from '../../EmployeePage.style'
+
 type ProfileProps = {
-  id: string
   canEdit: boolean
-  employee: Employee
+  firstName: string
+  lastName: string
+  positionId: string
+  departmentId: string
+  isEmployeeFetching: boolean
 }
 
-const Profile: React.FC<ProfileProps> = ({ id, employee, canEdit }) => {
-  const [form] = useForm()
-  const { updateEmployee, isFetching } = useUpdateEmployee()
-  const dispatch = useAppDispatch()
-  const { setSelectedEmployee } = bindActionCreators(actionCreators, dispatch)
+const Profile: React.FC<ProfileProps> = ({
+  isEmployeeFetching,
+  canEdit,
+  lastName,
+  firstName,
+  positionId,
+  departmentId
+}) => {
+  const { updateEmployee, isFetching: isUpdateFetching } = useUpdateEmployee()
+  const { departments, positions, isFetching: areOptionsFetching } = useOptions()
 
   const initialValues = {
-    first_name: employee?.profile.first_name,
-    last_name: employee?.profile.last_name,
-    positionId: employee?.position?.id,
-    departmentId: employee?.department?.id
+    first_name: firstName,
+    last_name: lastName,
+    positionId,
+    departmentId
   }
 
-  const handleSubmit = (formValues) => {
-    updateEmployee(formValues, id, (updateUser) => {
-      setSelectedEmployee(updateUser)
-    })
+  const isLoading = isUpdateFetching || areOptionsFetching || isEmployeeFetching
+
+  const handleSubmit = (formValues: UpdateEmployeeFormValues) => {
+    updateEmployee(formValues)
   }
 
-  useEffect(() => {
-    return () => {
-      form.resetFields()
-    }
-  })
-
-  return isFetching ? (
-    <Spin />
+  return isLoading ? (
+    <StyledLoader />
   ) : (
     <UpdateEmployeeForm
+      departments={departments}
+      positions={positions}
       canEdit={canEdit}
       initialValues={initialValues}
       handleSubmit={handleSubmit}

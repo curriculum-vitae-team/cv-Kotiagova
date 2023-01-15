@@ -1,11 +1,16 @@
 import React from 'react'
 
-import { useAppSelector } from '@/state'
 import { Modal } from 'antd'
+
+import { useOptions } from '@/components/UpdateEmployeeForm/hooks/useOptions'
+import { UpdateEmployeeFormValues } from '@/components/UpdateEmployeeForm/types'
 import UpdateEmployeeForm from '../../../../components/UpdateEmployeeForm/UpdateEmployeeForm'
+//is it okay to import from such a faraway folder?
+
+import { useAppSelector } from '@/state'
 
 type UpdateEmployeeModalProps = {
-  handleUpdateEmployee: (formValues) => void
+  handleUpdateEmployee: (formValues: UpdateEmployeeFormValues) => void
   isUpdateEmployeeModalOpen: boolean
   setIsUpdateEmployeeModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -16,8 +21,9 @@ const UpdateEmployeeModal: React.FC<UpdateEmployeeModalProps> = ({
   setIsUpdateEmployeeModalOpen
 }) => {
   const selectedEmployee = useAppSelector((state) => state.selectedEmployee)
+  const { departments, positions } = useOptions()
 
-  const handleSubmit = (formValues) => {
+  const handleSubmit = (formValues: UpdateEmployeeFormValues) => {
     handleUpdateEmployee(formValues)
   }
 
@@ -38,7 +44,13 @@ const UpdateEmployeeModal: React.FC<UpdateEmployeeModalProps> = ({
         setIsUpdateEmployeeModalOpen(false)
       }}
     >
-      <UpdateEmployeeForm handleSubmit={handleSubmit} initialValues={initialValues} canEdit />
+      <UpdateEmployeeForm
+        positions={positions}
+        departments={departments}
+        handleSubmit={handleSubmit}
+        initialValues={initialValues}
+        canEdit
+      />
     </Modal>
   )
 }

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { bindActionCreators } from 'redux'
 
 import { Button, Typography } from 'antd'
 
-import { actionCreators, useAppDispatch, useAppSelector } from '@/state'
+import { useAppSelector } from '@/state'
 
 import DeleteEmployeeModal from '@/components/DeleteEmployeeModal/DeleteEmployeeModal'
 import EmployeesList from '@/components/EmployeesList/EmployeesList'
@@ -15,15 +14,16 @@ import useDeleteEmployee from './hooks/useDeleteEmployee'
 import useGetEmployees from './hooks/useGetEmployees'
 import useUpdateEmployee from './hooks/useUpdateEmployee'
 
+import { UpdateEmployeeFormValues } from '@/components/UpdateEmployeeForm/types'
+
 import { StyledSearch, StyledTableControls } from './EmployeesPage.styles'
+
+import { AddEmployeeFormValues } from './types'
 
 const { Title } = Typography
 
 const EmployeesPage = () => {
-  const { user, employees, selectedEmployee } = useAppSelector((state) => state)
-
-  const dispatch = useAppDispatch()
-  const { setEmployeeList } = bindActionCreators(actionCreators, dispatch)
+  const { user, selectedEmployee } = useAppSelector((state) => state)
 
   const [searchedEmployee, setSearchedEmployee] = useState('')
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
@@ -46,7 +46,7 @@ const EmployeesPage = () => {
     setIsNewEmployeeModalOpen(true)
   }
 
-  const handleAddEmployee = (addFormValues) => {
+  const handleAddEmployee = (addFormValues: AddEmployeeFormValues) => {
     addEmployee(addFormValues)
     setIsNewEmployeeModalOpen(false)
   }
@@ -56,12 +56,8 @@ const EmployeesPage = () => {
     setIsDeleteModalOpen(false)
   }
 
-  const handleUpdateEmployee = (updateFormValues) => {
-    updateEmployee(updateFormValues, selectedEmployee.id, (updateUser) => {
-      setEmployeeList(
-        employees.map((employee) => (employee.id === updateUser.id ? updateUser : employee))
-      )
-    })
+  const handleUpdateEmployee = (updateFormValues: UpdateEmployeeFormValues) => {
+    updateEmployee(updateFormValues)
     setIsUpdateEmployeeModalOpen(false)
   }
 
@@ -98,6 +94,7 @@ const EmployeesPage = () => {
             setIsDeleteModalOpen={setIsDeleteModalOpen}
           />
           <UpdateEmployeeModal
+            key={selectedEmployee.id}
             handleUpdateEmployee={handleUpdateEmployee}
             setIsUpdateEmployeeModalOpen={setIsUpdateEmployeeModalOpen}
             isUpdateEmployeeModalOpen={isUpdateEmployeeModalOpen}

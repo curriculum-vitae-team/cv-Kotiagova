@@ -6,6 +6,8 @@ import { actionCreators, useAppDispatch, useAppSelector } from '@/state'
 import { ADD_EMPLOYEE } from '@/GraphQL/mutations'
 import { useMutation } from '@apollo/client'
 
+import { AddEmployeeFormValues } from '../types'
+
 const useAddEmployee = () => {
   const [addEmployeeMutation] = useMutation(ADD_EMPLOYEE)
   const dispatch = useAppDispatch()
@@ -15,7 +17,7 @@ const useAddEmployee = () => {
 
   const { setEmployeeList } = bindActionCreators(actionCreators, dispatch)
 
-  const addEmployee = (addFormValues) => {
+  const addEmployee = (addFormValues: AddEmployeeFormValues) => {
     setIsFetching(true)
     addEmployeeMutation({
       variables: {
@@ -32,12 +34,13 @@ const useAddEmployee = () => {
           },
           cvsIds: [],
           role: 'employee',
-          departmentId: '1',
-          positionId: '1'
+          departmentId: addFormValues.department_id ?? '',
+          positionId: addFormValues.position_id ?? ''
         }
       }
     })
-      .then(({ data: { createUser } }) => {
+      .then(({ data }) => {
+        const createUser: Employee = data.createUser
         setEmployeeList(employees.concat(createUser))
       })
       .catch(console.error)

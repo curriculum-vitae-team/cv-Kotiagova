@@ -1,11 +1,15 @@
 import React, { useEffect } from 'react'
 
-import { Button, Form, Input, Modal } from 'antd'
+import { Button, Form, Input, Modal, Select } from 'antd'
+
+import { useOptions } from '../UpdateEmployeeForm/hooks/useOptions'
+
+import { AddEmployeeFormValues } from '@/pages/EmployeesPage/types'
 
 type NewEmployeeModalProps = {
   isNewEmployeeModalOpen: boolean
   setIsNewEmployeeModalOpen: React.Dispatch<React.SetStateAction<boolean>>
-  addEmployee: (values: Employee) => void
+  addEmployee: (values: AddEmployeeFormValues) => void
 }
 
 const NewEmployeeModal: React.FC<NewEmployeeModalProps> = ({
@@ -14,6 +18,7 @@ const NewEmployeeModal: React.FC<NewEmployeeModalProps> = ({
   addEmployee
 }) => {
   const [form] = Form.useForm()
+  const { departments, positions } = useOptions()
 
   useEffect(() => {
     return () => {
@@ -21,9 +26,19 @@ const NewEmployeeModal: React.FC<NewEmployeeModalProps> = ({
     }
   })
 
-  const handleSubmit = (values: Employee) => {
-    addEmployee({ ...values })
+  const handleSubmit = (values: AddEmployeeFormValues) => {
+    addEmployee(values)
   }
+
+  const departmentOptions = departments?.map((department) => ({
+    value: department.id,
+    label: department.name
+  }))
+
+  const positionOptions = positions?.map((positions) => ({
+    value: positions.id,
+    label: positions.name
+  }))
 
   return (
     <Modal
@@ -46,11 +61,11 @@ const NewEmployeeModal: React.FC<NewEmployeeModalProps> = ({
         <Form.Item name='password'>
           <Input.Password required type='password' placeholder={'Password'} />
         </Form.Item>
-        <Form.Item name='department_name'>
-          <Input placeholder={'Department'} />
+        <Form.Item name='department_id'>
+          <Select options={departmentOptions} />
         </Form.Item>
-        <Form.Item name='position_name'>
-          <Input placeholder={'Specialization'} />
+        <Form.Item name='position_id'>
+          <Select options={positionOptions} />
         </Form.Item>
         <Form.Item>
           <Button block type='primary' htmlType='submit'>
