@@ -4,8 +4,7 @@ import { Modal } from 'antd'
 
 import { useOptions } from '@/components/UpdateEmployeeForm/hooks/useOptions'
 import { UpdateEmployeeFormValues } from '@/components/UpdateEmployeeForm/types'
-import UpdateEmployeeForm from '../../../../components/UpdateEmployeeForm/UpdateEmployeeForm'
-//is it okay to import from such a faraway folder?
+import UpdateEmployeeForm from '@/components/UpdateEmployeeForm/UpdateEmployeeForm'
 
 import { useAppSelector } from '@/state'
 

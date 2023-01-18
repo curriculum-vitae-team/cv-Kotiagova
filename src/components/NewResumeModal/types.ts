@@ -1,12 +1,16 @@
 export interface NewResumeFormValues {
-  languages: {
-    language: [string, string]
-  }[]
-  skills: {
-    skill: [string, string]
-  }[]
+  languages: FormLanguage[]
+  skills: FormSkill[]
   projectsIds: string[]
   is_template: boolean
+}
+
+interface FormLanguage {
+  language: [string, string]
+}
+
+interface FormSkill {
+  skill: [string, string]
 }
 
 export interface ResumeFormLanguage {

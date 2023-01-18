@@ -5,7 +5,8 @@ type SkillsProps = {
 }
 
 const Skills: React.FC<SkillsProps> = ({ skillsData }) => {
-  const skills = skillsData.map((s) => <div key={s.id}>{s.skill_name}</div>)
+  const skills = skillsData.map((skill) => <div key={skill.id}>{skill.skill_name}</div>)
+
   return <div>{skills}</div>
 }
 

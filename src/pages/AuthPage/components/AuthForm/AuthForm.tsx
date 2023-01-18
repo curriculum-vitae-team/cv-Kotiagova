@@ -1,13 +1,19 @@
-import { Button, Input, notification } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+
+import { actionCreators } from '@/state'
+import { useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
+import { Button, Input, notification } from 'antd'
+
 import { LOGIN_QUERY } from '@/GraphQL/queries'
-import { Container, InnerContainer } from '@/pages/AuthPage/AuthPage.styles'
-import { actionCreators } from '@/state'
 import { DocumentNode, useLazyQuery, useMutation } from '@apollo/client'
+
+import { UserState } from '@/state/actions'
+
+import { Container, InnerContainer } from '@/pages/AuthPage/AuthPage.styles'
+import jwtDecode, { JwtPayload } from 'jwt-decode'
 
 type AuthProps = {
   btnText: string
@@ -100,8 +106,18 @@ const AuthForm: React.FC<AuthProps> = ({ btnText, authQuery }) => {
       })
   }
 
+  const isTokenActive = (token: string) => {
+    return Date.now() <= jwtDecode<JwtPayload>(token).exp * 1000
+  }
+
   useEffect(() => {
-    if (JSON.parse(localStorage.getItem('user')) !== null) navigate('/employees')
+    const user: UserState = JSON.parse(localStorage.getItem('user'))
+
+    if (user !== null && isTokenActive(user.access_token)) {
+      navigate('/employees')
+    } else {
+      localStorage.removeItem('user')
+    }
   }, [])
 
   return (

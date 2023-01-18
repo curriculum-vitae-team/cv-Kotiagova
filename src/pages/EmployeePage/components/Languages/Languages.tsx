@@ -5,7 +5,10 @@ type LanguagesProps = {
 }
 
 const Languages: React.FC<LanguagesProps> = ({ languagesData }) => {
-  const langs = languagesData.map((l) => <div key={l.id}>{l.language_name}</div>)
+  const langs = languagesData.map((language) => (
+    <div key={language.id}>{language.language_name}</div>
+  ))
+
   return <div>{langs}</div>
 }
 
