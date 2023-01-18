@@ -1,6 +1,4 @@
 type Profile = Employee['profile']
-type Department = Employee['department']
-type Position = Employee['position']
 
 const hasSearchValue = (searchValue: string, name?: string) =>
   (name ?? '').search(new RegExp(searchValue, 'i')) === 0

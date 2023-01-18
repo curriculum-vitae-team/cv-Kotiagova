@@ -50,14 +50,9 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
     setExpandedRowKeys([])
   }
 
-  const handleExpand = (expanded: boolean, record: Employee) => {
+  const handleExpand = (_expanded: boolean, record: Employee) => {
     setSelectedEmployee(record)
-    setExpandedRowKeys((prevRowKeys) => {
-      if (prevRowKeys[0] === record.id) {
-        return []
-      }
-      return [record.id]
-    })
+    setExpandedRowKeys((prevRowKeys) => (prevRowKeys[0] === record.id ? [] : [record.id]))
   }
 
   const expandableConfig: ExpandableConfig<Employee> = {
@@ -90,7 +85,7 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
       expandedRowKeys={expandedRowKeys}
       onExpand={handleExpand}
       expandable={expandableConfig}
-      dataSource={employees}
+      dataSource={[...employees]}
       columns={columns}
       bordered
       loading={isFetching}

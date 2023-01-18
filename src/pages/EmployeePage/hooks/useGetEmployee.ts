@@ -8,7 +8,7 @@ import { actionCreators, useAppDispatch } from '@/state'
 
 const useGetEmployee = () => {
   const [isFetching, setIsFetching] = useState(false)
-  const [getEmployeeQuery] = useLazyQuery(EMPLOYEE_QUERY)
+  const [getEmployeeQuery] = useLazyQuery(EMPLOYEE_QUERY, { fetchPolicy: 'no-cache' })
   const dispatch = useAppDispatch()
 
   const { setSelectedEmployee } = bindActionCreators(actionCreators, dispatch)
@@ -21,7 +21,8 @@ const useGetEmployee = () => {
       }
     })
       .then(({ data }) => {
-        setSelectedEmployee(data.user)
+        const user: Employee = data.user
+        setSelectedEmployee(user)
       })
       .catch(console.error)
       .finally(() => {

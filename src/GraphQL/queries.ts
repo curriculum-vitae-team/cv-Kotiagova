@@ -60,6 +60,7 @@ export const EMPLOYEES_QUERY = gql`
 export const EMPLOYEE_QUERY = gql`
   query GET_EMPLOYEE($id: ID!) {
     user(id: $id) {
+      id
       email
       profile {
         first_name
@@ -100,6 +101,44 @@ export const GET_DEPARTMENTS_AND_POSITIONS = gql`
     positions {
       id
       name
+    }
+  }
+`
+
+export const GET_LANGUAGES_AND_SKILLS_AND_PROJECTS = gql`
+  query GET_LANGUAGES_AND_SKILLS_AND_PROJECTS {
+    languages {
+      id
+      name
+    }
+    skills {
+      id
+      name
+    }
+    projects {
+      id
+      name
+    }
+  }
+`
+export const GET_RESUMES = gql`
+  query GET_RESUMES {
+    cvs {
+      id
+      name
+      description
+      projects {
+        id
+      }
+      skills {
+        skill_name
+        mastery
+      }
+      languages {
+        language_name
+        proficiency
+      }
+      is_template
     }
   }
 `
