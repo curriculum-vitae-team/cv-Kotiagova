@@ -1,10 +1,8 @@
 import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 
-import LayoutWrapper from '@/components/LayoutWrapper/LayoutWrapper'
-import AuthPage from '@/pages/AuthPage/AuthPage'
-import EmployeePage from '@/pages/EmployeePage/EmployeePage'
-import EmployeesPage from '@/pages/EmployeesPage/EmployeesPage'
+import { LayoutWrapper } from '../components/index'
+import { AuthPage, EmployeePage, EmployeesPage } from '../pages/index'
 
 const AppRouter = () => {
   return (

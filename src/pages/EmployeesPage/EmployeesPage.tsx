@@ -4,15 +4,11 @@ import { Button, Typography } from 'antd'
 
 import { useAppSelector } from '@/state'
 
-import DeleteEmployeeModal from '@/components/DeleteEmployeeModal/DeleteEmployeeModal'
-import EmployeesList from '@/components/EmployeesList/EmployeesList'
-import NewEmployeeModal from '@/components/NewEmployeeModal/NewEmployeeModal'
 import UpdateEmployeeModal from '@/pages/EmployeesPage/components/UpdateEmployeeModal/UpdateEmployeeModal'
 
-import useAddEmployee from './hooks/useAddEmployee'
-import useDeleteEmployee from './hooks/useDeleteEmployee'
-import useGetEmployees from './hooks/useGetEmployees'
-import useUpdateEmployee from './hooks/useUpdateEmployee'
+import { DeleteEmployeeModal, EmployeesList, NewEmployeeModal } from '../../components/index'
+
+import { useAddEmployee, useDeleteEmployee, useGetEmployees, useUpdateEmployee } from './hooks'
 
 import { UpdateEmployeeFormValues } from '@/components/UpdateEmployeeForm/types'
 
