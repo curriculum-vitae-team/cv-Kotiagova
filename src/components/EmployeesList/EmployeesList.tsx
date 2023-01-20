@@ -2,13 +2,12 @@ import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { Button, Table } from 'antd'
-import { ColumnsType } from 'antd/lib/table'
 import { ExpandableConfig } from 'antd/lib/table/interface'
 
-import { actionCreators, useAppDispatch, useAppSelector } from '@/state'
+import { useAppDispatch, useAppSelector } from '@/state'
 import { useColumns } from './hooks/useColumns'
 
-import { bindActionCreators } from 'redux'
+import { setSelectedEmployee } from '@/features/selectedEmployee/selectedEmployeeSlice'
 import { ExpandedRow, UpdateButton } from './EmployeesList.style'
 
 type EmployeesListProps = {
@@ -24,12 +23,10 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
   setIsDeleteModalOpen,
   setIsUpdateEmployeeModalOpen
 }) => {
-  const columns: ColumnsType<Employee> = useColumns(searchedEmployee)
+  const columns = useColumns(searchedEmployee)
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useAppDispatch()
-
-  const { setSelectedEmployee } = bindActionCreators(actionCreators, dispatch)
 
   const {
     employees,
@@ -40,7 +37,7 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
 
   const handleDeleteButtonClick = (record: Employee) => {
     setIsDeleteModalOpen(true)
-    setSelectedEmployee(record)
+    dispatch(setSelectedEmployee(record))
     setExpandedRowKeys([])
   }
 
