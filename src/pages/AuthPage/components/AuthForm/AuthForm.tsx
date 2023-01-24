@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { actionCreators } from '@/state'
 import { useDispatch } from 'react-redux'
-import { bindActionCreators } from 'redux'
 
 import { Button, Input, notification } from 'antd'
+
+import jwtDecode, { JwtPayload } from 'jwt-decode'
 
 import { LOGIN_QUERY } from '@/GraphQL/queries'
 import { DocumentNode, useLazyQuery, useMutation } from '@apollo/client'
 
-import { UserState } from '@/state/actions'
+import { setUser } from '@/features/user/userSlice'
 
+import { User } from '@/features/user/types'
 import { Container, InnerContainer } from '@/pages/AuthPage/AuthPage.styles'
-import jwtDecode, { JwtPayload } from 'jwt-decode'
 
 type AuthProps = {
   btnText: string
@@ -29,8 +29,6 @@ const AuthForm: React.FC<AuthProps> = ({ btnText, authQuery }) => {
   const navigate = useNavigate()
 
   const [api, contextHolder] = notification.useNotification()
-
-  const { setUser } = bindActionCreators(actionCreators, dispatch)
 
   let executeQuery, error
   if (authQuery === LOGIN_QUERY) {
@@ -54,12 +52,14 @@ const AuthForm: React.FC<AuthProps> = ({ btnText, authQuery }) => {
         access_token
       } = data.login
 
-      setUser({
-        email,
-        id,
-        access_token,
-        is_verified
-      })
+      dispatch(
+        setUser({
+          email,
+          id,
+          access_token,
+          is_verified
+        })
+      )
 
       if (!shouldRememberUser) {
         window.addEventListener('beforeunload', () => {
@@ -111,7 +111,7 @@ const AuthForm: React.FC<AuthProps> = ({ btnText, authQuery }) => {
   }
 
   useEffect(() => {
-    const user: UserState = JSON.parse(localStorage.getItem('user'))
+    const user: User = JSON.parse(localStorage.getItem('user'))
 
     if (user !== null && isTokenActive(user.access_token)) {
       navigate('/employees')

@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { bindActionCreators } from 'redux'
 
-import { actionCreators, useAppDispatch, useAppSelector } from '@/state'
+import { useAppDispatch, useAppSelector } from '@/state'
 
+import { setEmployees } from '@/features/employees/employeesSlice'
 import { DELETE_EMPLOYEE } from '@/GraphQL/mutations'
 import { useMutation } from '@apollo/client'
 
@@ -13,15 +13,13 @@ const useDeleteEmployee = () => {
 
   const { employees, selectedEmployee } = useAppSelector((state) => state)
 
-  const { setEmployeeList } = bindActionCreators(actionCreators, dispatch)
-
   const deleteEmployee = () => {
     setIsFetching(true)
     deleteEmployeeMutation({
       variables: { id: selectedEmployee.id }
     })
       .then(() => {
-        setEmployeeList(employees.filter((employee) => employee.id !== selectedEmployee.id))
+        dispatch(setEmployees(employees.filter((employee) => employee.id !== selectedEmployee.id)))
       })
       .catch(console.error)
       .finally(() => {
@@ -32,4 +30,4 @@ const useDeleteEmployee = () => {
   return { deleteEmployee, isFetching }
 }
 
-export default useDeleteEmployee
+export { useDeleteEmployee }

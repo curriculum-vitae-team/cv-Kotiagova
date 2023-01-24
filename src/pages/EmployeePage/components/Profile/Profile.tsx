@@ -2,7 +2,8 @@ import React from 'react'
 
 import { UpdateEmployeeFormValues } from '@/components/UpdateEmployeeForm/types'
 import UpdateEmployeeForm from '@/components/UpdateEmployeeForm/UpdateEmployeeForm'
-import useUpdateEmployee from '@/pages/EmployeesPage/hooks/useUpdateEmployee'
+
+import { useUpdateEmployee } from '@/pages/EmployeesPage/hooks'
 
 import { useOptions } from '@/components/UpdateEmployeeForm/hooks/useOptions'
 import { StyledLoader } from '../../EmployeePage.style'

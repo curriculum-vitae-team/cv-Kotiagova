@@ -1,12 +1,13 @@
 import { useState } from 'react'
 
-import { actionCreators, useAppDispatch, useAppSelector } from '@/state'
-import { bindActionCreators } from 'redux'
+import { useAppDispatch, useAppSelector } from '@/state'
 
 import { UPDATE_EMPLOYEE } from '@/GraphQL/mutations'
 import { useMutation } from '@apollo/client'
 
 import { UpdateEmployeeFormValues } from '@/components/UpdateEmployeeForm/types'
+import { setEmployees } from '@/features/employees/employeesSlice'
+import { setSelectedEmployee } from '@/features/selectedEmployee/selectedEmployeeSlice'
 
 const useUpdateEmployee = () => {
   const [updateEmployeeMutation] = useMutation(UPDATE_EMPLOYEE)
@@ -14,7 +15,6 @@ const useUpdateEmployee = () => {
 
   const { employees } = useAppSelector((state) => state)
   const dispatch = useAppDispatch()
-  const { setSelectedEmployee, setEmployeeList } = bindActionCreators(actionCreators, dispatch)
 
   const selectedEmployee = useAppSelector((state) => state.selectedEmployee)
 
@@ -40,10 +40,12 @@ const useUpdateEmployee = () => {
     })
       .then(({ data }) => {
         const updateUser: Employee = data.updateUser
-        setSelectedEmployee(updateUser)
+        dispatch(setSelectedEmployee(updateUser))
         if (employees.length) {
-          setEmployeeList(
-            employees.map((employee) => (employee.id === updateUser.id ? updateUser : employee))
+          dispatch(
+            setEmployees(
+              employees.map((employee) => (employee.id === updateUser.id ? updateUser : employee))
+            )
           )
         }
       })
@@ -54,4 +56,4 @@ const useUpdateEmployee = () => {
   return { updateEmployee, isFetching }
 }
 
-export default useUpdateEmployee
+export { useUpdateEmployee }

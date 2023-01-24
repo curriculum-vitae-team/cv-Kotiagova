@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { bindActionCreators } from 'redux'
 
 import { Breadcrumb, Button, Layout, Menu } from 'antd'
 
-import { actionCreators, useAppSelector } from '@/state'
+import { useAppSelector } from '@/state'
 import { MenuOutlined } from '@ant-design/icons'
 import { useApolloClient } from '@apollo/client'
+
+import { setUser } from '@/features/user/userSlice'
 
 import {
   StyledBreadCrumb,
@@ -28,8 +29,6 @@ const LayoutWrapper = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false)
   const user = useAppSelector((state) => state.user)
   const localStorageUser = JSON.parse(localStorage.getItem('user'))
-
-  const { setUser } = bindActionCreators(actionCreators, dispatch)
 
   const pathSnippets = location.pathname.split('/').filter((i) => i)
 
@@ -62,7 +61,7 @@ const LayoutWrapper = ({ children }) => {
     if (localStorageUser === null) {
       logOut()
     } else {
-      setUser(localStorageUser.user)
+      dispatch(setUser(localStorageUser.user))
     }
   }, [])
 

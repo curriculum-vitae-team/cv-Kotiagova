@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { bindActionCreators } from 'redux'
 
-import { actionCreators, useAppDispatch, useAppSelector } from '@/state'
+import { useAppDispatch, useAppSelector } from '@/state'
 
 import { ADD_EMPLOYEE } from '@/GraphQL/mutations'
 import { useMutation } from '@apollo/client'
 
+import { setEmployees } from '@/features/employees/employeesSlice'
 import { AddEmployeeFormValues } from '../types'
 
 const useAddEmployee = () => {
@@ -14,8 +14,6 @@ const useAddEmployee = () => {
   const [isFetching, setIsFetching] = useState(false)
 
   const employees = useAppSelector((state) => state.employees)
-
-  const { setEmployeeList } = bindActionCreators(actionCreators, dispatch)
 
   const addEmployee = (addFormValues: AddEmployeeFormValues) => {
     setIsFetching(true)
@@ -41,7 +39,7 @@ const useAddEmployee = () => {
     })
       .then(({ data }) => {
         const createUser: Employee = data.createUser
-        setEmployeeList(employees.concat(createUser))
+        dispatch(setEmployees(employees.concat(createUser)))
       })
       .catch(console.error)
       .finally(() => {
@@ -52,4 +50,4 @@ const useAddEmployee = () => {
   return { addEmployee, isFetching }
 }
 
-export default useAddEmployee
+export { useAddEmployee }
