@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import { Button, Table } from 'antd'
+import { Table } from 'antd'
 import { ExpandableConfig } from 'antd/lib/table/interface'
 
 import { useAppDispatch, useAppSelector } from '@/state'
 import { useColumns } from './hooks/useColumns'
 
 import { setSelectedEmployee } from '@/features/selectedEmployee/selectedEmployeeSlice'
-import { ExpandedRow, UpdateButton } from './EmployeesList.style'
+import PrimaryButton from '@/UI/buttons/PrimaryButton/PrimaryButton'
+import { ExpandedRow, StyledLinkButton, UpdateButton } from './EmployeesList.style'
 
 type EmployeesListProps = {
   isFetching: boolean
@@ -41,14 +42,13 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
     setExpandedRowKeys([])
   }
 
-  const handleUpdateButtonClick = (record: Employee) => {
+  const handleUpdateButtonClick = () => {
     setIsUpdateEmployeeModalOpen(true)
-    setSelectedEmployee(record)
     setExpandedRowKeys([])
   }
 
   const handleExpand = (_expanded: boolean, record: Employee) => {
-    setSelectedEmployee(record)
+    dispatch(setSelectedEmployee(record))
     setExpandedRowKeys((prevRowKeys) => (prevRowKeys[0] === record.id ? [] : [record.id]))
   }
 
@@ -57,17 +57,13 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
     expandedRowRender: (record: Employee) => {
       return (
         <ExpandedRow>
-          <Button type='link' onClick={() => navigate(`${location.pathname}/${record.id}`)}>
+          <StyledLinkButton onClick={() => navigate(`${location.pathname}/${record.id}`)}>
             View Profile
-          </Button>
+          </StyledLinkButton>
           {is_verified && (
             <>
-              <UpdateButton type='default' onClick={() => handleUpdateButtonClick(record)}>
-                Update
-              </UpdateButton>
-              <Button type='primary' onClick={() => handleDeleteButtonClick(record)}>
-                Delete
-              </Button>
+              <UpdateButton onClick={handleUpdateButtonClick}>Update</UpdateButton>
+              <PrimaryButton onClick={() => handleDeleteButtonClick(record)}>Delete</PrimaryButton>
             </>
           )}
         </ExpandedRow>

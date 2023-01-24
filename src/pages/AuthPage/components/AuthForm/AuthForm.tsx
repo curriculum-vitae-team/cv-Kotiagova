@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { useDispatch } from 'react-redux'
 
-import { Button, Input, notification } from 'antd'
+import { notification } from 'antd'
 
 import jwtDecode, { JwtPayload } from 'jwt-decode'
 
@@ -14,6 +14,9 @@ import { setUser } from '@/features/user/userSlice'
 
 import { User } from '@/features/user/types'
 import { Container, InnerContainer } from '@/pages/AuthPage/AuthPage.styles'
+import PrimaryButton from '@/UI/buttons/PrimaryButton/PrimaryButton'
+import DefaultInput from '@/UI/inputs/DefaultInput/DefaultInput'
+import PasswordInput from '@/UI/inputs/PasswordInput/PasswordInput'
 
 type AuthProps = {
   btnText: string
@@ -126,7 +129,7 @@ const AuthForm: React.FC<AuthProps> = ({ btnText, authQuery }) => {
       <h1>CV-generator</h1>
       <label>
         {'Username'}
-        <Input
+        <DefaultInput
           type='email'
           value={email}
           onChange={(e) => {
@@ -136,7 +139,7 @@ const AuthForm: React.FC<AuthProps> = ({ btnText, authQuery }) => {
       </label>
       <label>
         {'Password'}
-        <Input.Password
+        <PasswordInput
           value={password}
           onChange={(e) => {
             setPassword(e.target.value)
@@ -154,9 +157,7 @@ const AuthForm: React.FC<AuthProps> = ({ btnText, authQuery }) => {
           Remember me
         </label>
       </InnerContainer>
-      <Button type='primary' onClick={executeAuthQuery}>
-        {btnText}
-      </Button>
+      <PrimaryButton onClick={executeAuthQuery}>{btnText}</PrimaryButton>
     </Container>
   )
 }

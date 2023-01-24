@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 
-import { Button } from 'antd'
-
 import NewResumeModal from '@/components/NewResumeModal/NewResumeModal'
 import ResumesList from '@/components/ResumesList/ResumesList'
 import AssignResumeModal from '@/pages/helpers/AssignResumeModal/AssignResumeModal'
 
 import useBindResume from './hooks/useBindResume'
 
+import DefaultButton from '@/UI/buttons/DefaultButton/DefaultButton'
+import PrimaryButton from '@/UI/buttons/PrimaryButton/PrimaryButton'
 import { StyledButtonContainer } from './CVs.style'
 import useUnbindResume from './hooks/useUnbindResume'
 
@@ -45,10 +45,8 @@ const CVs: React.FC<CVsProps> = ({ CVsData, id, canEdit, isEmployeeFetching }) =
       {canEdit && (
         <>
           <StyledButtonContainer>
-            <Button type='primary' onClick={toggleNewResumeModalOpen}>
-              Create CV
-            </Button>
-            <Button onClick={toggleAssignResumeModalOpen}>Assign Existing One</Button>
+            <PrimaryButton onClick={toggleNewResumeModalOpen}>Create CV</PrimaryButton>
+            <DefaultButton onClick={toggleAssignResumeModalOpen}>Assign Existing One</DefaultButton>
           </StyledButtonContainer>
           <NewResumeModal
             toggleOpen={toggleNewResumeModalOpen}

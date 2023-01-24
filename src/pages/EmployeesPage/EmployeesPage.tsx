@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { Button, Typography } from 'antd'
+import { Typography } from 'antd'
 
 import { useAppSelector } from '@/state'
 
@@ -14,6 +14,7 @@ import { UpdateEmployeeFormValues } from '@/components/UpdateEmployeeForm/types'
 
 import { StyledSearch, StyledTableControls } from './EmployeesPage.styles'
 
+import PrimaryButton from '@/UI/buttons/PrimaryButton/PrimaryButton'
 import { AddEmployeeFormValues } from './types'
 
 const { Title } = Typography
@@ -62,9 +63,7 @@ const EmployeesPage = () => {
       <StyledTableControls>
         <Title level={3}>Employee list</Title>
         {user.is_verified && (
-          <Button type='primary' onClick={handleAddEmployeeButtonClick}>
-            Add employee
-          </Button>
+          <PrimaryButton onClick={handleAddEmployeeButtonClick}>Add employee</PrimaryButton>
         )}
       </StyledTableControls>
       <StyledSearch

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
-import { Breadcrumb, Button, Layout, Menu } from 'antd'
+import { Breadcrumb, Layout, Menu } from 'antd'
 
 import { useAppSelector } from '@/state'
 import { MenuOutlined } from '@ant-design/icons'
@@ -10,6 +10,7 @@ import { useApolloClient } from '@apollo/client'
 
 import { setUser } from '@/features/user/userSlice'
 
+import PrimaryButton from '@/UI/buttons/PrimaryButton/PrimaryButton'
 import {
   StyledBreadCrumb,
   StyledEmail,
@@ -71,9 +72,7 @@ const LayoutWrapper = ({ children }) => {
         <MenuOutlined onClick={collapseMenu} />
         <h1>Awesome logo;)</h1>
         <StyledEmail>{user.email}</StyledEmail>
-        <Button type='primary' onClick={logOut}>
-          Log Out
-        </Button>
+        <PrimaryButton onClick={logOut}>Log Out</PrimaryButton>
       </StyledHeader>
       <Layout>
         <StyledSidebar collapsed={collapsed} width={200} collapsedWidth={0}>

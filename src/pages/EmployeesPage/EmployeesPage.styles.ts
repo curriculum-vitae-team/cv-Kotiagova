@@ -1,12 +1,12 @@
 import styled from 'styled-components'
 
-import Search from 'antd/lib/input/Search'
+import DefaultInput from '@/UI/inputs/DefaultInput/DefaultInput'
 
 export const StyledTableControls = styled.div`
   display: flex;
   justify-content: space-between;
 `
 
-export const StyledSearch = styled(Search)`
+export const StyledSearch = styled(DefaultInput)`
   margin-bottom: 10px;
 `
