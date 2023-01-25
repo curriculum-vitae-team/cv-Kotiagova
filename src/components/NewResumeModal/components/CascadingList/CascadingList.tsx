@@ -2,8 +2,7 @@ import React from 'react'
 
 import { Cascader, Form } from 'antd'
 
-import DashedButton from '@/UI/buttons/DashedButton/DashedButton'
-import PrimaryButton from '@/UI/buttons/PrimaryButton/PrimaryButton'
+import { DashedButton, PrimaryButton } from '@/UI/buttons'
 import { StyledSpace } from '../../NewResumeModal.style'
 
 type CascadingListProps = {

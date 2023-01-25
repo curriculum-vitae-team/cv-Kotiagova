@@ -10,9 +10,9 @@ import CascadingList from './components/CascadingList/CascadingList'
 
 import { StyledSpin } from './NewResumeModal.style'
 
-import PrimaryButton from '@/UI/buttons/PrimaryButton/PrimaryButton'
-import DefaultInput from '@/UI/inputs/DefaultInput/DefaultInput'
-import SelectInput from '@/UI/inputs/SelectInput/SelectInput'
+import { PrimaryButton } from '@/UI/buttons'
+import { DefaultInput, SelectInput } from '@/UI/inputs'
+
 import { NewResumeFormValues } from './types'
 
 type NewResumeModalProps = {

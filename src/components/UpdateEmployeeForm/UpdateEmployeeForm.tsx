@@ -2,9 +2,9 @@ import React from 'react'
 
 import { Form } from 'antd'
 
-import PrimaryButton from '@/UI/buttons/PrimaryButton/PrimaryButton'
-import DefaultInput from '@/UI/inputs/DefaultInput/DefaultInput'
-import SelectInput from '@/UI/inputs/SelectInput/SelectInput'
+import { PrimaryButton } from '@/UI/buttons'
+import { DefaultInput, SelectInput } from '@/UI/inputs'
+
 import { InitialValues, UpdateEmployeeFormValues } from './types'
 
 type UpdateEmployeeFormProps = {

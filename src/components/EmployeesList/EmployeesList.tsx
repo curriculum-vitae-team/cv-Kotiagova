@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '@/state'
 import { useColumns } from './hooks/useColumns'
 
 import { setSelectedEmployee } from '@/features/selectedEmployee/selectedEmployeeSlice'
-import PrimaryButton from '@/UI/buttons/PrimaryButton/PrimaryButton'
+import { PrimaryButton } from '@/UI/buttons'
 import { ExpandedRow, StyledLinkButton, UpdateButton } from './EmployeesList.style'
 
 type EmployeesListProps = {

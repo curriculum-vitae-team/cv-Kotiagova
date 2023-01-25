@@ -5,10 +5,9 @@ import { Form, Modal } from 'antd'
 import { useOptions } from '../UpdateEmployeeForm/hooks/useOptions'
 
 import { AddEmployeeFormValues } from '@/pages/EmployeesPage/types'
-import PrimaryButton from '@/UI/buttons/PrimaryButton/PrimaryButton'
-import DefaultInput from '@/UI/inputs/DefaultInput/DefaultInput'
-import PasswordInput from '@/UI/inputs/PasswordInput/PasswordInput'
-import SelectInput from '@/UI/inputs/SelectInput/SelectInput'
+
+import { PrimaryButton } from '@/UI/buttons'
+import { DefaultInput, PasswordInput, SelectInput } from '@/UI/inputs'
 
 type NewEmployeeModalProps = {
   isNewEmployeeModalOpen: boolean

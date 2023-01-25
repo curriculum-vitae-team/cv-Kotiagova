@@ -6,8 +6,7 @@ import AssignResumeModal from '@/pages/helpers/AssignResumeModal/AssignResumeMod
 
 import useBindResume from './hooks/useBindResume'
 
-import DefaultButton from '@/UI/buttons/DefaultButton/DefaultButton'
-import PrimaryButton from '@/UI/buttons/PrimaryButton/PrimaryButton'
+import { DefaultButton, PrimaryButton } from '@/UI/buttons'
 import { StyledButtonContainer } from './CVs.style'
 import useUnbindResume from './hooks/useUnbindResume'
 

@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react'
 import { Form, Modal } from 'antd'
 
 import useGetResumes from '@/pages/EmployeePage/components/CVs/hooks/useGetResumes'
-import PrimaryButton from '@/UI/buttons/PrimaryButton/PrimaryButton'
-import SelectInput from '@/UI/inputs/SelectInput/SelectInput'
+
+import { PrimaryButton } from '@/UI/buttons'
+import { SelectInput } from '@/UI/inputs'
 
 type AssignResumeModalProps = {
   employeeId: string

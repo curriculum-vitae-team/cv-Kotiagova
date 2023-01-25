@@ -1,6 +1,6 @@
 import React from 'react'
 
-import GhostButton from '@/UI/buttons/GhostButton/GhostButton'
+import { GhostButton } from '@/UI/buttons'
 
 export const useColumns = (unbindResume: (id: string) => void) => {
   return [

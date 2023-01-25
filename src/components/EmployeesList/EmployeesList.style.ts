@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 
-import DefaultButton from '@/UI/buttons/DefaultButton/DefaultButton'
-import LinkButton from '@/UI/buttons/LinkButton/LinkButton'
+import { DefaultButton, LinkButton } from '@/UI/buttons'
 
 export const ExpandedRow = styled.div`
   display: flex;

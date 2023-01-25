@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
+import { MenuOutlined } from '@ant-design/icons'
 import { Breadcrumb, Layout, Menu } from 'antd'
 
 import { useAppSelector } from '@/state'
-import { MenuOutlined } from '@ant-design/icons'
 import { useApolloClient } from '@apollo/client'
 
 import { setUser } from '@/features/user/userSlice'
 
-import PrimaryButton from '@/UI/buttons/PrimaryButton/PrimaryButton'
+import { PrimaryButton } from '@/UI/buttons'
 import {
   StyledBreadCrumb,
   StyledEmail,

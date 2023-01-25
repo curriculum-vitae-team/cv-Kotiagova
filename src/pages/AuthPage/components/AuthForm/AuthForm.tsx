@@ -14,9 +14,9 @@ import { setUser } from '@/features/user/userSlice'
 
 import { User } from '@/features/user/types'
 import { Container, InnerContainer } from '@/pages/AuthPage/AuthPage.styles'
-import PrimaryButton from '@/UI/buttons/PrimaryButton/PrimaryButton'
-import DefaultInput from '@/UI/inputs/DefaultInput/DefaultInput'
-import PasswordInput from '@/UI/inputs/PasswordInput/PasswordInput'
+
+import { PrimaryButton } from '@/UI/buttons'
+import { DefaultInput, PasswordInput } from '@/UI/inputs'
 
 type AuthProps = {
   btnText: string

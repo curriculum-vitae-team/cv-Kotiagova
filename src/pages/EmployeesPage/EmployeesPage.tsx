@@ -14,7 +14,7 @@ import { UpdateEmployeeFormValues } from '@/components/UpdateEmployeeForm/types'
 
 import { StyledSearch, StyledTableControls } from './EmployeesPage.styles'
 
-import PrimaryButton from '@/UI/buttons/PrimaryButton/PrimaryButton'
+import { PrimaryButton } from '@/UI/buttons'
 import { AddEmployeeFormValues } from './types'
 
 const { Title } = Typography

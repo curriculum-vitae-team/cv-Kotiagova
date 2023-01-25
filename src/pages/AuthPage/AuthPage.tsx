@@ -5,7 +5,7 @@ import Question from '@/components/icons/Question'
 import { REGISTER_MUTATION } from '@/GraphQL/mutations'
 import { LOGIN_QUERY } from '@/GraphQL/queries'
 import AuthForm from '@/pages/AuthPage/components/AuthForm/AuthForm'
-import AppTabs from '@/UI/tabs/AppTabs'
+import { AppTabs } from '@/UI/tabs'
 
 import { LanguageBtn, QuestionBtn, TabsContainer, Wrapper } from './AuthPage.styles'
 

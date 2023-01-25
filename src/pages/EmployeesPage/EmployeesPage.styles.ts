@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import DefaultInput from '@/UI/inputs/DefaultInput/DefaultInput'
+import { DefaultInput } from '@/UI/inputs'
 
 export const StyledTableControls = styled.div`
   display: flex;
