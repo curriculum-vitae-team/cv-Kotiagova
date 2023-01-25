@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Button, Checkbox, Form, Input, Modal, Select } from 'antd'
+import { Checkbox, Form, Modal } from 'antd'
 
 import useAddResume from '@/pages/EmployeePage/components/CVs/hooks/useAddResume'
 
@@ -9,6 +9,9 @@ import { useOptions } from './hooks/useOptions'
 import CascadingList from './components/CascadingList/CascadingList'
 
 import { StyledSpin } from './NewResumeModal.style'
+
+import { PrimaryButton } from '@/UI/buttons'
+import { DefaultInput, SelectInput } from '@/UI/inputs'
 
 import { NewResumeFormValues } from './types'
 
@@ -74,13 +77,13 @@ const NewResumeModal: React.FC<NewResumeModalProps> = ({ isNewResumeModalOpen, t
       {isFetching && <StyledSpin />}
       <Form form={form} onFinish={handleSubmit} disabled={isFetching}>
         <Form.Item name='name'>
-          <Input required placeholder='Name' />
+          <DefaultInput required placeholder='Name' />
         </Form.Item>
         <Form.Item name='description'>
-          <Input required placeholder='Description' />
+          <DefaultInput required placeholder='Description' />
         </Form.Item>
         <Form.Item name='projectsIds'>
-          <Select mode='multiple' placeholder='Projects' options={projectOptions} />
+          <SelectInput mode='multiple' placeholder='Projects' options={projectOptions} />
         </Form.Item>
         <CascadingList options={languageOptions} name='languages' />
         <CascadingList options={skillOptions} name='skills' />
@@ -88,9 +91,9 @@ const NewResumeModal: React.FC<NewResumeModalProps> = ({ isNewResumeModalOpen, t
           <Checkbox>Is Template?</Checkbox>
         </Form.Item>
         <Form.Item>
-          <Button block type='primary' htmlType='submit'>
+          <PrimaryButton block htmlType='submit'>
             Submit
-          </Button>
+          </PrimaryButton>
         </Form.Item>
       </Form>
     </Modal>

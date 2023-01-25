@@ -7,10 +7,7 @@ import { useAppSelector } from '@/state'
 
 import useGetEmployee from './hooks/useGetEmployee'
 
-import CVs from './components/CVs/CVs'
-import Languages from './components/Languages/Languages'
-import Profile from './components/Profile/Profile'
-import Skills from './components/Skills/Skills'
+import { CVs, Languages, Profile, Skills } from './components'
 
 const EmployeePage = () => {
   const { id } = useParams()

@@ -19,7 +19,7 @@ const useUpdateEmployee = () => {
   const selectedEmployee = useAppSelector((state) => state.selectedEmployee)
 
   const updateEmployee = (updateFormValues: UpdateEmployeeFormValues) => {
-    const ids = selectedEmployee.cvs.length ? selectedEmployee.cvs.map((cv) => cv.id) : []
+    const ids = selectedEmployee?.cvs?.length ? selectedEmployee.cvs.map((cv) => cv.id) : []
 
     setIsFetching(true)
     updateEmployeeMutation({

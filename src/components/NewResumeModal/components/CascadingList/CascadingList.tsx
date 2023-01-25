@@ -1,7 +1,8 @@
 import React from 'react'
 
-import { Button, Cascader, Form } from 'antd'
+import { Cascader, Form } from 'antd'
 
+import { DashedButton, PrimaryButton } from '@/UI/buttons'
 import { StyledSpace } from '../../NewResumeModal.style'
 
 type CascadingListProps = {
@@ -26,15 +27,13 @@ const CascadingList: React.FC<CascadingListProps> = ({ options, name }) => {
               <Form.Item {...field} key={`${name}-${field.key}`} name={[field.name, name]}>
                 <Cascader defaultOpen options={options} />
               </Form.Item>
-              <Button type='primary' onClick={() => remove(field.name)}>
-                Remove
-              </Button>
+              <PrimaryButton onClick={() => remove(field.name)}>Remove</PrimaryButton>
             </StyledSpace>
           ))}
           <Form.Item>
-            <Button type='dashed' onClick={() => add()} block>
+            <DashedButton onClick={() => add()} block>
               Add {name}
-            </Button>
+            </DashedButton>
           </Form.Item>
         </>
       )}

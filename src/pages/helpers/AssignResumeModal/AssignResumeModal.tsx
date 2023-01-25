@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 
-import { Button, Form, Modal, Select } from 'antd'
+import { Form, Modal } from 'antd'
 
 import useGetResumes from '@/pages/EmployeePage/components/CVs/hooks/useGetResumes'
+
+import { PrimaryButton } from '@/UI/buttons'
+import { SelectInput } from '@/UI/inputs'
 
 type AssignResumeModalProps = {
   employeeId: string
@@ -51,11 +54,16 @@ const AssignResumeModal: React.FC<AssignResumeModalProps> = ({
     >
       <Form form={form} onFinish={handleSubmit}>
         <Form.Item name='cv' required>
-          <Select onChange={handleSelect} defaultActiveFirstOption value={CVId} options={options} />
+          <SelectInput
+            onChange={handleSelect}
+            defaultActiveFirstOption
+            value={CVId}
+            options={options}
+          />
         </Form.Item>
-        <Button type='primary' htmlType='submit' block disabled={isSubmitButtonDisabled}>
+        <PrimaryButton htmlType='submit' block disabled={isSubmitButtonDisabled}>
           Submit
-        </Button>
+        </PrimaryButton>
       </Form>
     </Modal>
   )

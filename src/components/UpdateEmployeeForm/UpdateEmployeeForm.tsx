@@ -1,6 +1,9 @@
 import React from 'react'
 
-import { Button, Form, Input, Select } from 'antd'
+import { Form } from 'antd'
+
+import { PrimaryButton } from '@/UI/buttons'
+import { DefaultInput, SelectInput } from '@/UI/inputs'
 
 import { InitialValues, UpdateEmployeeFormValues } from './types'
 
@@ -34,21 +37,21 @@ const UpdateEmployeeForm: React.FC<UpdateEmployeeFormProps> = ({
   return (
     <Form initialValues={initialValues} onFinish={handleSubmit}>
       <Form.Item name='first_name'>
-        <Input placeholder='First Name' readOnly={!canEdit} />
+        <DefaultInput placeholder='First Name' readOnly={!canEdit} />
       </Form.Item>
       <Form.Item name='last_name'>
-        <Input placeholder='Last Name' readOnly={!canEdit} />
+        <DefaultInput placeholder='Last Name' readOnly={!canEdit} />
       </Form.Item>
       <Form.Item required name='departmentId'>
-        <Select options={departmentOptions} />
+        <SelectInput options={departmentOptions} />
       </Form.Item>
       <Form.Item required name='positionId'>
-        <Select options={positionOptions} />
+        <SelectInput options={positionOptions} />
       </Form.Item>
       {canEdit && (
-        <Button block type='primary' htmlType='submit'>
+        <PrimaryButton block htmlType='submit'>
           Submit
-        </Button>
+        </PrimaryButton>
       )}
     </Form>
   )

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Button } from 'antd'
+import { GhostButton } from '@/UI/buttons'
 
 export const useColumns = (unbindResume: (id: string) => void) => {
   return [
@@ -18,11 +18,7 @@ export const useColumns = (unbindResume: (id: string) => void) => {
       title: 'Actions',
       key: 'actions',
       width: '10%',
-      render: (cv: CV) => (
-        <Button type='ghost' onClick={() => unbindResume(cv.id)}>
-          Unbind
-        </Button>
-      )
+      render: (cv: CV) => <GhostButton onClick={() => unbindResume(cv.id)}>Unbind</GhostButton>
     }
   ]
 }

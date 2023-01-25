@@ -2,10 +2,10 @@ import React from 'react'
 
 import Language from '@/components/icons/Language'
 import Question from '@/components/icons/Question'
-import AppTabs from '@/components/UI/tabs/AppTabs'
 import { REGISTER_MUTATION } from '@/GraphQL/mutations'
 import { LOGIN_QUERY } from '@/GraphQL/queries'
 import AuthForm from '@/pages/AuthPage/components/AuthForm/AuthForm'
+import { AppTabs } from '@/UI/tabs'
 
 import { LanguageBtn, QuestionBtn, TabsContainer, Wrapper } from './AuthPage.styles'
 
