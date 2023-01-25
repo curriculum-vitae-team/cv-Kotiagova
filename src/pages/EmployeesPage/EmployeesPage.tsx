@@ -6,7 +6,7 @@ import { useAppSelector } from '@/state'
 
 import UpdateEmployeeModal from '@/pages/EmployeesPage/components/UpdateEmployeeModal/UpdateEmployeeModal'
 
-import { DeleteEmployeeModal, EmployeesList, NewEmployeeModal } from '../../components/index'
+import { DeleteEmployeeModal, EmployeesList, NewEmployeeModal } from '../../components'
 
 import { useAddEmployee, useDeleteEmployee, useGetEmployees, useUpdateEmployee } from './hooks'
 
