@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { DEFAULT_BORDER_RADIUS } from '../../constants'
 import DefaultInput, { DefaultInputProps } from './DefaultInput'
 
 export default {
@@ -18,5 +19,5 @@ const Template = (args: DefaultInputProps) => <DefaultInput {...args} />
 export const Default = Template.bind({})
 
 Default.args = {
-  borderRadius: 50
+  defaultValue: DEFAULT_BORDER_RADIUS
 }

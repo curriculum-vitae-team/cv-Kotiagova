@@ -1,5 +1,8 @@
-import { SelectProps } from 'antd'
 import React from 'react'
+
+import { SelectProps } from 'antd'
+
+import { DEFAULT_BORDER_RADIUS } from '../../constants'
 import { StyledSelect } from './SelectInput.style'
 
 export type SelectInputProps = {
@@ -7,7 +10,7 @@ export type SelectInputProps = {
 } & SelectProps
 
 const SelectInput: React.FC<SelectInputProps> = ({ borderRadius, ...rest }) => {
-  return <StyledSelect borderRadius={borderRadius || 50} {...rest} />
+  return <StyledSelect borderRadius={borderRadius || DEFAULT_BORDER_RADIUS} {...rest} />
 }
 
 export default SelectInput

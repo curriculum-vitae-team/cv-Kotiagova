@@ -1,5 +1,8 @@
-import { Input, InputProps } from 'antd'
 import React from 'react'
+
+import { Input, InputProps } from 'antd'
+
+import { DEFAULT_BORDER_RADIUS } from '../../constants'
 
 export type PasswordInputProps = {
   borderRadius?: number
@@ -12,7 +15,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ borderRadius, ...rest }) 
       {...rest}
       type='password'
       placeholder='Password'
-      style={{ borderRadius: `${borderRadius || 50}px` }}
+      style={{ borderRadius: `${borderRadius || DEFAULT_BORDER_RADIUS}px` }}
     />
   )
 }
